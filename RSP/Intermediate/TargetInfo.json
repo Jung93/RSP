@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "RSP",
+			"Path": "..\\Source\\RSP.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "RSPEditor",
+			"Path": "..\\Source\\RSPEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
