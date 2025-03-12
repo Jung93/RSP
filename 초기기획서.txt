@@ -1,0 +1,9 @@
+1. 레벨 
+1-1 RSP_TutorialStage
+- 상점 , 간단한 전투 , 돈획득 ,인벤토리 ui 조작
+
+1-2 RSP_BattleStage
+- Man vs 10 goblin 
+
+1-3 RSP_BossStage
+- 동료와 보스레이드 (어그로시스템)
