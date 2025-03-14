@@ -9,10 +9,15 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+class UAnimMontage;
 #ifdef RSP_RSP_Character_generated_h
 #error "RSP_Character.generated.h already included, missing '#pragma once' in RSP_Character.h"
 #endif
 #define RSP_RSP_Character_generated_h
+
+#define FID_Users_user_Unreal_RSP_RSP_RSP_Source_RSP_Public_RSP_Character_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
+	DECLARE_FUNCTION(execAttackEnd);
+
 
 #define FID_Users_user_Unreal_RSP_RSP_RSP_Source_RSP_Public_RSP_Character_h_12_INCLASS_NO_PURE_DECLS \
 private: \
@@ -39,6 +44,7 @@ public: \
 #define FID_Users_user_Unreal_RSP_RSP_RSP_Source_RSP_Public_RSP_Character_h_12_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
+	FID_Users_user_Unreal_RSP_RSP_RSP_Source_RSP_Public_RSP_Character_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
 	FID_Users_user_Unreal_RSP_RSP_RSP_Source_RSP_Public_RSP_Character_h_12_INCLASS_NO_PURE_DECLS \
 	FID_Users_user_Unreal_RSP_RSP_RSP_Source_RSP_Public_RSP_Character_h_12_ENHANCED_CONSTRUCTORS \
 private: \

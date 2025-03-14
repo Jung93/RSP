@@ -32,3 +32,29 @@ void ARSP_Character::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 }
 
+void ARSP_Character::AttackEnd(UAnimMontage* Montage, bool bInterrupted)
+{
+}
+
+void ARSP_Character::Attack_Hit()
+{
+}
+
+void ARSP_Character::DeadEvent()
+{
+}
+
+void ARSP_Character::AddHp(float amount)
+{
+}
+
+float ARSP_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	return 0.0f;
+}
+
+bool ARSP_Character::IsDead()
+{
+	return false;
+}
+
