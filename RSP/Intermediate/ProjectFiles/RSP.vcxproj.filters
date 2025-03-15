@@ -11,6 +11,8 @@
     <None Include="..\..\Source\RSPEditor.Target.cs">
       <Filter>Source</Filter>
     </None>
+    <None Include="..\..\.editorconfig" />
+    <None Include="..\..\.gitignore" />
     <None Include="..\..\.vsconfig" />
     <Filter Include="Config">
       <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
@@ -45,10 +47,34 @@
     <ClCompile Include="..\..\Source\RSP\Private\RSP_Character.cpp">
       <Filter>Source\RSP\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\RSP\Private\RSP_Enemy.cpp">
+      <Filter>Source\RSP\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\RSP\Private\RSP_GameModeBase.cpp">
+      <Filter>Source\RSP\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\RSP\Private\RSP_Player.cpp">
+      <Filter>Source\RSP\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\RSP\Private\RSP_PlayerController.cpp">
+      <Filter>Source\RSP\Private</Filter>
+    </ClCompile>
     <Filter Include="Source\RSP\Public">
       <UniqueIdentifier>{A412176F-81DF-385E-AAC4-624B3DEB8B3F}</UniqueIdentifier>
     </Filter>
     <ClInclude Include="..\..\Source\RSP\Public\RSP_Character.h">
+      <Filter>Source\RSP\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\RSP\Public\RSP_Enemy.h">
+      <Filter>Source\RSP\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\RSP\Public\RSP_GameModeBase.h">
+      <Filter>Source\RSP\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\RSP\Public\RSP_Player.h">
+      <Filter>Source\RSP\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\RSP\Public\RSP_PlayerController.h">
       <Filter>Source\RSP\Public</Filter>
     </ClInclude>
   </ItemGroup>

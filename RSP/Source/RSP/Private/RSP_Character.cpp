@@ -8,7 +8,7 @@ ARSP_Character::ARSP_Character()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
 }
 
 // Called when the game starts or when spawned
@@ -50,7 +50,19 @@ void ARSP_Character::AddHp(float amount)
 
 float ARSP_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	return 0.0f;
+	/*_statComponent->AddCurHp(-Damage);
+
+	auto attackerController = Cast<AMyPlayerController>(EventInstigator);
+	if (attackerController)
+	{
+		// Player...
+		if (IsDead())
+		{
+			UE_LOG(LogTemp, Error, TEXT("Be Dead by Player"));
+		}
+	}
+	*/
+	return Damage;
 }
 
 bool ARSP_Character::IsDead()

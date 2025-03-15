@@ -125,8 +125,8 @@ void Z_Construct_UClass_ARSP_Character_Statics::NewProp__isAttack_SetBit(void* O
 {
 	((ARSP_Character*)Obj)->_isAttack = 1;
 }
-const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ARSP_Character_Statics::NewProp__isAttack = { "_isAttack", nullptr, (EPropertyFlags)0x0040000000000015, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(ARSP_Character), &Z_Construct_UClass_ARSP_Character_Statics::NewProp__isAttack_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp__isAttack_MetaData), NewProp__isAttack_MetaData) };
-const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ARSP_Character_Statics::NewProp__attackRange = { "_attackRange", nullptr, (EPropertyFlags)0x0040000000000001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ARSP_Character, _attackRange), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp__attackRange_MetaData), NewProp__attackRange_MetaData) };
+const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ARSP_Character_Statics::NewProp__isAttack = { "_isAttack", nullptr, (EPropertyFlags)0x0020080000000015, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(ARSP_Character), &Z_Construct_UClass_ARSP_Character_Statics::NewProp__isAttack_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp__isAttack_MetaData), NewProp__isAttack_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ARSP_Character_Statics::NewProp__attackRange = { "_attackRange", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ARSP_Character, _attackRange), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp__attackRange_MetaData), NewProp__attackRange_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ARSP_Character_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ARSP_Character_Statics::NewProp__isAttack,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ARSP_Character_Statics::NewProp__attackRange,
@@ -149,7 +149,7 @@ const UECodeGen_Private::FClassParams Z_Construct_UClass_ARSP_Character_Statics:
 	UE_ARRAY_COUNT(FuncInfo),
 	UE_ARRAY_COUNT(Z_Construct_UClass_ARSP_Character_Statics::PropPointers),
 	0,
-	0x009000A4u,
+	0x009000A5u,
 	METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_ARSP_Character_Statics::Class_MetaDataParams), Z_Construct_UClass_ARSP_Character_Statics::Class_MetaDataParams)
 };
 UClass* Z_Construct_UClass_ARSP_Character()
@@ -169,14 +169,14 @@ ARSP_Character::~ARSP_Character() {}
 // End Class ARSP_Character
 
 // Begin Registration
-struct Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_RSP_Source_RSP_Public_RSP_Character_h_Statics
+struct Z_CompiledInDeferFile_FID_GitHub_RSP_RSP_Source_RSP_Public_RSP_Character_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ARSP_Character, ARSP_Character::StaticClass, TEXT("ARSP_Character"), &Z_Registration_Info_UClass_ARSP_Character, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ARSP_Character), 2517432167U) },
+		{ Z_Construct_UClass_ARSP_Character, ARSP_Character::StaticClass, TEXT("ARSP_Character"), &Z_Registration_Info_UClass_ARSP_Character, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ARSP_Character), 590912761U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_RSP_Source_RSP_Public_RSP_Character_h_1058549028(TEXT("/Script/RSP"),
-	Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_RSP_Source_RSP_Public_RSP_Character_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_RSP_Source_RSP_Public_RSP_Character_h_Statics::ClassInfo),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_GitHub_RSP_RSP_Source_RSP_Public_RSP_Character_h_79698128(TEXT("/Script/RSP"),
+	Z_CompiledInDeferFile_FID_GitHub_RSP_RSP_Source_RSP_Public_RSP_Character_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_GitHub_RSP_RSP_Source_RSP_Public_RSP_Character_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);
 // End Registration

@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "RSP_Character.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class RSP_API ARSP_Character : public ACharacter
 {
 	GENERATED_BODY()
@@ -29,7 +29,7 @@ public:
 	UFUNCTION()
 	void AttackEnd(class UAnimMontage* Montage, bool bInterrupted);
 
-	void Attack_Hit();
+	virtual void Attack_Hit();
 	void DeadEvent();
 
 	void AddHp(float amount);
@@ -42,7 +42,7 @@ public:
 	float GetAttackRange() { return _attackRange; }
 
 
-private:
+protected:
 	//UPROPERTY()
 	//class UMyAnimInstance* _animInstance;
 
@@ -50,7 +50,7 @@ private:
 	//class UMyStatComponent* _statComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
-	bool _isAttack;
+	bool _isAttack = false;
 
 	int32 _curAttackSection = 1;
 
