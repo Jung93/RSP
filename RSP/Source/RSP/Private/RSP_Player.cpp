@@ -27,7 +27,7 @@ ARSP_Player::ARSP_Player()
 	_springArm->SetRelativeRotation(FRotator(-35.0f, 0.0f, 0.0f));
 	_springArm->SetRelativeLocation(FVector(-50, 0, 88));
 
-	
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Player"));
 }
 
 void ARSP_Player::Attack_Hit()
@@ -38,6 +38,7 @@ void ARSP_Player::BeginPlay()
 {
 	Super::BeginPlay();
 	
+
 }
 
 void ARSP_Player::Tick(float DeltaTime)

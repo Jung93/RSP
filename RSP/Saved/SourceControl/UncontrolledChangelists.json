@@ -9,7 +9,9 @@
 				"D:/GitHub/RSP/RSP/Content/Input/InputAction/RSP_IA_Look.uasset",
 				"D:/GitHub/RSP/RSP/Content/Input/InputAction/RSP_IA_Move.uasset",
 				"D:/GitHub/RSP/RSP/Content/Blueprint/BP_RSP_Player.uasset",
-				"D:/GitHub/RSP/RSP/Content/Levels/RSP_TutorialStage.umap"
+				"D:/GitHub/RSP/RSP/Content/Levels/RSP_TutorialStage.umap",
+				"D:/GitHub/RSP/RSP/Content/Blueprint/BP_RSP_GameModeBase.uasset",
+				"D:/GitHub/RSP/RSP/Content/Blueprint/BP_RSP_Enemy.uasset"
 			]
 		}
 	]
