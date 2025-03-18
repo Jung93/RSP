@@ -1,8 +1,8 @@
 {
 	"SourceFiles": [
-		"D:\\GitHub\\RSP\\RSP\\Source\\RSP\\RSP.Build.cs",
-		"D:\\GitHub\\RSP\\RSP\\Source\\RSP.Target.cs",
-		"D:\\GitHub\\RSP\\RSP\\Source\\RSPEditor.Target.cs"
+		"D:\\2025 Unreal\\RSP\\RSP\\Source\\RSP\\RSP.Build.cs",
+		"D:\\2025 Unreal\\RSP\\RSP\\Source\\RSP.Target.cs",
+		"D:\\2025 Unreal\\RSP\\RSP\\Source\\RSPEditor.Target.cs"
 	],
 	"EngineVersion": "5.4.4"
 }
