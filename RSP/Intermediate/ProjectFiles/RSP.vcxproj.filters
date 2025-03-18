@@ -41,15 +41,6 @@
     <ClInclude Include="..\..\Source\RSP\RSP.h">
       <Filter>Source\RSP</Filter>
     </ClInclude>
-    <Filter Include="Source\RSP\Item">
-      <UniqueIdentifier>{5D4F4288-F977-38C4-A6E5-F56DBA760C61}</UniqueIdentifier>
-    </Filter>
-    <ClCompile Include="..\..\Source\RSP\Item\Item.cpp">
-      <Filter>Source\RSP\Item</Filter>
-    </ClCompile>
-    <ClInclude Include="..\..\Source\RSP\Item\Item.h">
-      <Filter>Source\RSP\Item</Filter>
-    </ClInclude>
     <Filter Include="Source\RSP\Private">
       <UniqueIdentifier>{A3CCCA48-47AC-3E3E-B6D3-2A56B8472EEA}</UniqueIdentifier>
     </Filter>
