@@ -52,6 +52,5 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* _springArm;
 
-	float _vertical = 0.0f;
-	float _horizontal = 0.0f;
+	
 };
