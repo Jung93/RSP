@@ -7,7 +7,7 @@
 #include "RSP_StatComponent.generated.h"
 
 USTRUCT() 
-struct FStatData : public FTableRowBase {
+struct FRSP_StatData : public FTableRowBase {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
