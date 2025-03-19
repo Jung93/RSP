@@ -63,7 +63,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	int32 _gold = 0;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Level", meta = (AllowPrivateAccess = "true"))
 	int16 _level;
 
 	UPROPERTY()

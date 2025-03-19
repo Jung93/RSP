@@ -5,7 +5,7 @@
 #include "Engine/DataTable.h"
 URSP_GameInstance::URSP_GameInstance()
 {
-	static ConstructorHelpers::FObjectFinder<UDataTable> dataTable(TEXT("/Script/Engine.DataTable'/Game/Data/DT_RSPStatDataTable.DT_RSPStatDataTable'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> dataTable(TEXT("/Script/Engine.DataTable'/Game/Data/RSP_StatData.RSP_StatData'"));
 
 	if (dataTable.Succeeded()) {
 		_statTable = dataTable.Object;

@@ -31,6 +31,7 @@ void URSP_StatComponent::BeginPlay()
 	_levelUpExp = statInfo.levelUpExp;
 	_dropExp = statInfo.dropExp;
 	_curExp = 0;
+	_curGold = 0;
 }
 
 
@@ -65,15 +66,12 @@ void URSP_StatComponent::AddCurHp(float amount)
 	
 }
 
-void URSP_StatComponent::AddEXP(int32 value)
+void URSP_StatComponent::AddExp(int32 value)
 {
-	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());
-	if (_level > gameInstance->GetStatTableSize()) {
-
-		return;
-	}
+	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());	
 	_curExp += value;
-	if (_curExp >= _levelUpExp) {
+	UE_LOG(LogTemp, Error, TEXT("LEVEL : %d  ,  Cur EXP :  %d" ), _level, _curExp);
+	if (_curExp >= _levelUpExp && _level < gameInstance->GetStatTableSize()) {
 		auto exp = _curExp - _levelUpExp;
 		_level++;
 
@@ -89,7 +87,13 @@ void URSP_StatComponent::AddEXP(int32 value)
 		_dropExp = statInfo.dropExp;
 		_curExp = exp;
 	}
-	UE_LOG(LogTemp, Error, TEXT("Level : %d  ,  Cur EXP :  % d  , Level UP EXP : %d"), _level, _curExp, _levelUpExp);
+	UE_LOG(LogTemp, Error, TEXT("LEVEL : %d  ,  Cur EXP :  %d  , Level UP EXP : %d"), _level, _curExp, _levelUpExp);
 
+}
+
+void URSP_StatComponent::AddGold(int32 value)
+{
+	_curGold += value;
+	UE_LOG(LogTemp, Error, TEXT("Gold : %d"), _curGold);
 }
 

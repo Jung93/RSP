@@ -13,6 +13,8 @@ URSP_AnimInstance::URSP_AnimInstance()
 
 void URSP_AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
+	Super::NativeUpdateAnimation(DeltaSeconds);
+
 	auto pawn = TryGetPawnOwner();
 
 	ARSP_Character* character = Cast<ARSP_Character>(pawn);
@@ -24,7 +26,7 @@ void URSP_AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		_isJump = character->GetCharacterMovement()->IsFalling();
 
 		_vertical = character->Vertical();
-		_horizontal = character->Horizontal();
+		_horizontal = character->Horizontal();		
 		_isDead = character->IsDead();
 	}
 }
@@ -40,7 +42,7 @@ void URSP_AnimInstance::PlayAnimMontage()
 
 void URSP_AnimInstance::AnimNotify_Attack_Hit()
 {
-
+	
 	if (_attackEvent.IsBound())
 		_attackEvent.Broadcast();
 }

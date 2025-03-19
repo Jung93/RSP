@@ -43,12 +43,15 @@ public:
 	int32 GetCurHp() { return _curHp; }
 	int32 GetAtk() { return _atk; }
 	int32 GetlevelUpExp() { return _levelUpExp; }
-	int32 GetCurEXP() { return _curExp; }
+	int32 GetCurExp() { return _curExp; }
 
 	bool IsDead() { return _curHp <= 0; }
+	int32 GetDropExp() { return _dropExp; }
+	int32 GetDropGold() { return _dropGold; }
 
 	void AddCurHp(float amount);
-	void AddEXP(int32 value);
+	void AddExp(int32 value);
+	void AddGold(int32 value);
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _level = 1;
@@ -60,6 +63,8 @@ private:
 	int32 _atk;
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _curExp = 0;
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _curGold;
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _levelUpExp;
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
