@@ -20,6 +20,7 @@ private:
 
 public:
 	FRSP_StatData GetStat_Level(int32 level);
+	int32 GetStatTableSize();
 private:
 	UPROPERTY()
 	class UDataTable* _statTable;
