@@ -10,18 +10,15 @@ USTRUCT()
 struct FStatData : public FTableRowBase {
 	GENERATED_BODY()
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 level;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 hp;
+	int32 maxHp;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 atk;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 maxEXP;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 EXP;*/
-
-
+	int32 levelUpExp;
+	
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -41,24 +38,18 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _level = 1;
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _curHp;
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _maxHp;
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _atk;
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _curExp = 0;
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _levelUpExp;
+
 };
-/*
-스탯컴포넌트에 들어가야 할 것
-- 레벨에 따라 성장해야하는 능력치들 
-- 조건에 따라 변동이 필요한 능력치들
-1. 레벨
-2. 체력 (현재체력 , 최대체력)
-3. 공격력 
-4. 현재 경험치 
-5. 이동속도?
-6.
-
-스탯 데이터에 들어가야 할 것
-- 레벨에 따라 성장해야하는 능력치와 조건
-1. 레벨
-2. 최대체력
-3. 공격력
-4. 레벨업에 필요한 경험치량
-
-*/

@@ -41,13 +41,14 @@ public:
 
 	float GetAttackRange() { return _attackRange; }
 
-
+	float Vertical() { return _vertical; }
+	float Horizontal() { return _horizontal; }
 protected:
-	//UPROPERTY()
-	//class UMyAnimInstance* _animInstance;
+	UPROPERTY()
+	class URSP_AnimInstance* _animInstance;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stat", meta = (AllowPrivateAccess = "true"))
-	//class UMyStatComponent* _statComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	class URSP_StatComponent* _statComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	bool _isAttack = false;
@@ -56,4 +57,15 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	float _attackRange = 400.0f;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 _gold = 0;
+
+	UPROPERTY()
+	float _critical = 10.0f;
+
+	float _vertical = 0.0f;
+	float _horizontal = 0.0f;
+	
+
 };
