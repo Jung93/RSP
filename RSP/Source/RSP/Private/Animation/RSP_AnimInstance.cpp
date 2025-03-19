@@ -23,8 +23,40 @@ void URSP_AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 		_isJump = character->GetCharacterMovement()->IsFalling();
 
-		//_vertical = character->GetMyVertical();
-		//_horizontal = character->GetMyHorizontal();
-		//_isDead = character->IsDead();
+		_vertical = character->Vertical();
+		_horizontal = character->Horizontal();
+		_isDead = character->IsDead();
 	}
+}
+
+void URSP_AnimInstance::PlayAnimMontage()
+{
+	if (_animMontage == nullptr)
+		return;
+
+	if (!Montage_IsPlaying(_animMontage))
+		Montage_Play(_animMontage);
+}
+
+void URSP_AnimInstance::AnimNotify_Attack_Hit()
+{
+
+	if (_attackEvent.IsBound())
+		_attackEvent.Broadcast();
+}
+
+void URSP_AnimInstance::AnimNotify_Dead()
+{
+
+	if (_deadEvent.IsBound())
+		_deadEvent.Broadcast();
+
+}
+
+void URSP_AnimInstance::JumpToSection(int32 sectionIndex)
+{
+	FName sectionName = FName(*FString::Printf(TEXT("Section%d"), sectionIndex));
+
+	Montage_JumpToSection(sectionName);
+
 }

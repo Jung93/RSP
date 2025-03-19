@@ -53,7 +53,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	bool _isAttack = false;
 
-	int32 _curAttackSection = 1;
+	int32 _curAttackSection = 0;
 
 	UPROPERTY(EditAnywhere)
 	float _attackRange = 400.0f;
