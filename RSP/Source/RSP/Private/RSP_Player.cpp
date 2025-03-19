@@ -65,7 +65,7 @@ void ARSP_Player::Attack_Hit()
 	if (bResult && hitResult.GetActor()->IsValidLowLevel())
 	{
 		drawColor = FColor::Red;
-		ARSP_Character* victim = Cast<ARSP_Enemy>(hitResult.GetActor());
+		ARSP_Enemy* victim = Cast<ARSP_Enemy>(hitResult.GetActor());
 		if (victim) {
 			FDamageEvent damageEvent = FDamageEvent();
 			//UE_LOG(LogTemp, Warning, TEXT("Att Name : %s , HP : %d"), *GetName(), _statComponent->GetCurHp());
@@ -95,8 +95,9 @@ void ARSP_Player::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	//_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
-
+	_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
+	_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
+	_animInstance->_deadEvent.AddUObject(this, &ARSP_Player::DeadEvent);
 }
 
 void ARSP_Player::Tick(float DeltaTime)

@@ -36,6 +36,7 @@ void ARSP_Character::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void ARSP_Character::AttackEnd(UAnimMontage* Montage, bool bInterrupted)
 {
+	_isAttack = false;
 }
 
 void ARSP_Character::Attack_Hit()
