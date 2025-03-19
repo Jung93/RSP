@@ -2,7 +2,7 @@
 
 
 #include "RSP_Character.h"
-
+#include "Animation/RSP_AnimInstance.h"
 // Sets default values
 ARSP_Character::ARSP_Character()
 {
@@ -15,7 +15,9 @@ ARSP_Character::ARSP_Character()
 void ARSP_Character::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	_animInstance = Cast<URSP_AnimInstance>(GetMesh()->GetAnimInstance());
+
 }
 
 // Called every frame

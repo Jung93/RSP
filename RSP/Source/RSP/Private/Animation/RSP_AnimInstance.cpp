@@ -23,9 +23,9 @@ void URSP_AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 		_isJump = character->GetCharacterMovement()->IsFalling();
 
-		//_vertical = character->GetMyVertical();
-		//_horizontal = character->GetMyHorizontal();
-		//_isDead = character->IsDead();
+		_vertical = character->Vertical();
+		_horizontal = character->Horizontal();
+		_isDead = character->IsDead();
 	}
 }
 

@@ -13,6 +13,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
+#include "Animation/RSP_AnimInstance.h"
 
 ARSP_Player::ARSP_Player()
 {
@@ -94,6 +95,7 @@ void ARSP_Player::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
 
 }
 
@@ -109,12 +111,14 @@ void ARSP_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	if (enhancedInputComponent) {
 		enhancedInputComponent->BindAction(_moveAction, ETriggerEvent::Triggered, this, &ARSP_Player::Move);
 		enhancedInputComponent->BindAction(_lookAction, ETriggerEvent::Triggered, this, &ARSP_Player::Look);
+		enhancedInputComponent->BindAction(_attackAction, ETriggerEvent::Triggered, this, &ARSP_Player::Attack);
+		enhancedInputComponent->BindAction(_jumpAction, ETriggerEvent::Triggered, this, &ARSP_Player::JumpA);
 	}
 }
 
 void ARSP_Player::Move(const FInputActionValue& value)
 {
-	//if (_isAttack) { return; }
+	if (_isAttack) { return; }
 
 	FVector2D moveVector = value.Get<FVector2D>();
 	if (Controller != nullptr) {
@@ -143,8 +147,31 @@ void ARSP_Player::Look(const FInputActionValue& value)
 
 void ARSP_Player::JumpA(const FInputActionValue& value)
 {
+	if (_isAttack) return;
+
+	bool isPress = value.Get<bool>();
+
+	if (isPress)
+	{
+		ACharacter::Jump();
+	}
 }
 
 void ARSP_Player::Attack(const FInputActionValue& value)
 {
+	if (_isAttack)
+		return;
+
+	bool isPress = value.Get<bool>();
+
+	if (isPress)
+	{
+		_isAttack = true;
+
+		_curAttackSection = (_curAttackSection) % 3 + 1;
+
+		_animInstance->PlayAnimMontage();
+		_animInstance->JumpToSection(_curAttackSection);
+	}
+
 }
