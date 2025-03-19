@@ -6,6 +6,10 @@
 #include "Animation/AnimInstance.h"
 #include "RSP_AnimInstance.generated.h"
 
+
+DECLARE_MULTICAST_DELEGATE(FAttackHitEvent);
+DECLARE_MULTICAST_DELEGATE(FDeadEvent);
+
 UCLASS()
 class RSP_API URSP_AnimInstance : public UAnimInstance
 {
@@ -16,18 +20,19 @@ public:
 
 	virtual void NativeUpdateAnimation(float DeltaSeconds);
 
-	//UFUNCTION()
-	//	void PlayAnimMontage();
+	UFUNCTION()
+	void PlayAnimMontage();
 
-	//UFUNCTION()
-	//void AnimNotify_Attack_Hit();
+	UFUNCTION()
+	void AnimNotify_Attack_Hit();
 
-	//UFUNCTION()
-	//void AnimNotify_Dead();
+	UFUNCTION()
+	void AnimNotify_Dead();
 
-	//void JumpToSection(int32 sectionIndex);
+	void JumpToSection(int32 sectionIndex);
 
-
+	FAttackHitEvent _attackEvent;
+	FDeadEvent _deadEvent;
 
 
 
