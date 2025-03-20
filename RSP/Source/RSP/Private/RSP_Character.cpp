@@ -45,6 +45,8 @@ void ARSP_Character::Attack_Hit()
 
 void ARSP_Character::DeadEvent()
 {
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
 }
 
 void ARSP_Character::AddHp(float amount)

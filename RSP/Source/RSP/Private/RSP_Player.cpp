@@ -96,8 +96,8 @@ void ARSP_Player::BeginPlay()
 	Super::BeginPlay();
 	
 	_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
+	_animInstance->_deadEvent.AddUObject(this, &ARSP_Character::DeadEvent);
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
-	_animInstance->_deadEvent.AddUObject(this, &ARSP_Player::DeadEvent);
 }
 
 void ARSP_Player::Tick(float DeltaTime)

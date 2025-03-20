@@ -13,6 +13,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
+#include "Animation/RSP_AnimInstance.h"
 
 ARSP_Enemy::ARSP_Enemy()
 {
@@ -51,7 +52,7 @@ void ARSP_Enemy::Attack_Hit()
 	if (bResult && hitResult.GetActor()->IsValidLowLevel())
 	{
 		drawColor = FColor::Red;
-		ARSP_Character* victim = Cast<ARSP_Player>(hitResult.GetActor());
+		ARSP_Player* victim = Cast<ARSP_Player>(hitResult.GetActor());
 		if (victim) {
 			FDamageEvent damageEvent = FDamageEvent();
 			//UE_LOG(LogTemp, Warning, TEXT("Att Name : %s , HP : %d"), *GetName(), _statComponent->GetCurHp());
@@ -80,6 +81,10 @@ void ARSP_Enemy::Attack_Hit()
 void ARSP_Enemy::BeginPlay()
 {
 	Super::BeginPlay();
+
+	_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
+	_animInstance->_deadEvent.AddUObject(this, &ARSP_Character::DeadEvent);
+	_animInstance->_attackEvent.AddUObject(this, &ARSP_Enemy::Attack_Hit);
 }
 
 void ARSP_Enemy::Tick(float DeltaTime)
