@@ -31,3 +31,13 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Collider")
 	class UCapsuleComponent* _collider;
 };
+
+/*
+아이템id
+아이템 이름
+가격(되팔때가격은 곱하기0.5)
+효과
+
+플레이어 아래
+
+*/
