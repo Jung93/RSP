@@ -16,12 +16,18 @@ class RSP_API ARSP_Enemy : public ARSP_Character
 	GENERATED_BODY()
 public:
 	ARSP_Enemy();
+
 	virtual void Attack_Hit() override;
+
+	void Attack();
+
 	int32 GetExp() { return _statComponent->GetDropExp(); }
 	int32 GetGold() { return _statComponent->GetDropGold(); }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 
 public:
 	// Called every frame

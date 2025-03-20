@@ -13,5 +13,7 @@ UCLASS()
 class RSP_API UBT_RSP_Decorator_IsDead : public UBTDecorator
 {
 	GENERATED_BODY()
-	
+
+public:
+	virtual bool CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const override;
 };

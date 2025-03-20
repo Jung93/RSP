@@ -74,9 +74,23 @@ void ARSP_Enemy::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
-	//_animInstance->_attackEvent.AddUObject(this, &ARSP_Enemy::Attack_Hit);
+	_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
+	_animInstance->_attackEvent.AddUObject(this, &ARSP_Enemy::Attack_Hit);
 	//_animInstance->_deadEvent.AddUObject(this, &ARSP_Enemy::DeadEvent);
+}
+
+void ARSP_Enemy::Attack()
+{
+	if (_isAttack || IsDead())
+		return;
+
+	_isAttack = true;
+
+	_curAttackSection = (_curAttackSection) % 3 + 1;
+
+	_animInstance->PlayAnimMontage();
+	_animInstance->JumpToSection(_curAttackSection);
+
 }
 
 void ARSP_Enemy::Tick(float DeltaTime)

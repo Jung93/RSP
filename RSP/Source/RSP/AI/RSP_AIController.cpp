@@ -26,12 +26,12 @@ void ARSP_AIController::OnPossess(APawn* pawn)
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("BT failed"));
+			//UE_LOG(LogTemp, Error, TEXT("BT failed"));
 		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("BB failed"));
+		//UE_LOG(LogTemp, Error, TEXT("BB failed"));
 	}
 }
 
