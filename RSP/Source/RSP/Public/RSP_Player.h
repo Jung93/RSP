@@ -20,7 +20,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	void TakeExp(class ARSP_Enemy* enemy);
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

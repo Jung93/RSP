@@ -3,15 +3,12 @@
 #include "RSP_Enemy.h"
 #include "RSP_Character.h"
 #include "RSP_Player.h"
+#include "RSP_StatComponent.h"
 
-#include "EnhancedInputComponent.h"
-#include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 
 #include "Engine/DamageEvents.h"
 #include "Components/CapsuleComponent.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
 
 #include "Animation/RSP_AnimInstance.h"
 
@@ -32,7 +29,6 @@ void ARSP_Enemy::Attack_Hit()
 
 	float attackRadius = 100.0f;
 
-	//start 에서 end까지 쓸고 지나가는 형태의 충돌 판정
 	FVector Center = GetActorLocation() + forward * _attackRange * 0.5f; 
 	FVector Start = GetActorLocation() + forward * _attackRange * 0.5f; 
 	FVector End = GetActorLocation() + forward * _attackRange * 0.5f; 
@@ -42,7 +38,7 @@ void ARSP_Enemy::Attack_Hit()
 		Start,
 		End,
 		quat,
-		ECC_GameTraceChannel2,
+		ECC_GameTraceChannel1,
 		FCollisionShape::MakeCapsule(attackRadius, _attackRange * 0.5f),
 		params
 	);
@@ -55,14 +51,10 @@ void ARSP_Enemy::Attack_Hit()
 		ARSP_Player* victim = Cast<ARSP_Player>(hitResult.GetActor());
 		if (victim) {
 			FDamageEvent damageEvent = FDamageEvent();
-			//UE_LOG(LogTemp, Warning, TEXT("Att Name : %s , HP : %d"), *GetName(), _statComponent->GetCurHp());
-
 			FVector hitPoint = hitResult.ImpactPoint;
 			//EFFECT_M->PlayEffect("BigFire", hitPoint);
-			//victim->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
-			//if (victim->_statComponent->IsDead()) {
-			//	TakeEXP(victim);
-			//}
+			victim->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
+			
 		}
 	}
 

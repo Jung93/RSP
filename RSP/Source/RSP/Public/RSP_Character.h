@@ -43,6 +43,8 @@ public:
 
 	float Vertical() { return _vertical; }
 	float Horizontal() { return _horizontal; }
+
+	const int16& GetLevel() { return _level; }
 protected:
 	UPROPERTY()
 	class URSP_AnimInstance* _animInstance;
@@ -60,6 +62,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	int32 _gold = 0;
+
+	UPROPERTY(EditAnywhere, Category = "Level", meta = (AllowPrivateAccess = "true"))
+	int16 _level;
 
 	UPROPERTY()
 	float _critical = 10.0f;

@@ -3,6 +3,7 @@
 #include "RSP_Player.h"
 #include "RSP_Character.h"
 #include "RSP_Enemy.h"
+#include "RSP_StatComponent.h"
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -14,6 +15,7 @@
 #include "Camera/CameraComponent.h"
 
 #include "Animation/RSP_AnimInstance.h"
+
 
 ARSP_Player::ARSP_Player()
 {
@@ -32,6 +34,8 @@ ARSP_Player::ARSP_Player()
 	_springArm->bUsePawnControlRotation = true;
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Player"));
+
+	_level = 1;
 }
 
 void ARSP_Player::Attack_Hit()
@@ -45,7 +49,6 @@ void ARSP_Player::Attack_Hit()
 
 	float attackRadius = 100.0f;
 
-	//start 에서 end까지 쓸고 지나가는 형태의 충돌 판정
 	FVector Center = GetActorLocation() + forward * _attackRange * 0.5f;
 	FVector Start = GetActorLocation() + forward * _attackRange * 0.5f;
 	FVector End = GetActorLocation() + forward * _attackRange * 0.5f;
@@ -55,7 +58,7 @@ void ARSP_Player::Attack_Hit()
 		Start,
 		End,
 		quat,
-		ECC_GameTraceChannel2,
+		ECC_GameTraceChannel1,
 		FCollisionShape::MakeCapsule(attackRadius, _attackRange * 0.5f),
 		params
 	);
@@ -68,14 +71,12 @@ void ARSP_Player::Attack_Hit()
 		ARSP_Enemy* victim = Cast<ARSP_Enemy>(hitResult.GetActor());
 		if (victim) {
 			FDamageEvent damageEvent = FDamageEvent();
-			//UE_LOG(LogTemp, Warning, TEXT("Att Name : %s , HP : %d"), *GetName(), _statComponent->GetCurHp());
-
 			FVector hitPoint = hitResult.ImpactPoint;
 			//EFFECT_M->PlayEffect("BigFire", hitPoint);
-			//victim->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
-			//if (victim->_statComponent->IsDead()) {
-			//	TakeEXP(victim);
-			//}
+			victim->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
+			if (victim->IsDead()) {
+				TakeExp(victim);
+			}
 		}
 	}
 
@@ -96,8 +97,17 @@ void ARSP_Player::BeginPlay()
 	Super::BeginPlay();
 	
 	_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
-	_animInstance->_deadEvent.AddUObject(this, &ARSP_Character::DeadEvent);
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
+	_animInstance->_deadEvent.AddUObject(this, &ARSP_Player::DeadEvent);
+
+}
+
+void ARSP_Player::TakeExp(ARSP_Enemy* enemy)
+{
+	auto exp = enemy->GetExp();
+	auto gold = enemy->GetGold();
+	_statComponent->AddExp(exp);
+	_statComponent->AddGold(gold);
 }
 
 void ARSP_Player::Tick(float DeltaTime)

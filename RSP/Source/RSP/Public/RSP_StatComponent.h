@@ -7,7 +7,7 @@
 #include "RSP_StatComponent.generated.h"
 
 USTRUCT() 
-struct FStatData : public FTableRowBase {
+struct FRSP_StatData : public FTableRowBase {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -18,7 +18,10 @@ struct FStatData : public FTableRowBase {
 	int32 atk;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 levelUpExp;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 dropExp;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 dropGold;	
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -37,7 +40,18 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	int32 GetCurHp() { return _curHp; }
+	int32 GetAtk() { return _atk; }
+	int32 GetlevelUpExp() { return _levelUpExp; }
+	int32 GetCurExp() { return _curExp; }
 
+	bool IsDead() { return _curHp <= 0; }
+	int32 GetDropExp() { return _dropExp; }
+	int32 GetDropGold() { return _dropGold; }
+
+	void AddCurHp(float amount);
+	void AddExp(int32 value);
+	void AddGold(int32 value);
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _level = 1;
@@ -50,6 +64,11 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _curExp = 0;
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _curGold;
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _levelUpExp;
-
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _dropExp;
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _dropGold;
 };
