@@ -30,6 +30,8 @@ public:
 	void AttackEnd(class UAnimMontage* Montage, bool bInterrupted);
 
 	virtual void Attack_Hit();
+
+	UFUNCTION()
 	void DeadEvent();
 
 	void AddHp(float amount);

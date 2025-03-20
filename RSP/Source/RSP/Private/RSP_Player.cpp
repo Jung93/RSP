@@ -98,7 +98,7 @@ void ARSP_Player::BeginPlay()
 	
 	_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
-	_animInstance->_deadEvent.AddUObject(this, &ARSP_Player::DeadEvent);
+	//_animInstance->_deadEvent.AddUObject(this, &ARSP_Player::DeadEvent);
 
 }
 

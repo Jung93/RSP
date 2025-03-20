@@ -23,6 +23,8 @@ void ARSP_Character::BeginPlay()
 	Super::BeginPlay();
 
 	_animInstance = Cast<URSP_AnimInstance>(GetMesh()->GetAnimInstance());
+	if(_animInstance)
+		_animInstance->_deadEvent.AddUObject(this, &ARSP_Character::DeadEvent);
 
 }
 
