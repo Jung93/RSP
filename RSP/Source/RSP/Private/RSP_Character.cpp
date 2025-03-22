@@ -60,6 +60,7 @@ void ARSP_Character::DeadEvent()
 
 void ARSP_Character::AddHp(float amount)
 {
+	_statComponent->AddCurHp(amount);
 }
 
 float ARSP_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

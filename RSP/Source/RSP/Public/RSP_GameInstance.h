@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "Item/RSP_Item.h"
 #include "RSP_StatComponent.h"
 #include "RSP_GameInstance.generated.h"
 
@@ -20,8 +21,11 @@ private:
 
 public:
 	FRSP_StatData GetStat_Level(int32 level);
+	FRSP_ItemInfo GetItemInfo(FString name);
 	int32 GetStatTableSize();
 private:
 	UPROPERTY()
 	class UDataTable* _statTable;
+	UPROPERTY()
+	class UDataTable* _itemTable;
 };

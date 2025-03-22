@@ -24,7 +24,7 @@ struct FRSP_StatData : public FTableRowBase {
 	int32 dropGold;	
 };
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS()
 class RSP_API URSP_StatComponent : public UActorComponent
 {
 	GENERATED_BODY()
