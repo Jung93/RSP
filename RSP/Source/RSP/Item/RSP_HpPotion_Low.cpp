@@ -4,8 +4,10 @@
 #include "Item/RSP_HpPotion_Low.h"
 #include "RSP_Player.h"
 
-void ARSP_HpPotion_Low::PostInitializeComponents()
+void ARSP_HpPotion_Low::BeginPlay()
 {
+	Super::BeginPlay();
+
 	SetInfomation(name);
 }
 
@@ -15,7 +17,8 @@ void ARSP_HpPotion_Low::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	if (character == nullptr) {
 		return;
 	}
-	character->AddHp(_itemStat); 
+	auto temp = this->_itemInfo.itemStat;
+	character->AddHp(-_itemInfo.itemStat);
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
 

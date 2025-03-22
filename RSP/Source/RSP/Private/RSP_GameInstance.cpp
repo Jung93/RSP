@@ -2,6 +2,7 @@
 
 
 #include "RSP_GameInstance.h"
+#include "Item/RSP_Item.h"
 #include "Engine/DataTable.h"
 URSP_GameInstance::URSP_GameInstance()
 {
@@ -26,7 +27,7 @@ FRSP_StatData URSP_GameInstance::GetStat_Level(int32 level)
 
 FRSP_ItemInfo URSP_GameInstance::GetItemInfo(FString name)
 {
-	FRSP_ItemInfo* row = _itemTable->FindRow<FRSP_ItemInfo>(*name, TEXT(""));
+	FRSP_ItemInfo* row = _itemTable->FindRow<FRSP_ItemInfo>(FName(*name), TEXT(""));
 	if (row == nullptr)
 	{		
 		return FRSP_ItemInfo(); 

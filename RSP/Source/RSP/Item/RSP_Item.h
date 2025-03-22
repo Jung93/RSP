@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "RSP_Player.h"
+#include "RSP_GameInstance.h"
+#include "Components/CapsuleComponent.h"
 #include "RSP_Item.generated.h"
 
 USTRUCT(BlueprintType)
@@ -42,9 +45,20 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UFUNCTION()
-	virtual void OnOverlap(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
+	virtual void OnOverlap(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor,
+		class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
 	
-	FRSP_ItemInfo GetInfo() { return _info; }
+	/*
+	* 문제 : 
+	추상클래스이고 자식에서 반드시 재정의해야하는 함수 OnOverlap
+	하지만 순수가상함수로 정의할경우 UFUNCTION을 붙일수없음
+	OnOVerlap함수는 다이나믹 델리게이트를 위한 함수로 반드시 UFUNCTION을 붙여야함
+
+	* 해결 :
+	UFUNCTION을 같은함수에 다시 사용할수없으므로 부모에서 빈함수 구현하고 UFUNCTION 사용
+	자식에서 UFUNCTION을 안붙이고 override로 해결
+	*/
+	FRSP_ItemInfo GetInfo() { return _itemInfo; }
 protected:
 	
 	void SetInfomation(FString name);
@@ -68,6 +82,6 @@ protected:
 	int32 _itemMaxCount = 9;
 
 	UPROPERTY()
-	FRSP_ItemInfo _info;
+	FRSP_ItemInfo _itemInfo;
 };
 

@@ -38,15 +38,8 @@ void ARSP_Item::Tick(float DeltaTime)
 
 void ARSP_Item::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	auto character = Cast<ARSP_Player>(OtherActor);
-	if (character == nullptr) {
-		return;
-	}
-	//character->AddHp(10);
-	SetActorHiddenInGame(true);
-	SetActorEnableCollision(false);
-
 	DrawDebugString(GetWorld(), GetActorLocation(), TEXT("ITEM"), nullptr, FColor::Blue, 5.0f, true);
+
 }
 
 void ARSP_Item::SetInfomation(FString name)
