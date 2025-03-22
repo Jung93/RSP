@@ -13,3 +13,13 @@ void ARSP_PlayerController::BeginPlay()
 		subSystem->AddMappingContext(_inputMappingContext, 0);
 	}
 }
+
+void ARSP_PlayerController::ShowUI()
+{
+	bShowMouseCursor = true;
+}
+
+void ARSP_PlayerController::HideUI()
+{
+	bShowMouseCursor = false;
+}

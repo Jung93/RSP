@@ -5,6 +5,8 @@
 #include "RSP_Enemy.h"
 #include "RSP_StatComponent.h"
 #include "UI/RSP_InvenUI.h"
+#include "UI/RSP_InvenComponent.h"
+#include "RSP_PlayerController.h"
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -12,6 +14,7 @@
 
 #include "Engine/DamageEvents.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/Button.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
@@ -46,8 +49,6 @@ ARSP_Player::ARSP_Player()
 	if (_invenWidget) {		
 		//invenUI->SetComponenet(CreateDefaultSubobject<UMyInvenComponent>(TEXT("InvenComponent")));
 		//invenUI->Drop->OnClicked.AddDynamic(this, &AMyPlayer::Drop_Button);
-		//invenUI->GetComponent()->itemAddEvent.AddUObject(invenUI, &UMyInvenUI::SetItem_Index);
-		//invenUI->GetComponent()->itemDropEvent.AddUObject(invenUI, &UMyInvenUI::SetItem_Default);
 	}
 }
 
@@ -113,7 +114,9 @@ void ARSP_Player::BeginPlay()
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
 	//_animInstance->_deadEvent.AddUObject(this, &ARSP_Player::DeadEvent);
 
-	_invenWidget->AddToViewport(); //디버그용 임시 위치
+	//_invenComponent->GetComponent()->itemAddEvent.AddUObject(invenUI, &UMyInvenUI::SetItem_Index);
+	//_invenComponent->GetComponent()->itemDropEvent.AddUObject(invenUI, &UMyInvenUI::SetItem_Default);
+	_invenWidget->RSP_ExitButton->OnClicked.AddDynamic(this, &ARSP_Player::Inven_Close);
 }
 
 void ARSP_Player::TakeExp(ARSP_Enemy* enemy)
@@ -138,6 +141,7 @@ void ARSP_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		enhancedInputComponent->BindAction(_lookAction, ETriggerEvent::Triggered, this, &ARSP_Player::Look);
 		enhancedInputComponent->BindAction(_attackAction, ETriggerEvent::Triggered, this, &ARSP_Player::Attack);
 		enhancedInputComponent->BindAction(_jumpAction, ETriggerEvent::Triggered, this, &ARSP_Player::JumpA);
+		enhancedInputComponent->BindAction(_invenOpenAction, ETriggerEvent::Started, this, &ARSP_Player::Inven_Open);
 	}
 }
 
@@ -199,4 +203,37 @@ void ARSP_Player::Attack(const FInputActionValue& value)
 		_animInstance->JumpToSection(_curAttackSection);
 	}
 
+}
+
+void ARSP_Player::Inven_Open(const FInputActionValue& value)
+{
+	bool isPressed = value.Get<bool>();
+	if (Controller != nullptr && isPressed) {
+		auto controller = Cast<ARSP_PlayerController>(GetController());
+
+		if (_isInvenOpen) {
+			if (controller) {
+				controller->HideUI();
+			}
+			_invenWidget->RemoveFromViewport();
+		}
+		else {
+			if (controller) {
+				controller->ShowUI();
+			}
+			_invenWidget->AddToViewport();
+		}
+		_isInvenOpen = !_isInvenOpen;
+
+	}
+}
+
+void ARSP_Player::Inven_Close()
+{
+	auto controller = Cast<ARSP_PlayerController>(GetController());
+
+	if (controller) {
+		controller->HideUI();
+		_isInvenOpen = false;
+	}
 }

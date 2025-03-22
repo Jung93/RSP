@@ -36,6 +36,10 @@ public:
 	void JumpA(const struct FInputActionValue& value);
 	UFUNCTION()
 	void Attack(const struct FInputActionValue& value);
+	UFUNCTION()
+	void Inven_Open(const struct FInputActionValue& value);
+	UFUNCTION()
+	void Inven_Close();
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
@@ -46,12 +50,18 @@ protected:
 	class UInputAction* _jumpAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	class UInputAction* _attackAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* _invenOpenAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* _camera;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* _springArm;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowprivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
 	class URSP_InvenUI* _invenWidget;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
+	//class URSP_InvenComponent* _invenComponent;
+
+	bool _isInvenOpen = false;
 };

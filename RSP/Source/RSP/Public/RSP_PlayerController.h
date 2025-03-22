@@ -15,7 +15,9 @@ class RSP_API ARSP_PlayerController : public APlayerController
 	GENERATED_BODY()
 public:
 	virtual void BeginPlay() override;
-	
+	void ShowUI();
+	void HideUI();
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	class UInputMappingContext* _inputMappingContext;

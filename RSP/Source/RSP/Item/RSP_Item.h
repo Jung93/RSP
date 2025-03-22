@@ -58,7 +58,7 @@ public:
 	UFUNCTION을 같은함수에 다시 사용할수없으므로 부모에서 빈함수 구현하고 UFUNCTION 사용
 	자식에서 UFUNCTION을 안붙이고 override로 해결
 	*/
-	FRSP_ItemInfo GetInfo() { return _itemInfo; }
+	FRSP_ItemInfo GetInfo() { return _info; }
 protected:
 	
 	void SetInfomation(FString name);
@@ -82,6 +82,6 @@ protected:
 	int32 _itemMaxCount = 9;
 
 	UPROPERTY()
-	FRSP_ItemInfo _itemInfo;
+	FRSP_ItemInfo _info;
 };
 

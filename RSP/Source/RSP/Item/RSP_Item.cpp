@@ -45,14 +45,15 @@ void ARSP_Item::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Othe
 void ARSP_Item::SetInfomation(FString name)
 {
 	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());
-	auto info = gameInstance->GetItemInfo(name);
+	auto RSP_info = gameInstance->GetItemInfo(name);
 
-	_itemId = info.itemId;
-	_itemName = info.itemName;
-	_itemPrice = info.itemPrice;
-	_itemToolTip = info.itemToolTip;
-	_itemStat = info.itemStat;
-	_itemMaxCount = info.itemMaxCount; ;
+	_itemId = RSP_info.itemId;
+	_itemName = RSP_info.itemName;
+	_itemPrice = RSP_info.itemPrice;
+	_itemToolTip = RSP_info.itemToolTip;
+	_itemStat = RSP_info.itemStat;
+	_itemMaxCount = RSP_info.itemMaxCount; ;
 
+	_info = RSP_info;
 }
 

@@ -4,6 +4,7 @@
 #include "UI/RSP_InvenUI.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
+#include "Components/Button.h"
 #include "Components/UniformGridPanel.h"
 #include "Components/UniformGridSlot.h"
 #include "UI/RSP_GridSlot.h"
@@ -31,8 +32,7 @@ void URSP_InvenUI::NativeConstruct()
 		if (slot) {
 			slot->SetTexture(_defaultTexture);
 			_slots.Add(slot);
-		}
-		
+		}		
 	}
 	
 

@@ -17,9 +17,10 @@ void ARSP_HpPotion_High::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	if (character == nullptr) {
 		return;
 	}
-	character->AddHp(_itemInfo.itemStat);
+
+	//character->AddHp(_itemStat);
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
 
-	DrawDebugString(GetWorld(), GetActorLocation(), TEXT("ITEM"), nullptr, FColor::Blue, 5.0f, true);
+	//DrawDebugString(GetWorld(), GetActorLocation(), TEXT("ITEM"), nullptr, FColor::Blue, 5.0f, true);
 }
