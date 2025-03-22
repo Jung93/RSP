@@ -4,6 +4,7 @@
 #include "RSP_Character.h"
 #include "RSP_Enemy.h"
 #include "RSP_StatComponent.h"
+#include "UI/RSP_InvenUI.h"
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -36,6 +37,18 @@ ARSP_Player::ARSP_Player()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Player"));
 
 	_level = 1;
+
+	static ConstructorHelpers::FClassFinder<URSP_InvenUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_InvenUI.BP_RSP_InvenUI_C'"));
+	if (invenClass.Succeeded()) {
+		_invenWidget = CreateWidget<URSP_InvenUI>(GetWorld(), invenClass.Class);
+	}
+	
+	if (_invenWidget) {		
+		//invenUI->SetComponenet(CreateDefaultSubobject<UMyInvenComponent>(TEXT("InvenComponent")));
+		//invenUI->Drop->OnClicked.AddDynamic(this, &AMyPlayer::Drop_Button);
+		//invenUI->GetComponent()->itemAddEvent.AddUObject(invenUI, &UMyInvenUI::SetItem_Index);
+		//invenUI->GetComponent()->itemDropEvent.AddUObject(invenUI, &UMyInvenUI::SetItem_Default);
+	}
 }
 
 void ARSP_Player::Attack_Hit()
@@ -100,6 +113,7 @@ void ARSP_Player::BeginPlay()
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
 	//_animInstance->_deadEvent.AddUObject(this, &ARSP_Player::DeadEvent);
 
+	_invenWidget->AddToViewport(); //디버그용 임시 위치
 }
 
 void ARSP_Player::TakeExp(ARSP_Enemy* enemy)

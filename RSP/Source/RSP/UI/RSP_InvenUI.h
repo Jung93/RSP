@@ -32,19 +32,19 @@ public:
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UImage* RSP_ExitButtonImage;
 
-protected:
+protected:	
 	UPROPERTY(Editanywhere, BlueprintReadWrite)
-	TArray<class URSP_GridSlot*> _slot;
+	TArray<class URSP_GridSlot*> _slots;
 	UPROPERTY()
-	UTexture2D* _hpPotionTexture;
+	class UTexture2D* _hpPotionTexture;
 	UPROPERTY()
-	UTexture2D* _mpPotionTexture;
+	class UTexture2D* _mpPotionTexture;
 	UPROPERTY()
-	UTexture2D* _defaultTexture;
+	class UTexture2D* _defaultTexture;
 	UPROPERTY()
-	UTexture2D* _goldTexture;
+	class UTexture2D* _goldTexture;
 	UPROPERTY()
-	UTexture2D* _exitTexture;
+	class UTexture2D* _exitTexture;
 
 	int32 _curGold = 0;
 
