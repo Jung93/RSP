@@ -43,13 +43,11 @@ ARSP_Player::ARSP_Player()
 
 	static ConstructorHelpers::FClassFinder<URSP_InvenUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_InvenUI.BP_RSP_InvenUI_C'"));
 	if (invenClass.Succeeded()) {
-		_invenWidget = CreateWidget<URSP_InvenUI>(GetWorld(), invenClass.Class);
+		_invenWidget = CreateWidget<URSP_InvenUI>(GetWorld(), invenClass.Class);		
 	}
 	
-	if (_invenWidget) {		
-		//invenUI->SetComponenet(CreateDefaultSubobject<UMyInvenComponent>(TEXT("InvenComponent")));
-		//invenUI->Drop->OnClicked.AddDynamic(this, &AMyPlayer::Drop_Button);
-	}
+	_invenComponent = CreateDefaultSubobject<URSP_InvenComponent>(TEXT("InvenComponent"));
+
 }
 
 void ARSP_Player::Attack_Hit()
@@ -114,9 +112,21 @@ void ARSP_Player::BeginPlay()
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
 	//_animInstance->_deadEvent.AddUObject(this, &ARSP_Player::DeadEvent);
 
-	//_invenComponent->GetComponent()->itemAddEvent.AddUObject(invenUI, &UMyInvenUI::SetItem_Index);
-	//_invenComponent->GetComponent()->itemDropEvent.AddUObject(invenUI, &UMyInvenUI::SetItem_Default);
 	_invenWidget->RSP_ExitButton->OnClicked.AddDynamic(this, &ARSP_Player::Inven_Close);
+	_invenWidget->AddToViewport();
+	_invenWidget->SetVisibility(ESlateVisibility::Collapsed);	_invenComponent->itemAddEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetItemTexture);
+	_invenComponent->itemDropEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetDropTexture);
+
+	_invenWidget->hpPotionUsed.AddUObject(_statComponent, &URSP_StatComponent::AddCurHp);
+	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::UseInventoryItem);
+	_invenWidget->hpPotionUsed.AddUObject(_invenComponent, &URSP_InvenComponent::UseInventoryItem);
+	
+}
+
+void ARSP_Player::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	_invenComponent->SetArraySize(_invenWidget->GetSlotSize());
 }
 
 void ARSP_Player::TakeExp(ARSP_Enemy* enemy)
@@ -166,7 +176,7 @@ void ARSP_Player::Move(const FInputActionValue& value)
 
 void ARSP_Player::Look(const FInputActionValue& value)
 {
-	//if (_isInvenOpen) { return; }
+	if (_isInvenOpen) { return; }
 	FVector2D lookAxisVector = value.Get<FVector2D>();
 	if (Controller != nullptr) {
 		AddControllerYawInput(lookAxisVector.X);
@@ -215,13 +225,13 @@ void ARSP_Player::Inven_Open(const FInputActionValue& value)
 			if (controller) {
 				controller->HideUI();
 			}
-			_invenWidget->RemoveFromViewport();
+			_invenWidget->SetVisibility(ESlateVisibility::Collapsed);
 		}
 		else {
 			if (controller) {
 				controller->ShowUI();
 			}
-			_invenWidget->AddToViewport();
+			_invenWidget->SetVisibility(ESlateVisibility::Visible);
 		}
 		_isInvenOpen = !_isInvenOpen;
 
@@ -230,10 +240,24 @@ void ARSP_Player::Inven_Open(const FInputActionValue& value)
 
 void ARSP_Player::Inven_Close()
 {
+	if (_isAttack) { return; }
+
 	auto controller = Cast<ARSP_PlayerController>(GetController());
 
 	if (controller) {
 		controller->HideUI();
+		_invenWidget->SetVisibility(ESlateVisibility::Collapsed);
 		_isInvenOpen = false;
 	}
+}
+
+int32 ARSP_Player::GetEmptyArraySize()
+{
+	return _invenComponent->GetEmptyArraySize();
+}
+
+
+void ARSP_Player::AddItem(ARSP_Item* item)
+{
+	_invenComponent->AddItem(item);
 }

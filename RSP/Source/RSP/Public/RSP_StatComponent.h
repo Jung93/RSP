@@ -49,7 +49,7 @@ public:
 	int32 GetDropExp() { return _dropExp; }
 	int32 GetDropGold() { return _dropGold; }
 
-	void AddCurHp(float amount);
+	void AddCurHp(int32 amount);
 	void AddExp(int32 value);
 	void AddGold(int32 value);
 private:

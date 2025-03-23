@@ -2,23 +2,31 @@
 
 
 #include "UI/RSP_InvenUI.h"
+#include "Item/RSP_Item.h"
+#include "UI/RSP_GridSlot.h"
+
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 #include "Components/Button.h"
 #include "Components/UniformGridPanel.h"
 #include "Components/UniformGridSlot.h"
-#include "UI/RSP_GridSlot.h"
+
 
 bool URSP_InvenUI::Initialize()
 {	
 	auto result = Super::Initialize();
 
 	_defaultTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Assets/UI/Tex_Default.Tex_Default'"));
-	_hpPotionTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Assets/UI/T_Potion_025_256x256.T_Potion_025_256x256'"));
+	
+	_hpPotionTexture_High = LoadObject<UTexture2D>(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Assets/UI/T_Potion_115_256x256.T_Potion_115_256x256'"));
+	_hpPotionTexture_Low = LoadObject<UTexture2D>(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Assets/UI/T_Potion_025_256x256.T_Potion_025_256x256'"));
 	_mpPotionTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Assets/UI/T_Potion_162_256x256.T_Potion_162_256x256'"));
+	
 	_goldTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Assets/UI/21067_1.21067_1'"));
+	
 	_exitTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Assets/UI/T_x_256px_gray.T_x_256px_gray'"));
 	
+
 	return result;
 }
 
@@ -33,8 +41,7 @@ void URSP_InvenUI::NativeConstruct()
 			slot->SetTexture(_defaultTexture);
 			_slots.Add(slot);
 		}		
-	}
-	
+	}	
 
 	RSP_Title->SetText(FText::FromString(TEXT("INVENTORY")));
 	//FString GoldString = FString::Printf(TEXT("GOLD : %d"), _curGold); 골드획득시에 델리게이트 쓸 예정
@@ -42,4 +49,35 @@ void URSP_InvenUI::NativeConstruct()
 
 	RSP_GoldImage->SetBrushFromTexture(_goldTexture);
 	RSP_ExitButtonImage->SetBrushFromTexture(_exitTexture);
+}
+
+void URSP_InvenUI::SetItemTexture(int32 index, FRSP_ItemInfo info)
+{
+	_slots[index]->SetToolTipText(FText::FromString(info.itemToolTip));
+	_slots[index]->SetItemInfo(info);
+	switch (info.itemId)
+	{
+	case 0:
+		_slots[index]->SetTexture(_exitTexture);
+		break;
+	case 1:
+		_slots[index]->SetTexture(_hpPotionTexture_High);
+		break;
+	case 2:
+		_slots[index]->SetTexture(_hpPotionTexture_Low);
+		break;
+	default:
+		break;
+	}
+}
+
+void URSP_InvenUI::SetDropTexture(int32 index)
+{
+	_slots[index]->SetTexture(_defaultTexture);
+
+}
+
+void URSP_InvenUI::UseInventoryItem(int32 index)
+{
+	_slots[index]->SetTexture(_defaultTexture);
 }

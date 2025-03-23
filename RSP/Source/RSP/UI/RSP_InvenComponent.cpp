@@ -18,9 +18,8 @@ URSP_InvenComponent::URSP_InvenComponent()
 void URSP_InvenComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
+	//_items.SetNum(_itemArraySize);
+	_items.SetNum(18);
 }
 
 
@@ -36,7 +35,7 @@ int32 URSP_InvenComponent::GetEmptyArraySize()
 {
 	int32 count = 0;
 	for (auto item : _items) {
-		if (item != nullptr) {
+		if (item == nullptr) {
 			count++;
 		}
 	}
@@ -75,7 +74,10 @@ ARSP_Item* URSP_InvenComponent::DropItem(ARSP_Item* item , int32 index)
 	return item;
 }
 
-void URSP_InvenComponent::SwapItemPosition(ARSP_Item* drag,int32 dragIndex, ARSP_Item* drop , int32 dropIndex)
+void URSP_InvenComponent::UseInventoryItem(int32 index)
 {
+	_items[index] = nullptr;
+	auto items = _items;
 }
+
 

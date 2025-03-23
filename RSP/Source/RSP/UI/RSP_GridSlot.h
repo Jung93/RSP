@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Item/RSP_Item.h"
 #include "RSP_GridSlot.generated.h"
 
 /**
@@ -19,9 +20,20 @@ public:
 
 	void SetTexture(class UTexture2D* texture);
 	class UTexture2D* GetTexture();
-protected:
+			
+public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly)
 	int32 curIndex;
+	
+	void SetItemInfo(struct FRSP_ItemInfo info) { itemInfo = info; }
+	struct FRSP_ItemInfo GetItemInfo() { return itemInfo; }
+public:	
+	virtual FReply NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	void HandleDoubleClick();
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+protected:
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, meta = (BindWidget))
 	class UImage* itemImage;
 
@@ -32,4 +44,6 @@ protected:
 
 	UPROPERTY()
 	class UTexture2D* curTexture;
+
+	struct FRSP_ItemInfo itemInfo;
 };

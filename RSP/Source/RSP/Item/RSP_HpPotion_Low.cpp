@@ -14,13 +14,15 @@ void ARSP_HpPotion_Low::BeginPlay()
 void ARSP_HpPotion_Low::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	auto character = Cast<ARSP_Player>(OtherActor);
+
 	if (character == nullptr) {
 		return;
 	}
-	
-	//character->AddHp(_itemStat);
+	auto temp = character->GetEmptyArraySize();
+	if (character->GetEmptyArraySize() == 0) {
+		return;
+	}
+	character->AddItem(this);
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
-
-	//DrawDebugString(GetWorld(), GetActorLocation(), TEXT("ITEM"), nullptr, FColor::Blue, 5.0f, true);
 }

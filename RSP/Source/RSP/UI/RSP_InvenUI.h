@@ -6,9 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "RSP_InvenUI.generated.h"
 
-/**
- * 
- */
+DECLARE_MULTICAST_DELEGATE_OneParam(FHpPotionUsed, int32);
+
 UCLASS()
 class RSP_API URSP_InvenUI : public UUserWidget
 {
@@ -17,8 +16,14 @@ public:
 	virtual bool Initialize() override; 
 	virtual void NativeConstruct() override;
 	
-	//void SetItemTexture(int32 index);
+	void SetItemTexture(int32 index , struct FRSP_ItemInfo info);
+	void SetDropTexture(int32 index);
+	void UseInventoryItem(int32 index);
+	UFUNCTION()
+	int32 GetSlotSize() { return _slots.Num(); }
 
+	class URSP_GridSlot* GetGridSlot(int32 index) { return _slots[index]; }
+public:
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UUniformGridPanel* RSP_Grid;
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
@@ -31,12 +36,18 @@ public:
 	class UImage* RSP_GoldImage;
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UImage* RSP_ExitButtonImage;
+	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
+	class UTextBlock* RSP_ItemText;
+	
 
+	FHpPotionUsed hpPotionUsed;
 protected:	
 	UPROPERTY(Editanywhere, BlueprintReadWrite)
 	TArray<class URSP_GridSlot*> _slots;
 	UPROPERTY()
-	class UTexture2D* _hpPotionTexture;
+	class UTexture2D* _hpPotionTexture_High;
+	UPROPERTY()
+	class UTexture2D* _hpPotionTexture_Low;
 	UPROPERTY()
 	class UTexture2D* _mpPotionTexture;
 	UPROPERTY()
@@ -48,6 +59,4 @@ protected:
 
 	int32 _curGold = 0;
 
-	int32 _row = 4;
-	int32 _column = 3;
 };

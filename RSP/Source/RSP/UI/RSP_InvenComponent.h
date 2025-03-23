@@ -29,16 +29,20 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
+	UFUNCTION()
+	void SetArraySize(int32 num) { _itemArraySize = num; }
 	int32 GetEmptyArraySize();
 	int32 GetEmptyIndex();
 
 	void AddItem(ARSP_Item* item);
 	ARSP_Item* DropItem(ARSP_Item* item , int32 index);
-	void SwapItemPosition(ARSP_Item* drag, int32 dragIndex, ARSP_Item* drop, int32 dropIndex);
+	void UseInventoryItem(int32 index);
 
 	FItemAdd itemAddEvent;
 	FItemDrop itemDropEvent;
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowprivateAccess = "true"))
 	TArray<ARSP_Item*> _items;
+	UPROPERTY()
+	int32 _itemArraySize = 0;
 };

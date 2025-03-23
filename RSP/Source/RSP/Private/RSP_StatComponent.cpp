@@ -43,7 +43,7 @@ void URSP_StatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	// ...
 }
 
-void URSP_StatComponent::AddCurHp(float amount)
+void URSP_StatComponent::AddCurHp(int32 amount)
 {
 	int32 before = _curHp;
 

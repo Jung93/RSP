@@ -32,7 +32,6 @@ void ARSP_Character::BeginPlay()
 void ARSP_Character::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
