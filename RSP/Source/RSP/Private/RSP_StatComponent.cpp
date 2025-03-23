@@ -3,6 +3,7 @@
 
 #include "RSP_StatComponent.h"
 #include "RSP_Character.h"
+#include "RSP_Player.h"
 #include "RSP_GameInstance.h"
 // Sets default values for this component's properties
 URSP_StatComponent::URSP_StatComponent()
@@ -93,7 +94,11 @@ void URSP_StatComponent::AddExp(int32 value)
 
 void URSP_StatComponent::AddGold(int32 value)
 {
-	_curGold += value;
-	UE_LOG(LogTemp, Error, TEXT("Gold : %d"), _curGold);
+	auto player = Cast<ARSP_Player>(GetOwner());
+	if (player) {
+		_curGold += value;
+		UE_LOG(LogTemp, Error, TEXT("Gold : %d"), _curGold);
+		player->AdjustGoldEvent(_curGold);
+	}
 }
 

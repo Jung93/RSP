@@ -7,6 +7,8 @@
 #include "RSP_InvenUI.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FHpPotionUsed, int32);
+DECLARE_MULTICAST_DELEGATE_OneParam(FHealValue, int32);
+DECLARE_MULTICAST_DELEGATE_OneParam(FGainGold, int32);
 
 UCLASS()
 class RSP_API URSP_InvenUI : public UUserWidget
@@ -23,13 +25,16 @@ public:
 	int32 GetSlotSize() { return _slots.Num(); }
 
 	class URSP_GridSlot* GetGridSlot(int32 index) { return _slots[index]; }
+
+	void AddGold(int32 amount);
+	void SendHealValue(int32 index);
 public:
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UUniformGridPanel* RSP_Grid;
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UButton* RSP_ExitButton;
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* RSP_Gold; // deligate로 수치 변경 이벤트
+	class UTextBlock* RSP_Gold;
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* RSP_Title;
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
@@ -39,8 +44,9 @@ public:
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* RSP_ItemText;
 	
-
+	FGainGold gainGold;
 	FHpPotionUsed hpPotionUsed;
+	FHealValue healValue;
 protected:	
 	UPROPERTY(Editanywhere, BlueprintReadWrite)
 	TArray<class URSP_GridSlot*> _slots;
@@ -56,7 +62,5 @@ protected:
 	class UTexture2D* _goldTexture;
 	UPROPERTY()
 	class UTexture2D* _exitTexture;
-
-	int32 _curGold = 0;
 
 };

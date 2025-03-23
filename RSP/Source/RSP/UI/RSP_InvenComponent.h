@@ -45,4 +45,5 @@ protected:
 	TArray<ARSP_Item*> _items;
 	UPROPERTY()
 	int32 _itemArraySize = 0;
+
 };

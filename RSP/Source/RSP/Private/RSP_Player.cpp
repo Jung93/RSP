@@ -104,6 +104,11 @@ void ARSP_Player::Attack_Hit()
 	);
 }
 
+void ARSP_Player::AdjustGoldEvent(int32 value)
+{
+	_invenWidget->gainGold.Broadcast(value);
+}
+
 void ARSP_Player::BeginPlay()
 {
 	Super::BeginPlay();
@@ -117,9 +122,14 @@ void ARSP_Player::BeginPlay()
 	_invenWidget->SetVisibility(ESlateVisibility::Collapsed);	_invenComponent->itemAddEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetItemTexture);
 	_invenComponent->itemDropEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetDropTexture);
 
-	_invenWidget->hpPotionUsed.AddUObject(_statComponent, &URSP_StatComponent::AddCurHp);
+	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::SendHealValue);
 	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::UseInventoryItem);
 	_invenWidget->hpPotionUsed.AddUObject(_invenComponent, &URSP_InvenComponent::UseInventoryItem);
+	
+	_invenWidget->healValue.AddUObject(_statComponent, &URSP_StatComponent::AddCurHp);
+
+	_invenWidget->gainGold.AddUObject(_invenWidget, &URSP_InvenUI::AddGold);
+
 	
 }
 

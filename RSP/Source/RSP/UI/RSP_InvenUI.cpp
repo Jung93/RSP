@@ -43,12 +43,13 @@ void URSP_InvenUI::NativeConstruct()
 		}		
 	}	
 
-	RSP_Title->SetText(FText::FromString(TEXT("INVENTORY")));
-	//FString GoldString = FString::Printf(TEXT("GOLD : %d"), _curGold); 골드획득시에 델리게이트 쓸 예정
-	//RSP_Gold->SetText(FText::FromString(GoldString));
+	RSP_Title->SetText(FText::FromString(TEXT("INVENTORY")));	
 
 	RSP_GoldImage->SetBrushFromTexture(_goldTexture);
 	RSP_ExitButtonImage->SetBrushFromTexture(_exitTexture);
+
+	FString GoldString = FString::Printf(TEXT("%d"), 0);
+	RSP_Gold->SetText(FText::FromString(GoldString));
 }
 
 void URSP_InvenUI::SetItemTexture(int32 index, FRSP_ItemInfo info)
@@ -80,4 +81,16 @@ void URSP_InvenUI::SetDropTexture(int32 index)
 void URSP_InvenUI::UseInventoryItem(int32 index)
 {
 	_slots[index]->SetTexture(_defaultTexture);
+}
+
+void URSP_InvenUI::AddGold(int32 amount)
+{
+	FString GoldString = FString::Printf(TEXT("%d"), amount);
+	RSP_Gold->SetText(FText::FromString(GoldString));
+}
+
+void URSP_InvenUI::SendHealValue(int32 index)
+{
+	auto healvalue = _slots[index]->GetItemInfo().itemStat;
+	healValue.Broadcast(healvalue);
 }

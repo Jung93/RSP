@@ -20,6 +20,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
 	void TakeExp(class ARSP_Enemy* enemy);
+	
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -28,7 +29,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	virtual void Attack_Hit() override;
-
+	void AdjustGoldEvent(int32 value);
 	UFUNCTION()
 	void Move(const struct FInputActionValue& value);
 	UFUNCTION()

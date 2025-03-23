@@ -18,7 +18,6 @@ void ARSP_HpPotion_Low::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	if (character == nullptr) {
 		return;
 	}
-	auto temp = character->GetEmptyArraySize();
 	if (character->GetEmptyArraySize() == 0) {
 		return;
 	}
