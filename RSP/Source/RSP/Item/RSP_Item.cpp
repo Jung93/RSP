@@ -3,6 +3,7 @@
 
 #include "Item/RSP_Item.h"
 #include "RSP_Player.h"
+#include "RSP_GameInstance.h"
 #include "Components/CapsuleComponent.h"
 // Sets default values
 ARSP_Item::ARSP_Item()
@@ -37,14 +38,22 @@ void ARSP_Item::Tick(float DeltaTime)
 
 void ARSP_Item::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	auto character = Cast<ARSP_Player>(OtherActor);
-	if (character == nullptr) {
-		return;
-	}
-	//character->AddHp(_healValue); 이후 추가될 기능
-	SetActorHiddenInGame(true);
-	SetActorEnableCollision(false);
-
 	DrawDebugString(GetWorld(), GetActorLocation(), TEXT("ITEM"), nullptr, FColor::Blue, 5.0f, true);
+
+}
+
+void ARSP_Item::SetInfomation(FString name)
+{
+	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());
+	auto RSP_info = gameInstance->GetItemInfo(name);
+
+	_itemId = RSP_info.itemId;
+	_itemName = RSP_info.itemName;
+	_itemPrice = RSP_info.itemPrice;
+	_itemToolTip = RSP_info.itemToolTip;
+	_itemStat = RSP_info.itemStat;
+	_itemMaxCount = RSP_info.itemMaxCount; ;
+
+	_info = RSP_info;
 }
 

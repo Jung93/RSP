@@ -20,8 +20,11 @@ private:
 
 public:
 	FRSP_StatData GetStat_Level(int32 level);
+	struct FRSP_ItemInfo GetItemInfo(FString name);
 	int32 GetStatTableSize();
 private:
 	UPROPERTY()
 	class UDataTable* _statTable;
+	UPROPERTY()
+	class UDataTable* _itemTable;
 };

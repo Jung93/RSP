@@ -6,6 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "RSP_StatComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FHpChanged, float);
+DECLARE_MULTICAST_DELEGATE_OneParam(FLevelChanged, int32);
+
 USTRUCT() 
 struct FRSP_StatData : public FTableRowBase {
 	GENERATED_BODY()
@@ -24,7 +27,7 @@ struct FRSP_StatData : public FTableRowBase {
 	int32 dropGold;	
 };
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RSP_API URSP_StatComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -50,8 +53,12 @@ public:
 	int32 GetDropGold() { return _dropGold; }
 
 	void AddCurHp(float amount);
+	void AddCurHp(int32 amount);
 	void AddExp(int32 value);
 	void AddGold(int32 value);
+
+	FLevelChanged levelChanged;
+	FHpChanged hpChanged;
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _level = 1;

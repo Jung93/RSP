@@ -4,6 +4,10 @@
 #include "RSP_Character.h"
 #include "RSP_Enemy.h"
 #include "RSP_StatComponent.h"
+#include "UI/RSP_InvenUI.h"
+#include "UI/RSP_InvenComponent.h"
+#include "UI/RSP_HpBar.h"
+#include "RSP_PlayerController.h"
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -11,8 +15,10 @@
 
 #include "Engine/DamageEvents.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/Button.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/WidgetComponent.h"
 
 #include "Animation/RSP_AnimInstance.h"
 
@@ -36,6 +42,14 @@ ARSP_Player::ARSP_Player()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Player"));
 
 	_level = 1;
+
+	static ConstructorHelpers::FClassFinder<URSP_InvenUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_InvenUI.BP_RSP_InvenUI_C'"));
+	if (invenClass.Succeeded()) {
+		_invenWidget = CreateWidget<URSP_InvenUI>(GetWorld(), invenClass.Class);		
+	}
+	
+	_invenComponent = CreateDefaultSubobject<URSP_InvenComponent>(TEXT("InvenComponent"));
+
 }
 
 void ARSP_Player::Attack_Hit()
@@ -92,6 +106,11 @@ void ARSP_Player::Attack_Hit()
 	);
 }
 
+void ARSP_Player::AdjustGoldEvent(int32 value)
+{
+	_invenWidget->gainGold.Broadcast(value);
+}
+
 void ARSP_Player::BeginPlay()
 {
 	Super::BeginPlay();
@@ -100,6 +119,29 @@ void ARSP_Player::BeginPlay()
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
 	//_animInstance->_deadEvent.AddUObject(this, &ARSP_Player::DeadEvent);
 
+	_invenWidget->RSP_ExitButton->OnClicked.AddDynamic(this, &ARSP_Player::Inven_Close);
+	_invenWidget->AddToViewport();
+	_invenWidget->SetVisibility(ESlateVisibility::Collapsed);	_invenComponent->itemAddEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetItemTexture);
+	_invenComponent->itemDropEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetDropTexture);
+
+	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::SendHealValue);
+	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::UseInventoryItem);
+	_invenWidget->hpPotionUsed.AddUObject(_invenComponent, &URSP_InvenComponent::UseInventoryItem);
+	
+	_invenWidget->healValue.AddUObject(_statComponent, &URSP_StatComponent::AddCurHp);
+
+	_invenWidget->gainGold.AddUObject(_invenWidget, &URSP_InvenUI::AddGold);
+
+	auto hpBar = Cast<URSP_HpBar>(_hpBarWidget->GetWidget());
+	if (hpBar) {
+		hpBar->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void ARSP_Player::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	_invenComponent->SetArraySize(_invenWidget->GetSlotSize());
 }
 
 void ARSP_Player::TakeExp(ARSP_Enemy* enemy)
@@ -124,6 +166,7 @@ void ARSP_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		enhancedInputComponent->BindAction(_lookAction, ETriggerEvent::Triggered, this, &ARSP_Player::Look);
 		enhancedInputComponent->BindAction(_attackAction, ETriggerEvent::Triggered, this, &ARSP_Player::Attack);
 		enhancedInputComponent->BindAction(_jumpAction, ETriggerEvent::Triggered, this, &ARSP_Player::JumpA);
+		enhancedInputComponent->BindAction(_invenOpenAction, ETriggerEvent::Started, this, &ARSP_Player::Inven_Open);
 	}
 }
 
@@ -148,7 +191,7 @@ void ARSP_Player::Move(const FInputActionValue& value)
 
 void ARSP_Player::Look(const FInputActionValue& value)
 {
-	//if (_isInvenOpen) { return; }
+	if (_isInvenOpen) { return; }
 	FVector2D lookAxisVector = value.Get<FVector2D>();
 	if (Controller != nullptr) {
 		AddControllerYawInput(lookAxisVector.X);
@@ -185,4 +228,51 @@ void ARSP_Player::Attack(const FInputActionValue& value)
 		_animInstance->JumpToSection(_curAttackSection);
 	}
 
+}
+
+void ARSP_Player::Inven_Open(const FInputActionValue& value)
+{
+	bool isPressed = value.Get<bool>();
+	if (Controller != nullptr && isPressed) {
+		auto controller = Cast<ARSP_PlayerController>(GetController());
+
+		if (_isInvenOpen) {
+			if (controller) {
+				controller->HideUI();
+			}
+			_invenWidget->SetVisibility(ESlateVisibility::Collapsed);
+		}
+		else {
+			if (controller) {
+				controller->ShowUI();
+			}
+			_invenWidget->SetVisibility(ESlateVisibility::Visible);
+		}
+		_isInvenOpen = !_isInvenOpen;
+
+	}
+}
+
+void ARSP_Player::Inven_Close()
+{
+	if (_isAttack) { return; }
+
+	auto controller = Cast<ARSP_PlayerController>(GetController());
+
+	if (controller) {
+		controller->HideUI();
+		_invenWidget->SetVisibility(ESlateVisibility::Collapsed);
+		_isInvenOpen = false;
+	}
+}
+
+int32 ARSP_Player::GetEmptyArraySize()
+{
+	return _invenComponent->GetEmptyArraySize();
+}
+
+
+void ARSP_Player::AddItem(ARSP_Item* item)
+{
+	_invenComponent->AddItem(item);
 }
