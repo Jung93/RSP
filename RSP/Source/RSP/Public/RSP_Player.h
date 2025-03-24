@@ -72,4 +72,7 @@ protected:
 	class URSP_InvenComponent* _invenComponent;
 
 	bool _isInvenOpen = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "PlayerHpBar", meta = (AllowPrivateAccess = "true"))
+	class URSP_PlayerHpBar* _playerHpBarWidget;
 };

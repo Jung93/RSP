@@ -34,9 +34,7 @@ void URSP_StatComponent::BeginPlay()
 	_curExp = 0;
 	_curGold = 0;
 
-	if(levelChanged.IsBound()) {
-		levelChanged.Broadcast(10);
-	}
+	
 }
 
 
@@ -84,14 +82,14 @@ void URSP_StatComponent::AddCurHp(int32 amount)
 	if (_curHp > _maxHp) {
 		_curHp = _maxHp;
 	}
-	//auto actor = GetOwner();
-	//
-	//UE_LOG(LogTemp, Warning, TEXT("Name : %s , HP : %d"), *actor->GetName(), _curHp);
-	//
-	//float ratio = _curHp / (float)_maxHp;
-	//if (hpChanged.IsBound()) {
-	//	hpChanged.Broadcast(ratio);
-	//}
+	auto actor = GetOwner();
+	
+	UE_LOG(LogTemp, Warning, TEXT("Name : %s , HP : %d"), *actor->GetName(), _curHp);
+	
+	float ratio = _curHp / (float)_maxHp;
+	if (hpChanged.IsBound()) {
+		hpChanged.Broadcast(ratio);
+	}
 	
 }
 
@@ -130,10 +128,5 @@ void URSP_StatComponent::AddGold(int32 value)
 		UE_LOG(LogTemp, Error, TEXT("Gold : %d"), _curGold);
 		player->AdjustGoldEvent(_curGold);
 	}
-}
-
-void URSP_StatComponent::GetLevelInfoFromGameInstance(int32 level)
-{
-	
 }
 

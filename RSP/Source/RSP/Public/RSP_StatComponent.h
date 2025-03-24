@@ -57,15 +57,13 @@ public:
 	void AddExp(int32 value);
 	void AddGold(int32 value);
 
-	void GetLevelInfoFromGameInstance(int32 level);
-
 	FLevelChanged levelChanged;
 	FHpChanged hpChanged;
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _level = 1;
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
-	int32 _curHp;
+	int32 _curHp = 1;
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _maxHp;
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))

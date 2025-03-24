@@ -51,6 +51,7 @@ void ARSP_Character::BeginPlay()
 	if (hpBar) {
 		_statComponent->levelChanged.AddUObject(hpBar, &URSP_HpBar::SetLevelText);
 		_statComponent->hpChanged.AddUObject(hpBar, &URSP_HpBar::SetHpBarValue);
+		_statComponent->levelChanged.Broadcast(_level);
 	}
 }
 

@@ -8,6 +8,8 @@
 #include "UI/RSP_InvenComponent.h"
 #include "UI/RSP_HpBar.h"
 #include "RSP_PlayerController.h"
+#include "UI/RSP_PlayerHpBar.h"
+
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -49,6 +51,11 @@ ARSP_Player::ARSP_Player()
 	}
 	
 	_invenComponent = CreateDefaultSubobject<URSP_InvenComponent>(TEXT("InvenComponent"));
+	
+	static ConstructorHelpers::FClassFinder<URSP_PlayerHpBar> playerHpBar(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_PlayerHpBar.BP_RSP_PlayerHpBar_C'"));
+	if (playerHpBar.Succeeded()) {
+		_playerHpBarWidget = CreateWidget<URSP_PlayerHpBar>(GetWorld(), playerHpBar.Class);
+	}
 
 }
 
@@ -114,7 +121,7 @@ void ARSP_Player::AdjustGoldEvent(int32 value)
 void ARSP_Player::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Player::Attack_Hit);
 	//_animInstance->_deadEvent.AddUObject(this, &ARSP_Player::DeadEvent);
@@ -127,15 +134,17 @@ void ARSP_Player::BeginPlay()
 	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::SendHealValue);
 	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::UseInventoryItem);
 	_invenWidget->hpPotionUsed.AddUObject(_invenComponent, &URSP_InvenComponent::UseInventoryItem);
-	
-	_invenWidget->healValue.AddUObject(_statComponent, &URSP_StatComponent::AddCurHp);
 
+	_invenWidget->healValue.AddUObject(_statComponent, &URSP_StatComponent::AddCurHp);
 	_invenWidget->gainGold.AddUObject(_invenWidget, &URSP_InvenUI::AddGold);
 
-	auto hpBar = Cast<URSP_HpBar>(_hpBarWidget->GetWidget());
-	if (hpBar) {
-		hpBar->SetVisibility(ESlateVisibility::Collapsed);
-	}
+	_hpBarWidget->SetWidget(nullptr);
+
+	_statComponent->levelChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetLevelText);
+	_statComponent->hpChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetHpBarValue);
+	_statComponent->levelChanged.Broadcast(_level);
+
+	_playerHpBarWidget->AddToViewport();
 }
 
 void ARSP_Player::PostInitializeComponents()
