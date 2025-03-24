@@ -2,7 +2,7 @@
 
 
 #include "AI/Decorator/BT_RSP_Decorator_IsDead.h"
-#include "RSP_Enemy.h"
+#include "RSP_Character.h"
 #include "AI/RSP_AIController.h"
 
 bool UBT_RSP_Decorator_IsDead::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const
@@ -12,7 +12,7 @@ bool UBT_RSP_Decorator_IsDead::CalculateRawConditionValue(UBehaviorTreeComponent
 	if (!result)
 		return false;
 
-	auto curPawn = Cast<ARSP_Enemy>(OwnerComp.GetAIOwner()->GetPawn());
+	auto curPawn = Cast<ARSP_Character>(OwnerComp.GetAIOwner()->GetPawn());
 
 	if (!curPawn->IsValidLowLevel())
 		return false;

@@ -23,15 +23,18 @@ void ARSP_AIController::OnPossess(APawn* pawn)
 	{
 		if (RunBehaviorTree(_behaviorTree))
 		{
+			UE_LOG(LogTemp, Error, TEXT("BT succeed"));
+
+
 		}
 		else
 		{
-			//UE_LOG(LogTemp, Error, TEXT("BT failed"));
+			UE_LOG(LogTemp, Error, TEXT("BT failed"));
 		}
 	}
 	else
 	{
-		//UE_LOG(LogTemp, Error, TEXT("BB failed"));
+		UE_LOG(LogTemp, Error, TEXT("BB failed"));
 	}
 }
 
