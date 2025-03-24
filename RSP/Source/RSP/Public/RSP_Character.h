@@ -66,7 +66,7 @@ protected:
 	int32 _gold = 0;
 
 	UPROPERTY(EditAnywhere, Category = "Level", meta = (AllowPrivateAccess = "true"))
-	int16 _level;
+	int16 _level = 1;
 
 	UPROPERTY()
 	float _critical = 10.0f;
@@ -74,5 +74,6 @@ protected:
 	float _vertical = 0.0f;
 	float _horizontal = 0.0f;
 	
-
+	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	class UWidgetComponent* _hpBarWidget;
 };

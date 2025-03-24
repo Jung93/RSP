@@ -6,6 +6,7 @@
 #include "RSP_StatComponent.h"
 #include "UI/RSP_InvenUI.h"
 #include "UI/RSP_InvenComponent.h"
+#include "UI/RSP_HpBar.h"
 #include "RSP_PlayerController.h"
 
 #include "EnhancedInputComponent.h"
@@ -17,6 +18,7 @@
 #include "Components/Button.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/WidgetComponent.h"
 
 #include "Animation/RSP_AnimInstance.h"
 
@@ -130,7 +132,10 @@ void ARSP_Player::BeginPlay()
 
 	_invenWidget->gainGold.AddUObject(_invenWidget, &URSP_InvenUI::AddGold);
 
-	
+	auto hpBar = Cast<URSP_HpBar>(_hpBarWidget->GetWidget());
+	if (hpBar) {
+		hpBar->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 
 void ARSP_Player::PostInitializeComponents()
