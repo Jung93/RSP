@@ -32,16 +32,22 @@ ARSP_Character::ARSP_Character()
 	}
 }
 
+void ARSP_Character::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	_animInstance = Cast<URSP_AnimInstance>(GetMesh()->GetAnimInstance());
+	if (_animInstance)
+		_animInstance->_deadEvent.AddUObject(this, &ARSP_Character::DeadEvent);
+	
+}
+
 // Called when the game starts or when spawned
 void ARSP_Character::BeginPlay()
 {
 	Super::BeginPlay();
 
-	_animInstance = Cast<URSP_AnimInstance>(GetMesh()->GetAnimInstance());
-	if(_animInstance)
-		_animInstance->_deadEvent.AddUObject(this, &ARSP_Character::DeadEvent);
-
-	auto hpBar = Cast<URSP_HpBar>(_hpBarWidget->GetWidget());
+	auto widget = _hpBarWidget->GetWidget();
+	auto hpBar = Cast<URSP_HpBar>(widget);
 	if (hpBar) {
 		_statComponent->levelChanged.AddUObject(hpBar, &URSP_HpBar::SetLevelText);
 		_statComponent->hpChanged.AddUObject(hpBar, &URSP_HpBar::SetHpBarValue);

@@ -63,6 +63,7 @@ void URSP_StatComponent::AddCurHp(float amount)
 	auto actor = GetOwner();
 
 	UE_LOG(LogTemp, Warning, TEXT("Name : %s , HP : %d"), *actor->GetName(), _curHp);
+	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Purple, FString::Printf(TEXT("Name : %s , HP : %d"), *actor->GetName(), _curHp));
 
 	float ratio = _curHp / (float)_maxHp;
 	if (hpChanged.IsBound()) {
@@ -104,9 +105,9 @@ void URSP_StatComponent::AddExp(int32 value)
 		_level++;
 
 		UE_LOG(LogTemp, Error, TEXT("LEVEL changed : %d"), _level);
-		//if (levelChanged.IsBound()) {
-		//	levelChanged.Broadcast(_level);
-		//}
+		if (levelChanged.IsBound()) {
+			levelChanged.Broadcast(_level);
+		}
 		auto character = Cast<ARSP_Character>(GetOwner());
 		auto statInfo = gameInstance->GetStat_Level(_level);
 		_maxHp = statInfo.maxHp;
@@ -129,5 +130,10 @@ void URSP_StatComponent::AddGold(int32 value)
 		UE_LOG(LogTemp, Error, TEXT("Gold : %d"), _curGold);
 		player->AdjustGoldEvent(_curGold);
 	}
+}
+
+void URSP_StatComponent::GetLevelInfoFromGameInstance(int32 level)
+{
+	
 }
 

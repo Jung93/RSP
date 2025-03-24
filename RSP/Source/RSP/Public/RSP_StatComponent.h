@@ -57,6 +57,8 @@ public:
 	void AddExp(int32 value);
 	void AddGold(int32 value);
 
+	void GetLevelInfoFromGameInstance(int32 level);
+
 	FLevelChanged levelChanged;
 	FHpChanged hpChanged;
 private:
