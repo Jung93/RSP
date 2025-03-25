@@ -9,7 +9,7 @@
 ARSP_Item::ARSP_Item()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	_collider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collider"));
 	_mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
