@@ -10,6 +10,7 @@
 #include "AI/RSP_AIController.h"
 #include "RSP_Enemy.h"
 #include "RSP_Player.h"
+#include "RSP_Companion.h"
 
 #include "DrawDebugHelpers.h"
 
@@ -45,6 +46,7 @@ void UBT_RSP_Service_FindTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 	if (!result)
 	{
 		OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Player")), nullptr);
+		OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Companion")), nullptr);
 		return;
 	}
 	else
@@ -52,10 +54,18 @@ void UBT_RSP_Service_FindTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 		for (auto& overlapResult : overlapResults)
 		{
 			auto player = Cast<ARSP_Player>(overlapResult.GetActor());
+			auto companion = Cast<ARSP_Companion>(overlapResult.GetActor());
+
 
 			if (player->IsValidLowLevel())
 			{
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Player")), player);
+				DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
+				return;
+			}
+			else if (companion->IsValidLowLevel())
+			{
+				OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Companion")), companion);
 				DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
 				return;
 			}
