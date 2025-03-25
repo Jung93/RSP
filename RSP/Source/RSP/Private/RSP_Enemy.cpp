@@ -3,6 +3,7 @@
 #include "RSP_Enemy.h"
 #include "RSP_Character.h"
 #include "RSP_Player.h"
+#include "RSP_Companion.h"
 #include "RSP_StatComponent.h"
 
 #include "InputActionValue.h"
@@ -48,14 +49,24 @@ void ARSP_Enemy::Attack_Hit()
 	if (bResult && hitResult.GetActor()->IsValidLowLevel())
 	{
 		drawColor = FColor::Red;
-		ARSP_Player* victim = Cast<ARSP_Player>(hitResult.GetActor());
-		if (victim) {
+		ARSP_Player* player = Cast<ARSP_Player>(hitResult.GetActor());
+		ARSP_Companion* companion = Cast<ARSP_Companion>(hitResult.GetActor());
+
+		if (player) {
 			FDamageEvent damageEvent = FDamageEvent();
 			FVector hitPoint = hitResult.ImpactPoint;
 			//EFFECT_M->PlayEffect("BigFire", hitPoint);
-			victim->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
+			player->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
 			
 		}
+		else if (companion)
+		{
+			FDamageEvent damageEvent = FDamageEvent();
+			FVector hitPoint = hitResult.ImpactPoint;
+			//EFFECT_M->PlayEffect("BigFire", hitPoint);
+			companion->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
+		}
+
 	}
 
 	DrawDebugCapsule(

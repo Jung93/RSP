@@ -11,6 +11,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "RSP_Enemy.h"
 #include "RSP_Player.h"
+#include "RSP_Companion.h"
 
 EBTNodeResult::Type UBT_RSP_Task_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
@@ -25,14 +26,33 @@ EBTNodeResult::Type UBT_RSP_Task_Attack::ExecuteTask(UBehaviorTreeComponent& Own
         return result;
 
     auto player = Cast<ARSP_Player>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(FName(TEXT("Player"))));
+    auto companion = Cast<ARSP_Companion>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(FName(TEXT("Companion"))));
 
-    if (!player->IsValidLowLevel())
-        return EBTNodeResult::Failed;
 
-    auto quat = UKismetMathLibrary::FindLookAtRotation(curPawn->GetActorLocation(), player->GetActorLocation());
+    //if (!player->IsValidLowLevel())
+    //    return EBTNodeResult::Failed;
 
-    curPawn->SetActorRotation(quat);
-    curPawn->Attack();
+    //auto quat = UKismetMathLibrary::FindLookAtRotation(curPawn->GetActorLocation(), player->GetActorLocation());
 
-    return EBTNodeResult::Succeeded;
+    //curPawn->SetActorRotation(quat);
+    //curPawn->Attack();
+
+    if (player->IsValidLowLevel())
+    {
+        auto quat = UKismetMathLibrary::FindLookAtRotation(curPawn->GetActorLocation(), player->GetActorLocation());
+        curPawn->SetActorRotation(quat);
+        curPawn->Attack();
+
+        return EBTNodeResult::Succeeded;
+    }
+    else if (companion->IsValidLowLevel())
+    {
+        auto quat = UKismetMathLibrary::FindLookAtRotation(curPawn->GetActorLocation(), companion->GetActorLocation());
+        curPawn->SetActorRotation(quat);
+        curPawn->Attack();
+        return EBTNodeResult::Succeeded;
+
+    }
+
+    return EBTNodeResult::Failed;
 }
