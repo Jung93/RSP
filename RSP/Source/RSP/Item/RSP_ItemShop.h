@@ -39,4 +39,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	class UWidgetComponent* _shopEnterWidget;
+	UPROPERTY()
+	class UTexture2D* _keyTexture;
 };

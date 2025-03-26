@@ -5,8 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "RSP_Player.h"
-#include "RSP_GameInstance.h"
-#include "Components/CapsuleComponent.h"
+#include "Blueprint/UserWidget.h"
+#include "Components/SphereComponent.h"
+#include "Components/WidgetComponent.h"
 #include "RSP_Item.generated.h"
 
 USTRUCT(BlueprintType)
@@ -47,7 +48,10 @@ public:
 	UFUNCTION()
 	virtual void OnOverlap(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor,
 		class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
-	
+	UFUNCTION()
+	void EndOverlap(class UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 	/*
 	* 문제 : 
 	추상클래스이고 자식에서 반드시 재정의해야하는 함수 OnOverlap
@@ -67,7 +71,7 @@ protected:
 	class UStaticMeshComponent* _mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Collider")
-	class UCapsuleComponent* _collider;
+	class USphereComponent* _itemCollider;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 _itemId = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -83,5 +87,10 @@ protected:
 
 	UPROPERTY()
 	FRSP_ItemInfo _info;
+
+	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	class UWidgetComponent* _shopEnterWidget;
+	UPROPERTY()
+	class UTexture2D* _keyTexture;
 };
 

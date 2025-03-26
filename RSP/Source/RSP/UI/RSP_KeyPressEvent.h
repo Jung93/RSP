@@ -14,7 +14,7 @@ class RSP_API URSP_KeyPressEvent : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-
+	void SetTexture(class UTexture2D* texture);
 protected:
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UImage* RSP_KeyImage;
