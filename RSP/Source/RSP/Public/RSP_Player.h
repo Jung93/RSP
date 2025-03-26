@@ -41,7 +41,11 @@ public:
 	UFUNCTION()
 	void Inven_Open(const struct FInputActionValue& value);
 	UFUNCTION()
+	void Interaction_Item(const struct FInputActionValue& value);
+
+	UFUNCTION()
 	void Inven_Close();
+
 
 public:
 	//for UI 
@@ -60,6 +64,8 @@ protected:
 	class UInputAction* _attackAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
 	class UInputAction* _invenOpenAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* _interactionAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* _camera;
@@ -72,6 +78,7 @@ protected:
 	class URSP_InvenComponent* _invenComponent;
 
 	bool _isInvenOpen = false;
+	bool _interaction = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "PlayerHpBar", meta = (AllowPrivateAccess = "true"))
 	class URSP_PlayerHpBar* _playerHpBarWidget;
