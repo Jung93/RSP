@@ -30,7 +30,6 @@ public:
 	void ColliderEndOverlapped(class UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	bool bCanInteraction = false;
 protected:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	class UStaticMeshComponent* _mesh;
@@ -42,6 +41,4 @@ protected:
 	class UWidgetComponent* _shopEnterWidget;
 	UPROPERTY()
 	class UTexture2D* _keyTexture;
-
-
 };

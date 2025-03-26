@@ -52,7 +52,6 @@ public:
 	void EndOverlap(class UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	bool bCanInteraction = false;
 	/*
 	* 문제 : 
 	추상클래스이고 자식에서 반드시 재정의해야하는 함수 OnOverlap

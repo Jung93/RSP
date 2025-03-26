@@ -31,7 +31,7 @@ ARSP_ItemShop::ARSP_ItemShop()
 
 	_shopEnterWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Interaction"));
 	_shopEnterWidget->SetupAttachment(_mesh);
-	_shopEnterWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	_shopEnterWidget->SetWidgetSpace(EWidgetSpace::World);
 
 	static ConstructorHelpers::FClassFinder<URSP_KeyPressEvent> keyPressUI(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_KeyPressEvent.BP_RSP_KeyPressEvent_C'"));
 	if (keyPressUI.Succeeded())
