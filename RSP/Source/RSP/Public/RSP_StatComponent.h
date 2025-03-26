@@ -8,6 +8,7 @@
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FHpChanged, float);
 DECLARE_MULTICAST_DELEGATE_OneParam(FLevelChanged, int32);
+DECLARE_MULTICAST_DELEGATE_OneParam(FPrintName, FString);
 
 USTRUCT() 
 struct FRSP_StatData : public FTableRowBase {
@@ -59,6 +60,7 @@ public:
 
 	FLevelChanged levelChanged;
 	FHpChanged hpChanged;
+	FPrintName printName;
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _level = 1;

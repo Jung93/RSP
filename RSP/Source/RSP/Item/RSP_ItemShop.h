@@ -45,5 +45,6 @@ protected:
 	UPROPERTY()
 	class UTexture2D* _keyTexture;
 
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
+	class URSP_InvenUI* _storeInvenWidget;
 };

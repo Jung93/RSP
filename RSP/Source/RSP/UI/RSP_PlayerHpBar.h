@@ -13,5 +13,7 @@ UCLASS()
 class RSP_API URSP_PlayerHpBar : public URSP_HpBar
 {
 	GENERATED_BODY()
-	
+public:
+protected:
+
 };

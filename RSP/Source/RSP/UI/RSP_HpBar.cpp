@@ -14,3 +14,8 @@ void URSP_HpBar::SetLevelText(int32 level)
 	FString levelText = FString::Printf(TEXT("%d"), level);
 	RSP_LevelText->SetText(FText::FromString(levelText));
 }
+
+void URSP_HpBar::SetOwnerName(FString string)
+{
+	RSP_Name->SetText(FText::FromString(string));
+}

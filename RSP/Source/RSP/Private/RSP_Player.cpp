@@ -128,7 +128,9 @@ void ARSP_Player::BeginPlay()
 
 	_invenWidget->RSP_ExitButton->OnClicked.AddDynamic(this, &ARSP_Player::Inven_Close);
 	_invenWidget->AddToViewport();
-	_invenWidget->SetVisibility(ESlateVisibility::Collapsed);	_invenComponent->itemAddEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetItemTexture);
+	_invenWidget->SetVisibility(ESlateVisibility::Collapsed);
+
+	_invenComponent->itemAddEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetItemTexture);
 	_invenComponent->itemDropEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetDropTexture);
 
 	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::SendHealValue);
@@ -142,7 +144,9 @@ void ARSP_Player::BeginPlay()
 
 	_statComponent->levelChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetLevelText);
 	_statComponent->hpChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetHpBarValue);
+	_statComponent->printName.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetOwnerName);
 	_statComponent->levelChanged.Broadcast(_level);
+	_statComponent->printName.Broadcast(GetName());
 
 	_playerHpBarWidget->AddToViewport();
 }

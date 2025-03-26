@@ -5,6 +5,9 @@
 #include "RSP_Player.h"
 #include "Blueprint/UserWidget.h"
 #include "UI/RSP_KeyPressEvent.h"
+#include "UI/RSP_InvenUI.h"
+#include "UI/RSP_InvenComponent.h"
+
 #include "RSP_GameInstance.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
@@ -38,7 +41,10 @@ ARSP_ItemShop::ARSP_ItemShop()
 	{
 		_shopEnterWidget->SetWidgetClass(keyPressUI.Class);
 	}
-
+	static ConstructorHelpers::FClassFinder<URSP_InvenUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_StoreUI.BP_RSP_StoreUI_C'"));
+	if (invenClass.Succeeded()) {
+		_storeInvenWidget = CreateWidget<URSP_InvenUI>(GetWorld(), invenClass.Class);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -55,6 +61,10 @@ void ARSP_ItemShop::BeginPlay()
 	keyPressWidget->SetTexture(_keyTexture);
 
 	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Collapsed);
+	
+	_storeInvenWidget->AddToViewport();
+	_storeInvenWidget->SetVisibility(ESlateVisibility::Collapsed);
+
 }
 
 // Called every frame
@@ -86,6 +96,7 @@ void ARSP_ItemShop::ColliderEndOverlapped(UPrimitiveComponent* OverlappedCompone
 
 void ARSP_ItemShop::OpenShopUI(AActor* actor)
 {
-	//
+	_storeInvenWidget->SetVisibility(ESlateVisibility::Visible);
+
 }
 
