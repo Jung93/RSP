@@ -30,6 +30,7 @@ ARSP_Character::ARSP_Character()
 	{
 		_hpBarWidget->SetWidgetClass(hpBarClass.Class);
 	}
+	_hpBarWidget->SetCastShadow(false);
 }
 
 void ARSP_Character::PostInitializeComponents()

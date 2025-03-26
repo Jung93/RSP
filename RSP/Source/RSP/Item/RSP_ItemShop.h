@@ -24,15 +24,21 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	void ColliderOverlapped(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor,
+	void ColliderBeginOverlapped(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor,
 		class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
+	UFUNCTION()
+	void ColliderEndOverlapped(class UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 protected:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	class UStaticMeshComponent* _mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Collider")
-	class UCapsuleComponent* _collider;
+	class USphereComponent* _itemCollider;
 
 	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	class UWidgetComponent* _shopEnterWidget;
+	UPROPERTY()
+	class UTexture2D* _keyTexture;
 };
