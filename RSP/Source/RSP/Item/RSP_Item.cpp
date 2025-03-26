@@ -84,6 +84,11 @@ void ARSP_Item::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 	bCanInteraction = false;
 }
 
+
+void ARSP_Item::ActivateItemEffect(AActor* actor)
+{
+}
+
 void ARSP_Item::SetInfomation(FString name)
 {
 	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());

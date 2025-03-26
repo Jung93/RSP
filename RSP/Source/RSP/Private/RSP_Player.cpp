@@ -304,22 +304,23 @@ void ARSP_Player::Interaction_Item(const FInputActionValue& value)
 				AActor* HitActor = HitResult.GetActor();
 				if (HitActor)
 				{
-					auto RSP_itemShopClass = Cast<ARSP_ItemShop>(HitActor);
-					auto RSP_itemClass = Cast<ARSP_Item>(HitActor);
-					if (RSP_itemShopClass) {
-						if (RSP_itemShopClass->bCanInteraction)
+					auto RSP_itemShop = Cast<ARSP_ItemShop>(HitActor);
+					auto RSP_item = Cast<ARSP_Item>(HitActor);
+					if (RSP_itemShop) {
+						if (RSP_itemShop->bCanInteraction)
 						{
-
+							RSP_itemShop->bCanInteraction = false;
+							RSP_itemShop->OpenShopUI(this);
 						}
 					}
-					if (RSP_itemClass) {
-						if (RSP_itemClass->bCanInteraction) {
-							AddItem(RSP_itemClass);
+					if (RSP_item) {
+						if (RSP_item->bCanInteraction) {							
+							RSP_item->bCanInteraction = false;
+							RSP_item->ActivateItemEffect(this);
 						}
 					}
 				}
 			}
-			DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 2.0f, 0, 1.0f);
 		}
 
 	}

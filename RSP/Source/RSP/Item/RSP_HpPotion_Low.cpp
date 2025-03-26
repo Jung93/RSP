@@ -11,15 +11,10 @@ void ARSP_HpPotion_Low::BeginPlay()
 	SetInfomation(name);
 }
 
-void ARSP_HpPotion_Low::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ARSP_HpPotion_Low::ActivateItemEffect(AActor* actor)
 {
-	Super::OnOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+	auto character = Cast<ARSP_Player>(actor);
 
-	auto character = Cast<ARSP_Player>(OtherActor);
-	
-	//if (bCanInteraction) {
-	//
-	//}
 	if (character == nullptr) {
 		return;
 	}
@@ -30,3 +25,5 @@ void ARSP_HpPotion_Low::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
 }
+
+

@@ -75,10 +75,17 @@ void ARSP_ItemShop::Tick(float DeltaTime)
 void ARSP_ItemShop::ColliderBeginOverlapped(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Visible);
+	bCanInteraction = true;
 }
 
 void ARSP_ItemShop::ColliderEndOverlapped(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Collapsed);
+	bCanInteraction = false;
+}
+
+void ARSP_ItemShop::OpenShopUI(AActor* actor)
+{
+	//
 }
 

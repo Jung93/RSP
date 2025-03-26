@@ -31,6 +31,8 @@ public:
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	bool bCanInteraction = false;
+
+	void OpenShopUI(class AActor* actor);
 protected:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	class UStaticMeshComponent* _mesh;
