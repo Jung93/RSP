@@ -13,8 +13,8 @@ void ARSP_HpPotion_High::BeginPlay()
 
 void ARSP_HpPotion_High::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Visible);
-
+	Super::OnOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+	
 	//auto character = Cast<ARSP_Player>(OtherActor);
 	//
 	//if (character == nullptr) {
