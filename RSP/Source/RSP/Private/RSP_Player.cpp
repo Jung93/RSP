@@ -42,7 +42,7 @@ ARSP_Player::ARSP_Player()
 	_springArm->bUsePawnControlRotation = true;
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Player"));
-
+	
 	_level = 1;
 
 	static ConstructorHelpers::FClassFinder<URSP_InvenUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_InvenUI.BP_RSP_InvenUI_C'"));
@@ -56,6 +56,7 @@ ARSP_Player::ARSP_Player()
 	if (playerHpBar.Succeeded()) {
 		_playerHpBarWidget = CreateWidget<URSP_PlayerHpBar>(GetWorld(), playerHpBar.Class);
 	}
+
 
 }
 
@@ -146,9 +147,11 @@ void ARSP_Player::BeginPlay()
 	_statComponent->hpChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetHpBarValue);
 	_statComponent->printName.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetOwnerName);
 	_statComponent->levelChanged.Broadcast(_level);
-	_statComponent->printName.Broadcast(GetName());
+	_statComponent->printName.Broadcast(_name);
 
 	_playerHpBarWidget->AddToViewport();
+
+	
 }
 
 void ARSP_Player::PostInitializeComponents()

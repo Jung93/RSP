@@ -54,7 +54,7 @@ void ARSP_Character::BeginPlay()
 		_statComponent->hpChanged.AddUObject(hpBar, &URSP_HpBar::SetHpBarValue);
 		_statComponent->printName.AddUObject(hpBar, &URSP_HpBar::SetOwnerName);
 
-		_statComponent->printName.Broadcast(GetName());
+		_statComponent->printName.Broadcast(_name);
 		_statComponent->levelChanged.Broadcast(_level);
 	}
 }
