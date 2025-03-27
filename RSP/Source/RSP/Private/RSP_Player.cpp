@@ -9,7 +9,7 @@
 #include "UI/RSP_HpBar.h"
 #include "RSP_PlayerController.h"
 #include "UI/RSP_PlayerHpBar.h"
-
+#include "Item/RSP_ItemShop.h"
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -128,7 +128,9 @@ void ARSP_Player::BeginPlay()
 
 	_invenWidget->RSP_ExitButton->OnClicked.AddDynamic(this, &ARSP_Player::Inven_Close);
 	_invenWidget->AddToViewport();
-	_invenWidget->SetVisibility(ESlateVisibility::Collapsed);	_invenComponent->itemAddEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetItemTexture);
+	_invenWidget->SetVisibility(ESlateVisibility::Collapsed);
+
+	_invenComponent->itemAddEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetItemTexture);
 	_invenComponent->itemDropEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetDropTexture);
 
 	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::SendHealValue);
@@ -142,7 +144,9 @@ void ARSP_Player::BeginPlay()
 
 	_statComponent->levelChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetLevelText);
 	_statComponent->hpChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetHpBarValue);
+	_statComponent->printName.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetOwnerName);
 	_statComponent->levelChanged.Broadcast(_level);
+	_statComponent->printName.Broadcast(GetName());
 
 	_playerHpBarWidget->AddToViewport();
 }
@@ -176,6 +180,7 @@ void ARSP_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		enhancedInputComponent->BindAction(_attackAction, ETriggerEvent::Triggered, this, &ARSP_Player::Attack);
 		enhancedInputComponent->BindAction(_jumpAction, ETriggerEvent::Triggered, this, &ARSP_Player::JumpA);
 		enhancedInputComponent->BindAction(_invenOpenAction, ETriggerEvent::Started, this, &ARSP_Player::Inven_Open);
+		enhancedInputComponent->BindAction(_interactionAction, ETriggerEvent::Started, this, &ARSP_Player::Interaction_Item);
 	}
 }
 
@@ -184,7 +189,8 @@ void ARSP_Player::Move(const FInputActionValue& value)
 	//if (_isAttack) { return; }
 
 	FVector2D moveVector = value.Get<FVector2D>();
-	if (Controller != nullptr) {
+	auto controller = Cast<ARSP_PlayerController>(GetController());
+	if (controller != nullptr) {
 		if (moveVector.Length() > 0.01f) {
 			FVector forWard = GetActorForwardVector();
 			FVector right = GetActorRightVector();
@@ -200,7 +206,7 @@ void ARSP_Player::Move(const FInputActionValue& value)
 
 void ARSP_Player::Look(const FInputActionValue& value)
 {
-	if (_isInvenOpen) { return; }
+	//if (_isInvenOpen) { return; }
 	FVector2D lookAxisVector = value.Get<FVector2D>();
 	if (Controller != nullptr) {
 		AddControllerYawInput(lookAxisVector.X);
@@ -222,7 +228,7 @@ void ARSP_Player::JumpA(const FInputActionValue& value)
 
 void ARSP_Player::Attack(const FInputActionValue& value)
 {
-	if (_isAttack)
+	if (_isAttack || _interaction ||_isInvenOpen)
 		return;
 
 	bool isPress = value.Get<bool>();
@@ -242,9 +248,8 @@ void ARSP_Player::Attack(const FInputActionValue& value)
 void ARSP_Player::Inven_Open(const FInputActionValue& value)
 {
 	bool isPressed = value.Get<bool>();
-	if (Controller != nullptr && isPressed) {
-		auto controller = Cast<ARSP_PlayerController>(GetController());
-
+	auto controller = Cast<ARSP_PlayerController>(GetController());
+	if (controller != nullptr && isPressed) {
 		if (_isInvenOpen) {
 			if (controller) {
 				controller->HideUI();
@@ -260,6 +265,67 @@ void ARSP_Player::Inven_Open(const FInputActionValue& value)
 		_isInvenOpen = !_isInvenOpen;
 
 	}
+}
+
+void ARSP_Player::Interaction_Item(const FInputActionValue& value)
+{
+	FVector2D viewportSize;
+	if (GEngine && GEngine->GameViewport)
+	{
+		GEngine->GameViewport->GetViewportSize(viewportSize);
+	}
+
+	bool isPressed = value.Get<bool>();
+	auto controller = Cast<ARSP_PlayerController>(GetController());
+	if (controller != nullptr && isPressed) {
+		auto screenX = viewportSize.X / 2.0f;
+		auto screenY = viewportSize.Y / 2.0f;
+
+		FVector WorldLocation;
+		FVector WorldDirection;
+	
+		if (controller->DeprojectScreenPositionToWorld(screenX, screenY, WorldLocation, WorldDirection)) {
+			FVector Start = WorldLocation;
+			FVector End = Start + (WorldDirection * 1000.0f);
+
+			FHitResult HitResult;
+			FCollisionQueryParams TraceParams(FName(TEXT("RSP_line")), true, this);
+			TraceParams.bTraceComplex = true;
+			TraceParams.bReturnPhysicalMaterial = false;
+
+			bool bHit = GetWorld()->LineTraceSingleByChannel(
+				HitResult,
+				Start,
+				End,
+				ECC_GameTraceChannel6,
+				TraceParams
+			);
+			if (bHit)
+			{
+				AActor* HitActor = HitResult.GetActor();
+				if (HitActor)
+				{
+					auto RSP_itemShop = Cast<ARSP_ItemShop>(HitActor);
+					auto RSP_item = Cast<ARSP_Item>(HitActor);
+					if (RSP_itemShop) {
+						if (RSP_itemShop->bCanInteraction)
+						{
+							RSP_itemShop->bCanInteraction = false;
+							RSP_itemShop->OpenShopUI(this);
+						}
+					}
+					if (RSP_item) {
+						if (RSP_item->bCanInteraction) {							
+							RSP_item->bCanInteraction = false;
+							RSP_item->ActivateItemEffect(this);
+						}
+					}
+				}
+			}
+		}
+
+	}
+	
 }
 
 void ARSP_Player::Inven_Close()

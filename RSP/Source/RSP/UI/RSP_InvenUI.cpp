@@ -5,11 +5,6 @@
 #include "Item/RSP_Item.h"
 #include "UI/RSP_GridSlot.h"
 
-#include "Components/TextBlock.h"
-#include "Components/Image.h"
-#include "Components/Button.h"
-#include "Components/UniformGridPanel.h"
-#include "Components/UniformGridSlot.h"
 
 
 bool URSP_InvenUI::Initialize()

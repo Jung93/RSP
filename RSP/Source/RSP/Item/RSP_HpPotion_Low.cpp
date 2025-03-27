@@ -11,19 +11,19 @@ void ARSP_HpPotion_Low::BeginPlay()
 	SetInfomation(name);
 }
 
-void ARSP_HpPotion_Low::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ARSP_HpPotion_Low::ActivateItemEffect(AActor* actor)
 {
-	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Visible);
+	auto character = Cast<ARSP_Player>(actor);
 
-	//auto character = Cast<ARSP_Player>(OtherActor);
-	//
-	//if (character == nullptr) {
-	//	return;
-	//}
-	//if (character->GetEmptyArraySize() == 0) {
-	//	return;
-	//}
-	//character->AddItem(this);
-	//SetActorHiddenInGame(true);
-	//SetActorEnableCollision(false);
+	if (character == nullptr) {
+		return;
+	}
+	if (character->GetEmptyArraySize() == 0) {
+		return;
+	}
+	character->AddItem(this);
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
 }
+
+

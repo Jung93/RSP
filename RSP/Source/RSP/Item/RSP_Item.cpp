@@ -31,7 +31,7 @@ ARSP_Item::ARSP_Item()
 
 	_shopEnterWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Interaction"));
 	_shopEnterWidget->SetupAttachment(_mesh);
-	_shopEnterWidget->SetWidgetSpace(EWidgetSpace::World);
+	_shopEnterWidget->SetWidgetSpace(EWidgetSpace::Screen);
 
 	static ConstructorHelpers::FClassFinder<URSP_KeyPressEvent> keyPressUI(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_KeyPressEvent.BP_RSP_KeyPressEvent_C'"));
 	if (keyPressUI.Succeeded())
@@ -74,12 +74,19 @@ void ARSP_Item::Tick(float DeltaTime)
 
 void ARSP_Item::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
+	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Visible);
+	bCanInteraction = true;
 }
 
 void ARSP_Item::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Collapsed);
+	bCanInteraction = false;
+}
+
+
+void ARSP_Item::ActivateItemEffect(AActor* actor)
+{
 }
 
 void ARSP_Item::SetInfomation(FString name)

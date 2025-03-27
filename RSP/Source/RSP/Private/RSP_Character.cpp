@@ -52,6 +52,9 @@ void ARSP_Character::BeginPlay()
 	if (hpBar) {
 		_statComponent->levelChanged.AddUObject(hpBar, &URSP_HpBar::SetLevelText);
 		_statComponent->hpChanged.AddUObject(hpBar, &URSP_HpBar::SetHpBarValue);
+		_statComponent->printName.AddUObject(hpBar, &URSP_HpBar::SetOwnerName);
+
+		_statComponent->printName.Broadcast(GetName());
 		_statComponent->levelChanged.Broadcast(_level);
 	}
 }
@@ -101,7 +104,8 @@ void ARSP_Character::AddHp(float amount)
 
 float ARSP_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	_statComponent->AddCurHp(-Damage);
+	auto damage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+	_statComponent->AddCurHp(-damage);
 
 	auto attackerController = Cast<ARSP_PlayerController>(EventInstigator);
 	if (attackerController)
@@ -112,7 +116,7 @@ float ARSP_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, 
 		}
 	}
 	
-	return Damage;
+	return damage;
 }
 
 bool ARSP_Character::IsDead()

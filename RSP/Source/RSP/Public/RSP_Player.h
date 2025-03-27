@@ -41,13 +41,19 @@ public:
 	UFUNCTION()
 	void Inven_Open(const struct FInputActionValue& value);
 	UFUNCTION()
+	void Interaction_Item(const struct FInputActionValue& value);
+
+	UFUNCTION()
 	void Inven_Close();
+
 
 public:
 	//for UI 
 
 	int32 GetEmptyArraySize(); 	
 	void AddItem(class ARSP_Item* item);
+	bool _interaction = false;
+
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
@@ -60,6 +66,8 @@ protected:
 	class UInputAction* _attackAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
 	class UInputAction* _invenOpenAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* _interactionAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* _camera;

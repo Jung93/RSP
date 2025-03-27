@@ -46,12 +46,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UFUNCTION()
-	virtual void OnOverlap(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor,
+	void OnOverlap(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor,
 		class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
 	UFUNCTION()
 	void EndOverlap(class UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	bool bCanInteraction = false;
 	/*
 	* 문제 : 
 	추상클래스이고 자식에서 반드시 재정의해야하는 함수 OnOverlap
@@ -60,8 +61,10 @@ public:
 
 	* 해결 :
 	UFUNCTION을 같은함수에 다시 사용할수없으므로 부모에서 빈함수 구현하고 UFUNCTION 사용
-	자식에서 UFUNCTION을 안붙이고 override로 해결
+	자식에서 UFUNCTION을 안붙이고 override로 해결 -> 함수 용도 변경 ActivateItemEffect로 역할 분담
 	*/
+
+	virtual void ActivateItemEffect(AActor* actor);
 	FRSP_ItemInfo GetInfo() { return _info; }
 protected:
 	
