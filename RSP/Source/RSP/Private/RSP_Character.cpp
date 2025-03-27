@@ -105,7 +105,7 @@ void ARSP_Character::AddHp(float amount)
 float ARSP_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	auto damage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-	_statComponent->AddCurHp(damage);
+	_statComponent->AddCurHp(-damage);
 
 	auto attackerController = Cast<ARSP_PlayerController>(EventInstigator);
 	if (attackerController)

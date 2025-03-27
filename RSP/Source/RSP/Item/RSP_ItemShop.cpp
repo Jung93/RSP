@@ -6,12 +6,15 @@
 #include "Blueprint/UserWidget.h"
 #include "UI/RSP_KeyPressEvent.h"
 #include "UI/RSP_InvenUI.h"
+#include "UI/RSP_StoreUI.h"
 #include "UI/RSP_InvenComponent.h"
+#include "RSP_PlayerController.h"
 
 #include "RSP_GameInstance.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "GameFrameWork/PlayerController.h"
 // Sets default values
 ARSP_ItemShop::ARSP_ItemShop()
 {
@@ -41,9 +44,9 @@ ARSP_ItemShop::ARSP_ItemShop()
 	{
 		_shopEnterWidget->SetWidgetClass(keyPressUI.Class);
 	}
-	static ConstructorHelpers::FClassFinder<URSP_InvenUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_StoreUI.BP_RSP_StoreUI_C'"));
+	static ConstructorHelpers::FClassFinder<URSP_StoreUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_StoreUI.BP_RSP_StoreUI_C'"));
 	if (invenClass.Succeeded()) {
-		_storeInvenWidget = CreateWidget<URSP_InvenUI>(GetWorld(), invenClass.Class);
+		_storeWidget = CreateWidget<URSP_StoreUI>(GetWorld(), invenClass.Class);
 	}
 }
 
@@ -62,9 +65,10 @@ void ARSP_ItemShop::BeginPlay()
 
 	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Collapsed);
 	
-	_storeInvenWidget->AddToViewport();
-	_storeInvenWidget->SetVisibility(ESlateVisibility::Collapsed);
+	_storeWidget->AddToViewport();
+	_storeWidget->SetVisibility(ESlateVisibility::Collapsed);
 
+	_storeWidget->RSP_ExitButton->OnClicked.AddDynamic(this, &ThisClass::CloseShopUI);
 }
 
 // Called every frame
@@ -86,17 +90,38 @@ void ARSP_ItemShop::ColliderBeginOverlapped(UPrimitiveComponent* OverlappedCompo
 {
 	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Visible);
 	bCanInteraction = true;
+	auto player = Cast<ARSP_Player>(OtherActor);
+	if (player) {
+		auto controller = Cast<ARSP_PlayerController>(player->GetController());
+		controller->ShowUI();
+		player->_interaction = true;
+	}
 }
 
 void ARSP_ItemShop::ColliderEndOverlapped(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Collapsed);
 	bCanInteraction = false;
+	auto player = Cast<ARSP_Player>(OtherActor);
+	if (player) {
+		auto controller = Cast<ARSP_PlayerController>(player->GetController());
+		controller->HideUI();
+		player->_interaction = false;
+		
+	}
+	_storeWidget->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 void ARSP_ItemShop::OpenShopUI(AActor* actor)
 {
-	_storeInvenWidget->SetVisibility(ESlateVisibility::Visible);
+	_storeWidget->SetVisibility(ESlateVisibility::Visible);	
+	bCanInteraction = false;
+	//플레이어에게 추가효과 넣기 가능
+}
 
+void ARSP_ItemShop::CloseShopUI()
+{
+	_storeWidget->SetVisibility(ESlateVisibility::Collapsed);
+	bCanInteraction = true;
 }
 

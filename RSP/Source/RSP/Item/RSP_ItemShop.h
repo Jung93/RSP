@@ -33,6 +33,8 @@ public:
 	bool bCanInteraction = false;
 
 	void OpenShopUI(class AActor* actor);
+	UFUNCTION()
+	void CloseShopUI();
 protected:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	class UStaticMeshComponent* _mesh;
@@ -46,5 +48,8 @@ protected:
 	class UTexture2D* _keyTexture;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
-	class URSP_InvenUI* _storeInvenWidget;
+	class URSP_StoreUI* _storeWidget;
+
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
+	//class URSP_InvenComponent* _invenComponent;
 };

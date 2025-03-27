@@ -228,7 +228,7 @@ void ARSP_Player::JumpA(const FInputActionValue& value)
 
 void ARSP_Player::Attack(const FInputActionValue& value)
 {
-	if (_isAttack)
+	if (_isAttack || _interaction ||_isInvenOpen)
 		return;
 
 	bool isPress = value.Get<bool>();
@@ -269,9 +269,6 @@ void ARSP_Player::Inven_Open(const FInputActionValue& value)
 
 void ARSP_Player::Interaction_Item(const FInputActionValue& value)
 {
-	if (_interaction) {
-		return;
-	}
 	FVector2D viewportSize;
 	if (GEngine && GEngine->GameViewport)
 	{

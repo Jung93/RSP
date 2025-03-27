@@ -22,14 +22,20 @@ void ARSP_PlayerController::ShowUI()
 {
 	bShowMouseCursor = true;
 
-	PlayerCameraManager->ViewPitchMin = -10.0f;
-	PlayerCameraManager->ViewPitchMax = 10.0f;
+	//PlayerCameraManager->ViewPitchMin = -10.0f;
+	//PlayerCameraManager->ViewPitchMax = 10.0f;
+
+	//PlayerCameraManager->ViewYawMin = -90.0f;
+	//PlayerCameraManager->ViewYawMax = 90.0f;
 }
 
 void ARSP_PlayerController::HideUI()
 {
 	bShowMouseCursor = false;
 
-	PlayerCameraManager->ViewPitchMin = -30.0f;
-	PlayerCameraManager->ViewPitchMax = 30.0f;
+	//PlayerCameraManager->ViewPitchMin = -30.0f;
+	//PlayerCameraManager->ViewPitchMax = 30.0f;
+
+	//PlayerCameraManager->ViewYawMin = -359.0f;
+	//PlayerCameraManager->ViewYawMax = 359.0f;
 }

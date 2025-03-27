@@ -4,6 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/TextBlock.h"
+#include "Components/Image.h"
+#include "Components/Button.h"
+#include "Components/UniformGridPanel.h"
+#include "Components/UniformGridSlot.h"
 #include "RSP_InvenUI.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FHpPotionUsed, int32);

@@ -52,6 +52,8 @@ public:
 
 	int32 GetEmptyArraySize(); 	
 	void AddItem(class ARSP_Item* item);
+	bool _interaction = false;
+
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
@@ -78,7 +80,6 @@ protected:
 	class URSP_InvenComponent* _invenComponent;
 
 	bool _isInvenOpen = false;
-	bool _interaction = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "PlayerHpBar", meta = (AllowPrivateAccess = "true"))
 	class URSP_PlayerHpBar* _playerHpBarWidget;
