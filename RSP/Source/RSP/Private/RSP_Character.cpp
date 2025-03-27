@@ -91,7 +91,7 @@ void ARSP_Character::DeadEvent()
 {
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
-	//Controller->UnPossess();
+	Controller->UnPossess();
 }
 
 void ARSP_Character::AddHp(float amount)

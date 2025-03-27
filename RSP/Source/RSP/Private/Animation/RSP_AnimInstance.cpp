@@ -28,6 +28,7 @@ void URSP_AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		_vertical = character->Vertical();
 		_horizontal = character->Horizontal();		
 		_isDead = character->IsDead();
+		_isAttacking = character->IsAttacking();
 	}
 }
 

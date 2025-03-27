@@ -25,8 +25,15 @@ bool UBT_RSP_Decorator_IsAttackable::CalculateRawConditionValue(UBehaviorTreeCom
 	if (player->IsValidLowLevel())
 	{
 		float distance = player->GetDistanceTo(curPawn);
+		UE_LOG(LogTemp, Error, TEXT("Attackrange : %f, Distance : %f"), curPawn->GetAttackRange(), distance)
 		if (distance < curPawn->GetAttackRange())
 			return true;
+
+
+
+
+
+
 	}
 	else if (companion->IsValidLowLevel())
 	{

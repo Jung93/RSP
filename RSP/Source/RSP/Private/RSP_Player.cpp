@@ -181,7 +181,7 @@ void ARSP_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void ARSP_Player::Move(const FInputActionValue& value)
 {
-	if (_isAttack) { return; }
+	//if (_isAttack) { return; }
 
 	FVector2D moveVector = value.Get<FVector2D>();
 	if (Controller != nullptr) {
@@ -210,7 +210,7 @@ void ARSP_Player::Look(const FInputActionValue& value)
 
 void ARSP_Player::JumpA(const FInputActionValue& value)
 {
-	if (_isAttack) return;
+	//if (_isAttack) return;
 
 	bool isPress = value.Get<bool>();
 
