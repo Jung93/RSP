@@ -261,7 +261,7 @@ void ARSP_Player::Inven_Open(const FInputActionValue& value)
 		}
 		else {
 			if (controller) {
-				controller->ShowUI();
+				controller->ShowUI(_invenWidget);
 			}
 			_invenWidget->SetVisibility(ESlateVisibility::Visible);
 		}
