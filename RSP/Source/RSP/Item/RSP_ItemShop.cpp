@@ -40,7 +40,7 @@ ARSP_ItemShop::ARSP_ItemShop()
 	_shopEnterWidget->SetupAttachment(_mesh);
 	_shopEnterWidget->SetWidgetSpace(EWidgetSpace::Screen);
 
-	//_storeComponent = CreateDefaultSubobject<URSP_StoreComponent>(TEXT("StoreComponent"));
+	_storeComponent = CreateDefaultSubobject<URSP_StoreComponent>(TEXT("StoreComponent"));
 
 	static ConstructorHelpers::FClassFinder<URSP_KeyPressEvent> keyPressUI(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_KeyPressEvent.BP_RSP_KeyPressEvent_C'"));
 	if (keyPressUI.Succeeded())
@@ -95,8 +95,7 @@ void ARSP_ItemShop::ColliderBeginOverlapped(UPrimitiveComponent* OverlappedCompo
 	bCanInteraction = true;
 	auto player = Cast<ARSP_Player>(OtherActor);
 	if (player) {
-		auto controller = Cast<ARSP_PlayerController>(player->GetController());
-		controller->ShowUI();
+		
 		player->_interaction = true;
 	}
 }
@@ -107,8 +106,7 @@ void ARSP_ItemShop::ColliderEndOverlapped(UPrimitiveComponent* OverlappedCompone
 	bCanInteraction = false;
 	auto player = Cast<ARSP_Player>(OtherActor);
 	if (player) {
-		auto controller = Cast<ARSP_PlayerController>(player->GetController());
-		controller->HideUI();
+	
 		player->_interaction = false;
 		
 	}
@@ -117,15 +115,24 @@ void ARSP_ItemShop::ColliderEndOverlapped(UPrimitiveComponent* OverlappedCompone
 
 void ARSP_ItemShop::OpenShopUI(AActor* actor)
 {
-	_storeWidget->SetVisibility(ESlateVisibility::Visible);	
+	_storeWidget->SetVisibility(ESlateVisibility::Visible);
 	bCanInteraction = false;
-	
-	//auto player = Cast<ARSP_Player>(actor);
+
+	auto player = Cast<ARSP_Player>(actor);
+	if (player) {
+		auto controller = Cast<ARSP_PlayerController>(player->GetController());
+		controller->ShowUI(_storeWidget);
+	}
 }
 
 void ARSP_ItemShop::CloseShopUI()
 {
 	_storeWidget->SetVisibility(ESlateVisibility::Collapsed);
 	bCanInteraction = true;
+	ARSP_PlayerController* playerController = Cast<ARSP_PlayerController>(GetWorld()->GetFirstPlayerController());
+	
+	if (playerController) {
+		playerController->HideUI();
+	}
 }
 

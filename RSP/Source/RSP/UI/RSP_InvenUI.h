@@ -68,4 +68,6 @@ protected:
 	UPROPERTY()
 	class UTexture2D* _exitTexture;
 
+	//int32 _curSlotSize = 15;
+	//int32 _maxSlotSize = 18;
 };

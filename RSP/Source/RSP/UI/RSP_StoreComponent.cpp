@@ -9,8 +9,10 @@ URSP_StoreComponent::URSP_StoreComponent()
 
 void URSP_StoreComponent::BeginPlay()
 {
+	Super::BeginPlay();
 }
 
 void URSP_StoreComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }

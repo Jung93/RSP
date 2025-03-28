@@ -50,6 +50,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
 	class URSP_StoreUI* _storeWidget;
 
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
-	//class URSP_StoreComponent* _storeComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
+	class URSP_StoreComponent* _storeComponent;
 };

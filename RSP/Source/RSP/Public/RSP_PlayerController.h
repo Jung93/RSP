@@ -15,7 +15,7 @@ class RSP_API ARSP_PlayerController : public APlayerController
 	GENERATED_BODY()
 public:
 	virtual void BeginPlay() override;
-	void ShowUI();
+	void ShowUI(class UUserWidget* userWidget);
 	void HideUI();
 
 private:
