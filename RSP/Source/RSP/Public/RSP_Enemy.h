@@ -19,7 +19,7 @@ public:
 
 	virtual void Attack_Hit() override;
 
-	void Attack();
+	virtual void Attack();
 
 	int32 GetExp() { return _statComponent->GetDropExp(); }
 	int32 GetGold() { return _statComponent->GetDropGold(); }
