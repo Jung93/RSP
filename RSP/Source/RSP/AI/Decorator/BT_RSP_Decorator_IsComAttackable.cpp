@@ -22,18 +22,7 @@ bool UBT_RSP_Decorator_IsComAttackable::CalculateRawConditionValue(UBehaviorTree
 		return false;
 
 	float distance = enemy->GetDistanceTo(curPawn);
-	static float LastValidTime = 0.0f;
 
-	if (distance < curPawn->GetAttackRange())
-	{
-		LastValidTime = GetWorld()->GetTimeSeconds();
-		return true;
-	}
+	return distance <= curPawn->GetAttackRange();
 
-	if (GetWorld()->GetTimeSeconds() - LastValidTime < 1.0f)
-	{
-		return true;
-	}
-
-	return false;
 }

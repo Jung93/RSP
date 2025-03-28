@@ -61,6 +61,9 @@ void UBT_RSP_Service_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 				return;
 			}
 		}
+
+		OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Enemy")), nullptr);
+		return;
 	}
 
 }
