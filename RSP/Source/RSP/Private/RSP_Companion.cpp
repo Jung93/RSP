@@ -5,7 +5,8 @@
 #include "RSP_Enemy.h"
 #include "RSP_StatComponent.h"
 
-
+#include "UI/RSP_HpBar.h"
+#include "Components/WidgetComponent.h"
 
 #include "Components/CapsuleComponent.h"
 #include "Animation/RSP_AnimInstance.h"
@@ -27,7 +28,13 @@ void ARSP_Companion::BeginPlay()
 
 	_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Companion::Attack_Hit);
+	auto widget = _hpBarWidget->GetWidget();
+	auto hpBar = Cast<URSP_HpBar>(widget);
+	if (hpBar) {
+		_statComponent->printName.AddUObject(hpBar, &URSP_HpBar::SetOwnerName);
 
+		_statComponent->printName.Broadcast(GetName());
+	}
 }
 
 void ARSP_Companion::Tick(float DeltaTime)

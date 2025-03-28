@@ -49,6 +49,7 @@ public:
 	float Horizontal() { return _horizontal; }
 
 	const int16& GetLevel() { return _level; }
+	FString GetMyName() { return _name; }
 protected:
 	UPROPERTY()
 	class URSP_AnimInstance* _animInstance;
@@ -78,4 +79,6 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	class UWidgetComponent* _hpBarWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "Name", meta = (AllowPrivateAccess = "true"))
+	FString _name;
 };

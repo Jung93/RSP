@@ -8,6 +8,7 @@
 #include "UI/RSP_InvenUI.h"
 #include "UI/RSP_StoreUI.h"
 #include "UI/RSP_InvenComponent.h"
+#include "UI/RSP_StoreComponent.h"
 #include "RSP_PlayerController.h"
 
 #include "RSP_GameInstance.h"
@@ -38,6 +39,8 @@ ARSP_ItemShop::ARSP_ItemShop()
 	_shopEnterWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Interaction"));
 	_shopEnterWidget->SetupAttachment(_mesh);
 	_shopEnterWidget->SetWidgetSpace(EWidgetSpace::Screen);
+
+	//_storeComponent = CreateDefaultSubobject<URSP_StoreComponent>(TEXT("StoreComponent"));
 
 	static ConstructorHelpers::FClassFinder<URSP_KeyPressEvent> keyPressUI(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_KeyPressEvent.BP_RSP_KeyPressEvent_C'"));
 	if (keyPressUI.Succeeded())
@@ -116,7 +119,8 @@ void ARSP_ItemShop::OpenShopUI(AActor* actor)
 {
 	_storeWidget->SetVisibility(ESlateVisibility::Visible);	
 	bCanInteraction = false;
-	//플레이어에게 추가효과 넣기 가능
+	
+	//auto player = Cast<ARSP_Player>(actor);
 }
 
 void ARSP_ItemShop::CloseShopUI()

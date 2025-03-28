@@ -38,6 +38,8 @@ public:
 	ARSP_Item* DropItem(ARSP_Item* item , int32 index);
 	void UseInventoryItem(int32 index);
 
+	TArray<ARSP_Item*> GetItemArray() { return _items; }
+
 	FItemAdd itemAddEvent;
 	FItemDrop itemDropEvent;
 protected:
