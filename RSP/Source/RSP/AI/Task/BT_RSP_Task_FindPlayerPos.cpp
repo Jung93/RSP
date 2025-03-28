@@ -29,11 +29,23 @@ EBTNodeResult::Type UBT_RSP_Task_FindPlayerPos::ExecuteTask(UBehaviorTreeCompone
 
 	FVector playerLocation = player->GetActorLocation();
 
+	float stopDistance = 400.0f;
+	FVector targetLocation = FVector(
+		playerLocation.X + FMath::RandRange(-200.0f, 200.0f),
+		playerLocation.Y + FMath::RandRange(-200.0f, 200.0f),
+		playerLocation.Z
+	);
 
+	float DistanceSquared = FVector::DistSquared(pos, playerLocation);
 
-	OwnerComp.GetBlackboardComponent()->SetValueAsVector(FName(TEXT("RandomPos")), playerLocation * 1.2f);
+	if (DistanceSquared > FMath::Square(stopDistance))
+	{
+		OwnerComp.GetBlackboardComponent()->SetValueAsVector(FName(TEXT("RandomPos")), targetLocation);
+		return EBTNodeResult::Type::Succeeded;
+	}
+	else
+	{
+		return EBTNodeResult::Type::Failed; 
+	}
 
-	return EBTNodeResult::Type::Succeeded;
-
-	//return EBTNodeResult::Type::Failed;
 }
