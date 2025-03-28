@@ -47,7 +47,7 @@ ARSP_ItemShop::ARSP_ItemShop()
 	{
 		_shopEnterWidget->SetWidgetClass(keyPressUI.Class);
 	}
-	static ConstructorHelpers::FClassFinder<URSP_StoreUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_StoreUI.BP_RSP_StoreUI_C'"));
+	static ConstructorHelpers::FClassFinder<URSP_StoreUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_StoreUI.BP_StoreUI_C'"));
 	if (invenClass.Succeeded()) {
 		_storeWidget = CreateWidget<URSP_StoreUI>(GetWorld(), invenClass.Class);
 	}

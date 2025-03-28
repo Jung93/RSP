@@ -46,8 +46,6 @@ public:
 	class UImage* RSP_GoldImage;
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UImage* RSP_ExitButtonImage;
-	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* RSP_ItemText;
 	
 	FGainGold gainGold;
 	FHpPotionUsed hpPotionUsed;
