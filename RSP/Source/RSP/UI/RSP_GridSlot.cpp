@@ -31,7 +31,7 @@ bool URSP_GridSlot::Initialize()
 	curIndex = number;
 
 	FString text = FString::Printf(TEXT("Current Index  :  %d ") , curIndex);
-	SetToolTipText(FText::FromString(text));
+	SetItemToolTip(text);
 	
 	auto border = Cast<UBorder>(itemCountText->GetParent());
 	auto alpha = border->GetBrushColor();
@@ -39,6 +39,11 @@ bool URSP_GridSlot::Initialize()
 	border->SetBrushColor(alpha);
 
 	return result;
+}
+
+void URSP_GridSlot::SetItemToolTip(FString str)
+{	
+	SetToolTipText(FText::FromString(str));
 }
 
 void URSP_GridSlot::SetTexture(UTexture2D* texture)
@@ -55,8 +60,9 @@ UTexture2D* URSP_GridSlot::GetTexture()
 
 FReply URSP_GridSlot::NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-	HandleDoubleClick();
-
+	if (!bStoreMode) {
+		HandleDoubleClick();		
+	}
 	return FReply::Handled();
 }
 
@@ -71,6 +77,9 @@ void URSP_GridSlot::HandleDoubleClick()
 
 void URSP_GridSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
+	if (bStoreMode) {
+		return;
+	}
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 	FVector2d scale = FVector2D(1, 1);
 	FVector2D newScale = scale * 1.2f;
@@ -80,6 +89,9 @@ void URSP_GridSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoint
 
 void URSP_GridSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
+	if (bStoreMode) {
+		return;
+	}
 	Super::NativeOnMouseLeave(InMouseEvent);
 	FVector2d scale = FVector2D(1, 1);
 

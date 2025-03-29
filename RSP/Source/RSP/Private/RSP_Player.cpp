@@ -151,6 +151,7 @@ void ARSP_Player::BeginPlay()
 
 	_playerHpBarWidget->AddToViewport();
 
+	_statComponent->InitialSetting();
 	
 }
 

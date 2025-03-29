@@ -42,14 +42,14 @@ ARSP_ItemShop::ARSP_ItemShop()
 
 	_storeComponent = CreateDefaultSubobject<URSP_StoreComponent>(TEXT("StoreComponent"));
 
+	static ConstructorHelpers::FClassFinder<URSP_StoreUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_StoreUI.BP_StoreUI_C'"));
+	if (invenClass.Succeeded()) {
+		storeUIClass = invenClass.Class;
+	}
 	static ConstructorHelpers::FClassFinder<URSP_KeyPressEvent> keyPressUI(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_KeyPressEvent.BP_RSP_KeyPressEvent_C'"));
 	if (keyPressUI.Succeeded())
 	{
 		_shopEnterWidget->SetWidgetClass(keyPressUI.Class);
-	}
-	static ConstructorHelpers::FClassFinder<URSP_StoreUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_StoreUI.BP_StoreUI_C'"));
-	if (invenClass.Succeeded()) {
-		_storeWidget = CreateWidget<URSP_StoreUI>(GetWorld(), invenClass.Class);
 	}
 }
 
@@ -57,6 +57,7 @@ ARSP_ItemShop::ARSP_ItemShop()
 void ARSP_ItemShop::BeginPlay()
 {
 	Super::BeginPlay();
+
 	_itemCollider->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::ColliderBeginOverlapped);
 	_itemCollider->OnComponentEndOverlap.AddDynamic(this, &ThisClass::ColliderEndOverlapped);
 	
@@ -67,7 +68,8 @@ void ARSP_ItemShop::BeginPlay()
 	keyPressWidget->SetTexture(_keyTexture);
 
 	_shopEnterWidget->GetWidget()->SetVisibility(ESlateVisibility::Collapsed);
-	
+
+	_storeWidget = CreateWidget<URSP_StoreUI>(GetWorld(), storeUIClass);
 	_storeWidget->AddToViewport();
 	_storeWidget->SetVisibility(ESlateVisibility::Collapsed);
 
@@ -115,6 +117,7 @@ void ARSP_ItemShop::ColliderEndOverlapped(UPrimitiveComponent* OverlappedCompone
 
 void ARSP_ItemShop::OpenShopUI(AActor* actor)
 {
+	_storeWidget->UpdateShopItems_Sell(actor);
 	_storeWidget->SetVisibility(ESlateVisibility::Visible);
 	bCanInteraction = false;
 

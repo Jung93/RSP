@@ -2,9 +2,6 @@
 
 
 #include "UI/RSP_InvenUI.h"
-#include "Item/RSP_Item.h"
-#include "UI/RSP_GridSlot.h"
-
 
 
 bool URSP_InvenUI::Initialize()
@@ -29,12 +26,12 @@ void URSP_InvenUI::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	auto array = RSP_Grid->GetAllChildren();
+	auto array = RSP_InvenGrid->GetAllChildren();
 	for (auto& widget : array) {
 		auto slot = Cast<URSP_GridSlot>(widget);
 		if (slot) {
 			slot->SetTexture(_defaultTexture);
-			_slots.Add(slot);
+			_invenSlots.Add(slot);
 		}		
 	}	
 
@@ -49,18 +46,18 @@ void URSP_InvenUI::NativeConstruct()
 
 void URSP_InvenUI::SetItemTexture(int32 index, FRSP_ItemInfo info)
 {
-	_slots[index]->SetToolTipText(FText::FromString(info.itemToolTip));
-	_slots[index]->SetItemInfo(info);
+	_invenSlots[index]->SetToolTipText(FText::FromString(info.itemToolTip));
+	_invenSlots[index]->SetItemInfo(info);
 	switch (info.itemId)
 	{
 	case 0:
-		_slots[index]->SetTexture(_exitTexture);
+		_invenSlots[index]->SetTexture(_exitTexture);
 		break;
 	case 1:
-		_slots[index]->SetTexture(_hpPotionTexture_High);
+		_invenSlots[index]->SetTexture(_hpPotionTexture_High);
 		break;
 	case 2:
-		_slots[index]->SetTexture(_hpPotionTexture_Low);
+		_invenSlots[index]->SetTexture(_hpPotionTexture_Low);
 		break;
 	default:
 		break;
@@ -69,13 +66,16 @@ void URSP_InvenUI::SetItemTexture(int32 index, FRSP_ItemInfo info)
 
 void URSP_InvenUI::SetDropTexture(int32 index)
 {
-	_slots[index]->SetTexture(_defaultTexture);
+	_invenSlots[index]->SetTexture(_defaultTexture);
 
 }
 
 void URSP_InvenUI::UseInventoryItem(int32 index)
 {
-	_slots[index]->SetTexture(_defaultTexture);
+	_invenSlots[index]->SetTexture(_defaultTexture);
+
+	FString text = FString::Printf(TEXT("Current Index  :  %d "), index);
+	_invenSlots[index]->SetItemToolTip(text);
 }
 
 void URSP_InvenUI::AddGold(int32 amount)
@@ -86,6 +86,6 @@ void URSP_InvenUI::AddGold(int32 amount)
 
 void URSP_InvenUI::SendHealValue(int32 index)
 {
-	auto healvalue = _slots[index]->GetItemInfo().itemStat;
+	auto healvalue = _invenSlots[index]->GetItemInfo().itemStat;
 	healValue.Broadcast(healvalue);
 }

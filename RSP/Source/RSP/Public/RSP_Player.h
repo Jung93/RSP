@@ -49,6 +49,7 @@ public:
 
 public:
 	//for UI 
+	class URSP_InvenUI* GetInvenUI() { return _invenWidget; }
 
 	int32 GetEmptyArraySize(); 	
 	void AddItem(class ARSP_Item* item);

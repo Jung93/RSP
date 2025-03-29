@@ -20,11 +20,11 @@ struct FRSP_ItemInfo : public FTableRowBase {
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString itemName = TEXT("Void");
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 itemPrice;
+	int32 itemPrice = -1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString itemToolTip;
+	FString itemToolTip = "";
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 itemStat = 0;
+	int32 itemStat = -1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 itemMaxCount = 9;	
 };

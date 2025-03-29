@@ -57,6 +57,7 @@ public:
 	void AddCurHp(int32 amount);
 	void AddExp(int32 value);
 	void AddGold(int32 value);
+	void InitialSetting();
 
 	FLevelChanged levelChanged;
 	FHpChanged hpChanged;

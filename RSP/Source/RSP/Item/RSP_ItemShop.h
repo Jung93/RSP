@@ -35,6 +35,10 @@ public:
 	void OpenShopUI(class AActor* actor);
 	UFUNCTION()
 	void CloseShopUI();
+
+protected:
+	//플레이어를 참조해서 아이템 바이버튼 누르면 돈나가게해야함
+	
 protected:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	class UStaticMeshComponent* _mesh;
@@ -46,6 +50,9 @@ protected:
 	class UWidgetComponent* _shopEnterWidget;
 	UPROPERTY()
 	class UTexture2D* _keyTexture;
+
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UUserWidget> storeUIClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
 	class URSP_StoreUI* _storeWidget;
