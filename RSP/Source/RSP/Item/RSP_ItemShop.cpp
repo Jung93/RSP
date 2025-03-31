@@ -14,6 +14,7 @@
 
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Blueprint/WidgetTree.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFrameWork/PlayerController.h"
 // Sets default values
@@ -171,9 +172,10 @@ void ARSP_ItemShop::MoveItem_StoreToInven()
 	}
 	_storeWidget->AddGold(-totalItemPrice);
 
-	auto slots = _storeWidget->GetStoreSlots();
+	auto storeSlots = _storeWidget->GetStoreSlots();
+	auto invenSlots = _storeWidget->GetInvenSlots();
 
-	for (auto& slot : slots) {
+	for (auto& slot : storeSlots) {
 		if (slot->bIsChosen) {
 			FRSP_ItemInfo itemInfo = slot->GetItemInfo();
 			int32 slotIndex = slot->curIndex;
@@ -188,8 +190,17 @@ void ARSP_ItemShop::MoveItem_StoreToInven()
 			text->SetText(FText::FromString("Sold Out"));
 			slot->HighLightAction();
 			_storeWidget->SetItemTexture_Buy(slotIndex, FRSP_ItemInfo());
+			_storeWidget->SetSoldOutTexture(slotIndex);
+
+			//3.상점의 유저인벤토리 처리하기
+			//슬롯인덱스 밀리는거 처리해야함 Todo
+			auto thisInvenSlot = invenSlots[slotIndex];
+			UTextBlock* inventext = Cast<UTextBlock>(thisInvenSlot->GetParent()->GetChildAt(1));
+			inventext->SetText(FText::FromString(itemInfo.itemToolTip));
+
 		}
 	}
+	
 }
 
 void ARSP_ItemShop::MoveItem_InvenToStore()

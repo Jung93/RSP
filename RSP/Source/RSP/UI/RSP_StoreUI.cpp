@@ -3,7 +3,7 @@
 
 #include "UI/RSP_StoreUI.h"
 #include "RSP_Player.h"
-
+#include "RSP_GameInstance.h"
 #include "RSP_PlayerController.h"
 
 #include "Blueprint/WidgetTree.h"
@@ -84,7 +84,7 @@ void URSP_StoreUI::UpdateShopItems_Sell(AActor* actor)
 			invenSlot->bStoreMode = true;
 
 			_invenSlots[i] = invenSlot;
-
+			//Todo
 		}
 	}
 	
@@ -108,7 +108,7 @@ void URSP_StoreUI::SetItemTexture_Buy(int32 index, FRSP_ItemInfo info)
 	switch (info.itemId)
 	{
 	case 0:
-		_storeSlots[index]->SetTexture(_exitTexture);
+		_storeSlots[index]->SetTexture(_defaultTexture);
 		break;
 	case 1:
 		_storeSlots[index]->SetTexture(_hpPotionTexture_High);
@@ -119,6 +119,11 @@ void URSP_StoreUI::SetItemTexture_Buy(int32 index, FRSP_ItemInfo info)
 	default:
 		break;
 	}
+}
+
+void URSP_StoreUI::SetSoldOutTexture(int32 index)
+{
+	_storeSlots[index]->SetTexture(_exitTexture);
 }
 
 

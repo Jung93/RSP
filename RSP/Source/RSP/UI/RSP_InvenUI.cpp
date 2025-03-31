@@ -48,7 +48,7 @@ void URSP_InvenUI::SetItemTexture(int32 index, FRSP_ItemInfo info)
 	switch (info.itemId)
 	{
 	case 0:
-		_invenSlots[index]->SetTexture(_exitTexture);
+		_invenSlots[index]->SetTexture(_defaultTexture);
 		break;
 	case 1:
 		_invenSlots[index]->SetTexture(_hpPotionTexture_High);
