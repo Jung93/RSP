@@ -19,7 +19,7 @@ public:
 
 public:
 	void UpdateShopItems_Sell(AActor* actor);
-	void UpdateInvenItems(AActor* actor);
+	void UpdateInvenItems();
 	void SetItemTexture_Buy(int32 index, struct FRSP_ItemInfo info);
 
 	int32 GetCurGold() { return _playerGold; }

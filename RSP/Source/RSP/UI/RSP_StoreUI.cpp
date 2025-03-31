@@ -2,11 +2,14 @@
 
 
 #include "UI/RSP_StoreUI.h"
-#include "RSP_GameInstance.h"
+#include "RSP_Player.h"
+
+#include "RSP_PlayerController.h"
 
 #include "Blueprint/WidgetTree.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
+
 bool URSP_StoreUI::Initialize()
 {
 	auto result = Super::Initialize();
@@ -87,34 +90,37 @@ void URSP_StoreUI::UpdateShopItems_Sell(AActor* actor)
 	
 }
 
-void URSP_StoreUI::UpdateInvenItems(AActor* actor)
+void URSP_StoreUI::UpdateInvenItems()
 {
-	UVerticalBox* v_box = Cast<UVerticalBox>(RSP_InvenGrid->GetChildAt(0));
-	auto array = v_box->GetAllChildren();
-	int32 arrayNum = array.Num();
-
-	for (int32 i = 0; i < arrayNum; i++) {
-		FString WidgetName = FString::Printf(TEXT("InvenSlot_%d"), i);
-		URSP_GridSlot* invenSlot = WidgetTree->FindWidget<URSP_GridSlot>(*WidgetName);
-		_invenSlots.Add(invenSlot);
-
-		auto player = Cast<ARSP_Player>(actor);
-		if (player) {
-			auto playerInven = player->GetInvenUI();
-			auto playerInvenItemInfo = playerInven->GetGridSlotItemInfo(i);
-
-			UTextBlock* text = Cast<UTextBlock>(invenSlot->GetParent()->GetChildAt(1));
-			auto thisItemToolTip = playerInvenItemInfo.itemToolTip;
-
-			SetItemTexture(i, playerInvenItemInfo);
-			invenSlot->SetItemInfo(playerInvenItemInfo);
-			text->SetText(FText::FromString(thisItemToolTip));
-			invenSlot->bStoreMode = true;
-
-			_invenSlots[i] = invenSlot;
-
-		}
-	}
+	auto playerController = Cast<ARSP_PlayerController>(GetWorld()->GetFirstPlayerController());
+	auto plyer = Cast<ARSP_Player>(playerController->GetPawn());
+	//
+	//for (auto& slot : _invenSlots) {
+	//	 SetItemTexture(slot->curIndex,slot->GetItemInfo())
+	//}
+	//
+	//for (int32 i = 0; i < arrayNum; i++) {
+	//	FString WidgetName = FString::Printf(TEXT("InvenSlot_%d"), i);
+	//	URSP_GridSlot* invenSlot = WidgetTree->FindWidget<URSP_GridSlot>(*WidgetName);
+	//	_invenSlots.Add(invenSlot);
+	//
+	//	auto player = Cast<ARSP_Player>(actor);
+	//	if (player) {
+	//		auto playerInven = player->GetInvenUI();
+	//		auto playerInvenItemInfo = playerInven->GetGridSlotItemInfo(i);
+	//
+	//		UTextBlock* text = Cast<UTextBlock>(invenSlot->GetParent()->GetChildAt(1));
+	//		auto thisItemToolTip = playerInvenItemInfo.itemToolTip;
+	//
+	//		SetItemTexture(i, playerInvenItemInfo);
+	//		invenSlot->SetItemInfo(playerInvenItemInfo);
+	//		text->SetText(FText::FromString(thisItemToolTip));
+	//		invenSlot->bStoreMode = true;
+	//
+	//		_invenSlots[i] = invenSlot;
+	//
+	//	}
+	//}
 }
 
 void URSP_StoreUI::SetItemTexture_Buy(int32 index, FRSP_ItemInfo info)
