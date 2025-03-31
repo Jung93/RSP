@@ -151,6 +151,7 @@ void ARSP_Player::BeginPlay()
 
 	_playerHpBarWidget->AddToViewport();
 
+	_statComponent->InitialSetting();
 	
 }
 
@@ -344,6 +345,7 @@ void ARSP_Player::Inven_Close()
 	}
 }
 
+
 int32 ARSP_Player::GetEmptyArraySize()
 {
 	return _invenComponent->GetEmptyArraySize();
@@ -353,4 +355,20 @@ int32 ARSP_Player::GetEmptyArraySize()
 void ARSP_Player::AddItem(ARSP_Item* item)
 {
 	_invenComponent->AddItem(item);
+}
+
+TArray<class ARSP_Item*> ARSP_Player::GetItemArray_Inven()
+{
+	return _invenComponent->GetItemArray_Inven();
+}
+
+void ARSP_Player::SetItemArray_Inven(const TArray<class ARSP_Item*>& items)
+{
+	_invenComponent->SetItemArray_Inven(items);
+}
+
+void ARSP_Player::SetCurGold(int32 value)
+{
+	_invenWidget->SetGold(value);	
+	_statComponent->SetCurGold(value);
 }

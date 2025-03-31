@@ -35,6 +35,12 @@ public:
 	void OpenShopUI(class AActor* actor);
 	UFUNCTION()
 	void CloseShopUI();
+
+protected:
+	UFUNCTION()
+	void MoveItem_StoreToInven(); //버튼전용
+	UFUNCTION()
+	void MoveItem_InvenToStore(); 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	class UStaticMeshComponent* _mesh;
@@ -47,9 +53,13 @@ protected:
 	UPROPERTY()
 	class UTexture2D* _keyTexture;
 
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UUserWidget> storeUIClass;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
 	class URSP_StoreUI* _storeWidget;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
-	class URSP_StoreComponent* _storeComponent;
+	class URSP_InvenComponent* _storeComponent;
+
 };

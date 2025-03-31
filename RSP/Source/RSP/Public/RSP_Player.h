@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "RSP_Character.h"
+#include "RSP_StatComponent.h"
 #include "RSP_Player.generated.h"
 
 
@@ -49,11 +50,18 @@ public:
 
 public:
 	//for UI 
+	class URSP_InvenUI* GetInvenUI() { return _invenWidget; }
 
+	int32 GetCurGold() { return _statComponent->GetCurGold(); }
+	void SetCurGold(int32 value);
 	int32 GetEmptyArraySize(); 	
 	void AddItem(class ARSP_Item* item);
+
 	bool _interaction = false;
 
+	void SetInvenOpen(bool bIsOpen){_isInvenOpen = bIsOpen;}
+	TArray<class ARSP_Item*> GetItemArray_Inven();
+	void SetItemArray_Inven(const TArray<class ARSP_Item*>& items);
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))

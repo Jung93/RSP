@@ -32,7 +32,7 @@ void URSP_StatComponent::BeginPlay()
 	_levelUpExp = statInfo.levelUpExp;
 	_dropExp = statInfo.dropExp;
 	_curExp = 0;
-	_curGold = 0;
+	_curGold = 500;
 
 	
 }
@@ -126,6 +126,14 @@ void URSP_StatComponent::AddGold(int32 value)
 	if (player) {
 		_curGold += value;
 		UE_LOG(LogTemp, Error, TEXT("Gold : %d"), _curGold);
+		player->AdjustGoldEvent(_curGold);
+	}
+}
+
+void URSP_StatComponent::InitialSetting()
+{
+	auto player = Cast<ARSP_Player>(GetOwner());
+	if (player) {
 		player->AdjustGoldEvent(_curGold);
 	}
 }

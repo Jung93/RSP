@@ -17,8 +17,12 @@ public:
 	virtual void BeginPlay() override;
 	void ShowUI(class UUserWidget* userWidget);
 	void HideUI();
-
+public:
+	
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	class UInputMappingContext* _inputMappingContext;
+private:
+	
+
 };

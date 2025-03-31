@@ -89,6 +89,12 @@ void ARSP_Item::ActivateItemEffect(AActor* actor)
 {
 }
 
+void ARSP_Item::SetInfo(FRSP_ItemInfo info)
+{
+	_info = info;
+	SetInfomation(_info.itemName);
+}
+
 void ARSP_Item::SetInfomation(FString name)
 {
 	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());

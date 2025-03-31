@@ -9,6 +9,8 @@
 #include "Components/Button.h"
 #include "Components/UniformGridPanel.h"
 #include "Components/UniformGridSlot.h"
+#include "Item/RSP_Item.h"
+#include "UI/RSP_GridSlot.h"
 #include "RSP_InvenUI.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FHpPotionUsed, int32);
@@ -27,15 +29,20 @@ public:
 	void SetDropTexture(int32 index);
 	void UseInventoryItem(int32 index);
 	UFUNCTION()
-	int32 GetSlotSize() { return _slots.Num(); }
+	int32 GetSlotSize() { return _invenSlots.Num(); }
 
-	class URSP_GridSlot* GetGridSlot(int32 index) { return _slots[index]; }
+	class UTexture2D* GetGridSlotTexture(int32 index) { return _invenSlots[index]->GetTexture(); }
+	FRSP_ItemInfo GetGridSlotItemInfo(int32 index) {return _invenSlots[index]->GetItemInfo();}
 
-	void AddGold(int32 amount);
+	int32 GetGold() { return _playerGold; }
+	void SetGold(int32 value);
+	void AddGold(int32 value);
 	void SendHealValue(int32 index);
+
+	TArray<class URSP_GridSlot*> GetInvenSlots() { return _invenSlots; }
 public:
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
-	class UUniformGridPanel* RSP_Grid;
+	class UUniformGridPanel* RSP_InvenGrid;
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UButton* RSP_ExitButton;
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
@@ -46,15 +53,13 @@ public:
 	class UImage* RSP_GoldImage;
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UImage* RSP_ExitButtonImage;
-	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* RSP_ItemText;
 	
 	FGainGold gainGold;
 	FHpPotionUsed hpPotionUsed;
 	FHealValue healValue;
 protected:	
 	UPROPERTY(Editanywhere, BlueprintReadWrite)
-	TArray<class URSP_GridSlot*> _slots;
+	TArray<class URSP_GridSlot*> _invenSlots;
 	UPROPERTY()
 	class UTexture2D* _hpPotionTexture_High;
 	UPROPERTY()
@@ -68,6 +73,7 @@ protected:
 	UPROPERTY()
 	class UTexture2D* _exitTexture;
 
+	int32 _playerGold;
 	//int32 _curSlotSize = 15;
 	//int32 _maxSlotSize = 18;
 };

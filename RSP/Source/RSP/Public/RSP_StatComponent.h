@@ -48,6 +48,9 @@ public:
 	int32 GetAtk() { return _atk; }
 	int32 GetlevelUpExp() { return _levelUpExp; }
 	int32 GetCurExp() { return _curExp; }
+	
+	int32 GetCurGold() { return _curGold; }
+	void SetCurGold(int32 value) { _curGold = value; }
 
 	bool IsDead() { return _curHp <= 0; }
 	int32 GetDropExp() { return _dropExp; }
@@ -57,6 +60,7 @@ public:
 	void AddCurHp(int32 amount);
 	void AddExp(int32 value);
 	void AddGold(int32 value);
+	void InitialSetting();
 
 	FLevelChanged levelChanged;
 	FHpChanged hpChanged;
