@@ -59,6 +59,7 @@ public:
 
 	bool _interaction = false;
 
+	void SetItemTexture(int32 index, struct FRSP_ItemInfo info);
 	void SetInvenOpen(bool bIsOpen){_isInvenOpen = bIsOpen;}
 	TArray<class ARSP_Item*> GetItemArray_Inven();
 	void SetItemArray_Inven(const TArray<class ARSP_Item*>& items);

@@ -146,7 +146,7 @@ void ARSP_ItemShop::OpenShopUI(AActor* actor)
 
 void ARSP_ItemShop::CloseShopUI()
 {
-	//_storeWidget->UpdateInvenItems();
+	_storeWidget->UpdateInvenItems();
 	_storeWidget->SetVisibility(ESlateVisibility::Collapsed);
 	bCanInteraction = true;
 	ARSP_PlayerController* playerController = Cast<ARSP_PlayerController>(GetWorld()->GetFirstPlayerController());

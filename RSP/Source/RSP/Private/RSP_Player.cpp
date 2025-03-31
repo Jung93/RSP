@@ -357,6 +357,11 @@ void ARSP_Player::AddItem(ARSP_Item* item)
 	_invenComponent->AddItem(item);
 }
 
+void ARSP_Player::SetItemTexture(int32 index, FRSP_ItemInfo info)
+{
+	_invenWidget->SetItemTexture(index, info);
+}
+
 TArray<class ARSP_Item*> ARSP_Player::GetItemArray_Inven()
 {
 	return _invenComponent->GetItemArray_Inven();
