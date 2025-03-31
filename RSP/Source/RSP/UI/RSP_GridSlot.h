@@ -25,14 +25,22 @@ public:
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly)
 	int32 curIndex;
+
 	bool bStoreMode = false;
+	bool bIsChosen = false;
+	bool bIsStoreSlot = false;
+
 	void SetItemInfo(struct FRSP_ItemInfo info) { itemInfo = info; }
 	struct FRSP_ItemInfo GetItemInfo() { return itemInfo; }
+
+	void HighLightAction();
 public:	
 	virtual FReply NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	void HandleDoubleClick();
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+
 protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, meta = (BindWidget))
@@ -47,5 +55,7 @@ protected:
 	class UTexture2D* curTexture;
 
 	struct FRSP_ItemInfo itemInfo;
+
+	
 
 };

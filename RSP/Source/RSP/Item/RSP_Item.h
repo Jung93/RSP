@@ -20,7 +20,7 @@ struct FRSP_ItemInfo : public FTableRowBase {
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString itemName = TEXT("Void");
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 itemPrice = -1;
+	int32 itemPrice = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString itemToolTip = "";
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -66,6 +66,7 @@ public:
 
 	virtual void ActivateItemEffect(AActor* actor);
 	FRSP_ItemInfo GetInfo() { return _info; }
+	void SetInfo(FRSP_ItemInfo info);
 protected:
 	
 	void SetInfomation(FString name);

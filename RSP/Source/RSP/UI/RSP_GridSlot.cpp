@@ -3,6 +3,7 @@
 
 #include "UI/RSP_GridSlot.h"
 #include "UI/RSP_InvenUI.h"
+#include "UI/RSP_StoreUI.h"
 #include "Item/RSP_Item.h"
 #include "Components/UniformGridPanel.h"
 #include "Components/Image.h"
@@ -58,6 +59,44 @@ UTexture2D* URSP_GridSlot::GetTexture()
 }
 
 
+void URSP_GridSlot::HighLightAction()
+{
+	auto parent = this->GetParent()->GetParent()->GetParent();
+	UBorder* border = Cast<UBorder>(parent);
+	URSP_StoreUI* storeWidget = GetTypedOuter<URSP_StoreUI>();	
+	if (!bIsChosen) {		
+		if (border) {
+			auto thisItemPrice = itemInfo.itemPrice;
+			if (thisItemPrice <= 0) {
+				return;
+			}
+			border->SetBrushColor(FLinearColor(1.0f, 0.8f, 0.0f, 0.3f));
+			if (bIsStoreSlot) {
+				storeWidget->totalItemPriceEvent_Buy.Broadcast(thisItemPrice);
+			}
+			else {
+				storeWidget->totalItemPriceEvent_Sell.Broadcast(thisItemPrice * 0.5f);
+
+			}
+		}
+		bIsChosen = true;
+	}
+	else {
+		if (border) {
+			border->SetBrushColor(FLinearColor(0.1f, 0.1f, 0.1f, 0.8f));
+			auto thisItemPrice = itemInfo.itemPrice;
+			if (bIsStoreSlot) {
+				storeWidget->totalItemPriceEvent_Buy.Broadcast(-thisItemPrice);
+			}
+			else {
+				storeWidget->totalItemPriceEvent_Sell.Broadcast(-thisItemPrice * 0.5f);
+
+			}
+		}
+		bIsChosen = false;
+	}
+}
+
 FReply URSP_GridSlot::NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	if (!bStoreMode) {
@@ -97,6 +136,19 @@ void URSP_GridSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 
 	FVector2D newScale = scale / 1.2f;
 	itemImage->SetRenderScale(newScale);
+}
+
+FReply URSP_GridSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	FReply Reply = Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
+	
+	if (bStoreMode && InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
+	{
+		HighLightAction();
+		Reply.Handled();
+	}
+
+	return Reply;
 }
 
 

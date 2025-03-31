@@ -37,8 +37,10 @@ public:
 	void CloseShopUI();
 
 protected:
-	//플레이어를 참조해서 아이템 바이버튼 누르면 돈나가게해야함
-	
+	UFUNCTION()
+	void MoveItem_StoreToInven(); //버튼전용
+	UFUNCTION()
+	void MoveItem_InvenToStore(); 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	class UStaticMeshComponent* _mesh;
@@ -58,5 +60,6 @@ protected:
 	class URSP_StoreUI* _storeWidget;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowprivateAccess = "true"))
-	class URSP_StoreComponent* _storeComponent;
+	class URSP_InvenComponent* _storeComponent;
+
 };

@@ -38,13 +38,14 @@ public:
 	ARSP_Item* DropItem(ARSP_Item* item , int32 index);
 	void UseInventoryItem(int32 index);
 
-	TArray<ARSP_Item*> GetItemArray() { return _items; }
+	const TArray<ARSP_Item*>& GetItemArray_Inven() { return _invenItems; }
+	void SetItemArray_Inven(const TArray<ARSP_Item*>& items) { _invenItems = items; }
 
 	FItemAdd itemAddEvent;
 	FItemDrop itemDropEvent;
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowprivateAccess = "true"))
-	TArray<ARSP_Item*> _items;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowPrivateAccess = "true"))
+	TArray<ARSP_Item*> _invenItems;
 	UPROPERTY()
 	int32 _itemArraySize = 0;
 

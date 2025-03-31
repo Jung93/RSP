@@ -39,9 +39,6 @@ void URSP_InvenUI::NativeConstruct()
 
 	RSP_GoldImage->SetBrushFromTexture(_goldTexture);
 	RSP_ExitButtonImage->SetBrushFromTexture(_exitTexture);
-
-	FString GoldString = FString::Printf(TEXT("%d"), 0);
-	RSP_Gold->SetText(FText::FromString(GoldString));
 }
 
 void URSP_InvenUI::SetItemTexture(int32 index, FRSP_ItemInfo info)
@@ -78,9 +75,17 @@ void URSP_InvenUI::UseInventoryItem(int32 index)
 	_invenSlots[index]->SetItemToolTip(text);
 }
 
-void URSP_InvenUI::AddGold(int32 amount)
+void URSP_InvenUI::SetGold(int32 value)
 {
-	FString GoldString = FString::Printf(TEXT("%d"), amount);
+	_playerGold = value;
+	FString GoldString = FString::Printf(TEXT("%d"), _playerGold);
+	RSP_Gold->SetText(FText::FromString(GoldString));
+}
+
+void URSP_InvenUI::AddGold(int32 value)
+{
+	_playerGold += value;
+	FString GoldString = FString::Printf(TEXT("%d"), _playerGold);
 	RSP_Gold->SetText(FText::FromString(GoldString));
 }
 
@@ -88,4 +93,10 @@ void URSP_InvenUI::SendHealValue(int32 index)
 {
 	auto healvalue = _invenSlots[index]->GetItemInfo().itemStat;
 	healValue.Broadcast(healvalue);
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		5.0f,
+		FColor::Black,
+		FString::Printf(TEXT("%d"), healvalue)
+	);
 }

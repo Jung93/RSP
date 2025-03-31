@@ -48,6 +48,9 @@ public:
 	int32 GetAtk() { return _atk; }
 	int32 GetlevelUpExp() { return _levelUpExp; }
 	int32 GetCurExp() { return _curExp; }
+	
+	int32 GetCurGold() { return _curGold; }
+	void SetCurGold(int32 value) { _curGold = value; }
 
 	bool IsDead() { return _curHp <= 0; }
 	int32 GetDropExp() { return _dropExp; }

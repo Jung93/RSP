@@ -49,6 +49,7 @@ void URSP_StoreUI::NativeConstruct()
 		storeSlot->SetItemInfo(itemInfo);
 		text->SetText(FText::FromString(thisItemToolTip));
 		storeSlot->bStoreMode = true;
+		storeSlot->bIsStoreSlot = true;
 
 		_storeSlots[i] = storeSlot;
 
@@ -86,6 +87,36 @@ void URSP_StoreUI::UpdateShopItems_Sell(AActor* actor)
 	
 }
 
+void URSP_StoreUI::UpdateInvenItems(AActor* actor)
+{
+	UVerticalBox* v_box = Cast<UVerticalBox>(RSP_InvenGrid->GetChildAt(0));
+	auto array = v_box->GetAllChildren();
+	int32 arrayNum = array.Num();
+
+	for (int32 i = 0; i < arrayNum; i++) {
+		FString WidgetName = FString::Printf(TEXT("InvenSlot_%d"), i);
+		URSP_GridSlot* invenSlot = WidgetTree->FindWidget<URSP_GridSlot>(*WidgetName);
+		_invenSlots.Add(invenSlot);
+
+		auto player = Cast<ARSP_Player>(actor);
+		if (player) {
+			auto playerInven = player->GetInvenUI();
+			auto playerInvenItemInfo = playerInven->GetGridSlotItemInfo(i);
+
+			UTextBlock* text = Cast<UTextBlock>(invenSlot->GetParent()->GetChildAt(1));
+			auto thisItemToolTip = playerInvenItemInfo.itemToolTip;
+
+			SetItemTexture(i, playerInvenItemInfo);
+			invenSlot->SetItemInfo(playerInvenItemInfo);
+			text->SetText(FText::FromString(thisItemToolTip));
+			invenSlot->bStoreMode = true;
+
+			_invenSlots[i] = invenSlot;
+
+		}
+	}
+}
+
 void URSP_StoreUI::SetItemTexture_Buy(int32 index, FRSP_ItemInfo info)
 {	
 	_storeSlots[index]->SetToolTipText(FText::FromString(info.itemToolTip));
@@ -104,4 +135,20 @@ void URSP_StoreUI::SetItemTexture_Buy(int32 index, FRSP_ItemInfo info)
 	default:
 		break;
 	}
+}
+
+
+void URSP_StoreUI::TotalItemPrice_Buy(int32 value)
+{
+	totalItemPrice_Buy += value;
+	FString totalPriceString = FString::Printf(TEXT("%d"), totalItemPrice_Buy);
+	RSP_ItemPriceText_Buy->SetText(FText::FromString(totalPriceString));
+}
+
+void URSP_StoreUI::TotalItemPrice_Sell(int32 value)
+{
+	totalItemPrice_Sell += value;
+	FString totalPriceString = FString::Printf(TEXT("%d"), totalItemPrice_Sell);
+	RSP_ItemPriceText_Sell->SetText(FText::FromString(totalPriceString));
+
 }

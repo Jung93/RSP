@@ -34,8 +34,12 @@ public:
 	class UTexture2D* GetGridSlotTexture(int32 index) { return _invenSlots[index]->GetTexture(); }
 	FRSP_ItemInfo GetGridSlotItemInfo(int32 index) {return _invenSlots[index]->GetItemInfo();}
 
-	void AddGold(int32 amount);
+	int32 GetGold() { return _playerGold; }
+	void SetGold(int32 value);
+	void AddGold(int32 value);
 	void SendHealValue(int32 index);
+
+	TArray<class URSP_GridSlot*> GetInvenSlots() { return _invenSlots; }
 public:
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UUniformGridPanel* RSP_InvenGrid;
@@ -69,6 +73,7 @@ protected:
 	UPROPERTY()
 	class UTexture2D* _exitTexture;
 
+	int32 _playerGold;
 	//int32 _curSlotSize = 15;
 	//int32 _maxSlotSize = 18;
 };

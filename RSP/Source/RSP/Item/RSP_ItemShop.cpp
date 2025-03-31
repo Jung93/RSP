@@ -2,16 +2,16 @@
 
 
 #include "Item/RSP_ItemShop.h"
+#include "Item/RSP_Item.h"
+#include "RSP_GameInstance.h"
 #include "RSP_Player.h"
 #include "Blueprint/UserWidget.h"
 #include "UI/RSP_KeyPressEvent.h"
 #include "UI/RSP_InvenUI.h"
 #include "UI/RSP_StoreUI.h"
 #include "UI/RSP_InvenComponent.h"
-#include "UI/RSP_StoreComponent.h"
 #include "RSP_PlayerController.h"
 
-#include "RSP_GameInstance.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -40,7 +40,7 @@ ARSP_ItemShop::ARSP_ItemShop()
 	_shopEnterWidget->SetupAttachment(_mesh);
 	_shopEnterWidget->SetWidgetSpace(EWidgetSpace::Screen);
 
-	_storeComponent = CreateDefaultSubobject<URSP_StoreComponent>(TEXT("StoreComponent"));
+	_storeComponent = CreateDefaultSubobject<URSP_InvenComponent>(TEXT("StoreComponent"));
 
 	static ConstructorHelpers::FClassFinder<URSP_StoreUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_StoreUI.BP_StoreUI_C'"));
 	if (invenClass.Succeeded()) {
@@ -71,9 +71,17 @@ void ARSP_ItemShop::BeginPlay()
 
 	_storeWidget = CreateWidget<URSP_StoreUI>(GetWorld(), storeUIClass);
 	_storeWidget->AddToViewport();
-	_storeWidget->SetVisibility(ESlateVisibility::Collapsed);
 
 	_storeWidget->RSP_ExitButton->OnClicked.AddDynamic(this, &ThisClass::CloseShopUI);
+	_storeWidget->totalItemPriceEvent_Buy.AddUObject(_storeWidget, &URSP_StoreUI::TotalItemPrice_Buy);
+	_storeWidget->totalItemPriceEvent_Sell.AddUObject(_storeWidget, &URSP_StoreUI::TotalItemPrice_Sell);
+	_storeWidget->RSP_BuyButton->OnClicked.AddDynamic(this, &ThisClass::MoveItem_StoreToInven);
+	_storeWidget->RSP_SellButton->OnClicked.AddDynamic(this, &ThisClass::MoveItem_InvenToStore);
+
+	_storeComponent->itemAddEvent.AddUObject(_storeWidget, &URSP_StoreUI::SetItemTexture);
+
+	_storeWidget->SetVisibility(ESlateVisibility::Collapsed);
+
 }
 
 // Called every frame
@@ -89,6 +97,7 @@ void ARSP_ItemShop::Tick(float DeltaTime)
 		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(widgetLocation, cameraLocation);
 		_shopEnterWidget->SetWorldRotation(rotation);
 	}
+
 }
 
 void ARSP_ItemShop::ColliderBeginOverlapped(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -125,6 +134,13 @@ void ARSP_ItemShop::OpenShopUI(AActor* actor)
 	if (player) {
 		auto controller = Cast<ARSP_PlayerController>(player->GetController());
 		controller->ShowUI(_storeWidget);
+		auto curGold = player->GetCurGold();
+		//복사해줘야할것 1.돈 2.위젯정보 3.인벤컴포넌트
+		_storeWidget->SetGold(curGold);
+
+		TArray<ARSP_Item*> playerInven = player->GetItemArray_Inven();
+		_storeComponent->SetItemArray_Inven(playerInven);
+		
 	}
 }
 
@@ -136,6 +152,48 @@ void ARSP_ItemShop::CloseShopUI()
 	
 	if (playerController) {
 		playerController->HideUI();
+		auto player = Cast<ARSP_Player>(playerController->GetPawn());
+		auto curGold = _storeWidget->GetCurGold();
+		player->SetCurGold(curGold);
+	
+		TArray<ARSP_Item*> storeInven = _storeComponent->GetItemArray_Inven();
+		player->SetItemArray_Inven(storeInven);
 	}
 }
+
+void ARSP_ItemShop::MoveItem_StoreToInven()
+{	
+	auto playerGold = _storeWidget->GetCurPlayerGold();
+	auto totalItemPrice = _storeWidget->GetTotalItemPrice_Buy();
+	if (playerGold < totalItemPrice) {
+		return;
+	}
+	_storeWidget->AddGold(-totalItemPrice);
+
+	auto slots = _storeWidget->GetStoreSlots();
+
+	for (auto& slot : slots) {
+		if (slot->bIsChosen) {
+			FRSP_ItemInfo itemInfo = slot->GetItemInfo();
+			int32 slotIndex = slot->curIndex;
+			//1.인벤토리에 옮기기
+			ARSP_Item* spawnedItem = GetWorld()->SpawnActor<ARSP_Item>(FVector::ZeroVector, FRotator::ZeroRotator);			
+			spawnedItem->SetInfo(itemInfo);
+			_storeComponent->AddItem(spawnedItem);
+			
+			
+			//2.상점인벤토리 처리하기
+			UTextBlock* text = Cast<UTextBlock>(slot->GetParent()->GetChildAt(1));			
+			text->SetText(FText::FromString("Sold Out"));
+			slot->HighLightAction();
+			_storeWidget->SetItemTexture_Buy(slotIndex, FRSP_ItemInfo());
+		}
+	}
+}
+
+void ARSP_ItemShop::MoveItem_InvenToStore()
+{
+}
+
+
 

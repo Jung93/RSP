@@ -2,7 +2,10 @@
 
 
 #include "RSP_PlayerController.h"
+#include "RSP_Player.h"
 #include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
+#include "InputActionValue.h"
 #include "Blueprint/UserWidget.h"
 #include "Engine/LocalPlayer.h"
 
@@ -32,6 +35,10 @@ void ARSP_PlayerController::ShowUI(UUserWidget* userWidget)
 			SetInputMode(inputMode);
 
 			bShowMouseCursor = true;
+			auto player = Cast<ARSP_Player>(pawn);
+			if (player) {
+				player->SetInvenOpen(true);
+			}
 		}
 	}
 	//PlayerCameraManager->ViewPitchMin = -10.0f;
@@ -50,6 +57,10 @@ void ARSP_PlayerController::HideUI()
 		SetInputMode(inputMode);
 
 		bShowMouseCursor = false;
+		auto player = Cast<ARSP_Player>(pawn);
+		if (player) {
+			player->SetInvenOpen(false);
+		}
 	}
 	//PlayerCameraManager->ViewPitchMin = -30.0f;
 	//PlayerCameraManager->ViewPitchMax = 30.0f;
@@ -57,3 +68,4 @@ void ARSP_PlayerController::HideUI()
 	//PlayerCameraManager->ViewYawMin = -359.0f;
 	//PlayerCameraManager->ViewYawMax = 359.0f;
 }
+
