@@ -68,6 +68,13 @@ void UBT_RSP_Service_FindTargetByBoss::TickNode(UBehaviorTreeComponent& OwnerCom
 					DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
 					return;
 				}
+				else
+				{
+					OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Player")), nullptr);
+					OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Companion")), nullptr);
+					continue;
+				}
+
 			}
 
 			curPawn->SortAggroTable();
