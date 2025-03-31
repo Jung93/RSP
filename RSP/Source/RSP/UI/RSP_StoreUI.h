@@ -17,23 +17,21 @@ public:
 	virtual bool Initialize() override;
 	virtual void NativeConstruct() override;
 
-public:
-	void UpdateShopItems_Sell(AActor* actor);
-	void UpdateInvenItems();
+public:	
+	void UpdateStoreInven(int32 index, struct FRSP_ItemInfo info, AActor* actor);
 	void SetItemTexture_Buy(int32 index, struct FRSP_ItemInfo info);
 	void SetSoldOutTexture(int32 index);
-
-	int32 GetCurGold() { return _playerGold; }
 
 	void TotalItemPrice_Buy(int32 value); 
 	void TotalItemPrice_Sell(int32 value); 
 	
 	int32 GetTotalItemPrice_Buy() { return totalItemPrice_Buy; }
 	int32 GetTotalItemPrice_Sell() { return totalItemPrice_Sell; }
+	void SetTotalItemPrice_Sell(int32 value) { totalItemPrice_Sell = value; }
 	int32 GetCurPlayerGold() { return _playerGold; }
 
 	TArray<class URSP_GridSlot*> GetStoreSlots() { return _storeSlots; }
-	
+	void SetThisItemToopTip(class URSP_GridSlot* slot , FString str);
 public:
 	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UUniformGridPanel* RSP_StoreGrid;

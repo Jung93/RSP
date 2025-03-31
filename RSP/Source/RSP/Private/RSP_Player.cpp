@@ -133,10 +133,11 @@ void ARSP_Player::BeginPlay()
 
 	_invenComponent->itemAddEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetItemTexture);
 	_invenComponent->itemDropEvent.AddUObject(_invenWidget, &URSP_InvenUI::SetDropTexture);
+	_invenComponent->setitemTextureEvent.AddUObject(_invenWidget, &URSP_InvenUI::UpdateStoreInven_inven);
 
-	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::SendHealValue);
-	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::UseInventoryItem);
 	_invenWidget->hpPotionUsed.AddUObject(_invenComponent, &URSP_InvenComponent::UseInventoryItem);
+	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::UseInventoryItem);
+	_invenWidget->hpPotionUsed.AddUObject(_invenWidget, &URSP_InvenUI::SendHealValue);
 
 	_invenWidget->healValue.AddUObject(_statComponent, &URSP_StatComponent::AddCurHp);
 	_invenWidget->gainGold.AddUObject(_invenWidget, &URSP_InvenUI::AddGold);
@@ -255,13 +256,13 @@ void ARSP_Player::Inven_Open(const FInputActionValue& value)
 	auto controller = Cast<ARSP_PlayerController>(GetController());
 	if (controller != nullptr && isPressed) {
 		if (_isInvenOpen) {
-			if (controller) {
+			if (controller) {				
 				controller->HideUI();
 			}
 			_invenWidget->SetVisibility(ESlateVisibility::Collapsed);
 		}
 		else {
-			if (controller) {
+			if (controller) {				
 				controller->ShowUI(_invenWidget);
 			}
 			_invenWidget->SetVisibility(ESlateVisibility::Visible);

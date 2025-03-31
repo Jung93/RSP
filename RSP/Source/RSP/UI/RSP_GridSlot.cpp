@@ -75,8 +75,7 @@ void URSP_GridSlot::HighLightAction()
 				storeWidget->totalItemPriceEvent_Buy.Broadcast(thisItemPrice);
 			}
 			else {
-				storeWidget->totalItemPriceEvent_Sell.Broadcast(thisItemPrice * 0.5f);
-
+				storeWidget->totalItemPriceEvent_Sell.Broadcast(FMath::FloorToInt(thisItemPrice * 0.5f));
 			}
 		}
 		bIsChosen = true;
@@ -89,8 +88,7 @@ void URSP_GridSlot::HighLightAction()
 				storeWidget->totalItemPriceEvent_Buy.Broadcast(-thisItemPrice);
 			}
 			else {
-				storeWidget->totalItemPriceEvent_Sell.Broadcast(-thisItemPrice * 0.5f);
-
+				storeWidget->totalItemPriceEvent_Sell.Broadcast(FMath::FloorToInt(-thisItemPrice * 0.5f));
 			}
 		}
 		bIsChosen = false;
@@ -107,11 +105,15 @@ FReply URSP_GridSlot::NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry
 
 void URSP_GridSlot::HandleDoubleClick()
 {
+	if (itemInfo.itemId == 0) {
+		return;
+	}
 	auto defaultScale = FVector2D(1.0f, 1.0f);
 	auto largeScale = FVector2D(5.5f, 5.5f);
 
 	URSP_InvenUI* invenWidget = GetTypedOuter<URSP_InvenUI>();
 	invenWidget->hpPotionUsed.Broadcast(curIndex);
+	this->SetItemInfo(FRSP_ItemInfo());
 }
 
 void URSP_GridSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
