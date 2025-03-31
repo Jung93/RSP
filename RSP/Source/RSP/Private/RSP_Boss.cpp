@@ -75,16 +75,17 @@ void ARSP_Boss::SetAggroTable(ARSP_Character* damageCauser, float damage)
 	}
 }
 
-void ARSP_Boss::Attack()
-{
-	Super::Attack();
 
-	_aggroTable.Sort([](const FAggroTable a, const FAggroTable b)->bool 
+
+void ARSP_Boss::SortAggroTable()
+{
+	if (_aggroTable.Num() < 2)
+		return;
+
+	_aggroTable.Sort([](const FAggroTable a, const FAggroTable b)->bool
 		{
 			if (a.totalDamage > b.totalDamage)
 				return true;
 			return false;
 		});
-
-
 }

@@ -45,7 +45,10 @@ public:
 
 	void SetAggroTable(class ARSP_Character* damageCauser, float damage);
 
-	void Attack() override;
+
+	void SortAggroTable();
+
+	TArray<FAggroTable>& GetAggroTable() { return _aggroTable; }
 
 private:
 	TArray<FAggroTable> _aggroTable;
