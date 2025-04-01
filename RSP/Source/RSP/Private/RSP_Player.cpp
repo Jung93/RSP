@@ -144,7 +144,6 @@ void ARSP_Player::BeginPlay()
 
 	_hpBarWidget->SetWidget(nullptr);
 
-	//enemyDeadEvent.AddUObject(_statComponent, &URSP_StatComponent::ExecuteReward);
 	_statComponent->levelChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetLevelText);
 	_statComponent->expChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetEXPBarValue);
 	_statComponent->hpChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetHpBarValue);

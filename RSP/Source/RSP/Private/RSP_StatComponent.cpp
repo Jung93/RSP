@@ -50,6 +50,7 @@ void URSP_StatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 void URSP_StatComponent::AddCurHp(float amount)
 {
 	float before = _curHp;
+	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());
 
 	_curHp += amount;
 	if (_curHp <= 0) {
@@ -63,8 +64,8 @@ void URSP_StatComponent::AddCurHp(float amount)
 			//	//아이템 스폰
 			//	enemyDeadEvent.BroadCast()
 			//}
-			if (enemy->enemyDeadEvent.IsBound()) {
-				enemy->enemyDeadEvent.Broadcast(enemy->GetLevel());
+			if (gameInstance->enemyDeadEvent.IsBound()) {
+				gameInstance->enemyDeadEvent.Broadcast(enemy->GetLevel());
 			}
 		}
 		_curHp = 0;
@@ -87,6 +88,7 @@ void URSP_StatComponent::AddCurHp(float amount)
 void URSP_StatComponent::AddCurHp(int32 amount)
 {
 	int32 before = _curHp;
+	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());
 
 	_curHp += amount;
 	if (_curHp <= 0) {
@@ -100,8 +102,8 @@ void URSP_StatComponent::AddCurHp(int32 amount)
 			//	//아이템 스폰
 			//	enemyDeadEvent.BroadCast()
 			//}
-			if (enemy->enemyDeadEvent.IsBound()) {
-				enemy ->enemyDeadEvent.Broadcast(enemy->GetLevel());
+			if (gameInstance->enemyDeadEvent.IsBound()) {
+				gameInstance->enemyDeadEvent.Broadcast(enemy->GetLevel());
 			}
 		}
 		_curHp = 0;

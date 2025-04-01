@@ -7,21 +7,24 @@
 #include "RSP_StatComponent.h"
 #include "RSP_GameInstance.generated.h"
 
-/**
- * 
- */
+DECLARE_MULTICAST_DELEGATE_OneParam(FEnemyDeadEvent, int32);
+
 UCLASS()
 class RSP_API URSP_GameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 public:
 	URSP_GameInstance();
+
 private:
 
 public:
 	FRSP_StatData GetStat_Level(int32 level);
 	struct FRSP_ItemInfo GetItemInfo(FString name);
 	int32 GetStatTableSize();
+
+	FEnemyDeadEvent enemyDeadEvent;
+
 private:
 	UPROPERTY()
 	class UDataTable* _statTable;
