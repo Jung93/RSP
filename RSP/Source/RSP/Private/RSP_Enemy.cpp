@@ -16,7 +16,6 @@
 ARSP_Enemy::ARSP_Enemy()
 {
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Enemy"));
-
 }
 
 void ARSP_Enemy::Attack_Hit()

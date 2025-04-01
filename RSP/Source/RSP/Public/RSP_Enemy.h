@@ -36,4 +36,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	UPROPERTY(EditAnywhere, Category = "Drop Item")
+	TSubclassOf<class ARSP_Item> ItemClass;
+	UPROPERTY(VisibleAnywhere,Category = "Drop Item")
+	class ARSP_Item* _dropItem;
 };
