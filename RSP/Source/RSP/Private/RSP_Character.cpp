@@ -53,6 +53,7 @@ void ARSP_Character::BeginPlay()
 		_statComponent->levelChanged.AddUObject(hpBar, &URSP_HpBar::SetLevelText);
 		_statComponent->hpChanged.AddUObject(hpBar, &URSP_HpBar::SetHpBarValue);
 		_statComponent->printName.AddUObject(hpBar, &URSP_HpBar::SetOwnerName);
+		//enemyDeadEvent.AddUObject(_statComponent, &URSP_StatComponent::ExecuteReward);
 
 		_statComponent->printName.Broadcast(_name);
 		_statComponent->levelChanged.Broadcast(_level);

@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "RSP_Character.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEnemyDeadEvent, int32);
+
 UCLASS(Abstract)
 class RSP_API ARSP_Character : public ACharacter
 {
@@ -50,6 +52,9 @@ public:
 
 	const int16& GetLevel() { return _level; }
 	FString GetMyName() { return _name; }
+
+	FEnemyDeadEvent enemyDeadEvent;
+
 protected:
 	UPROPERTY()
 	class URSP_AnimInstance* _animInstance;

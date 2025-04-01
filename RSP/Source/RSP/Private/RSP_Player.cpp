@@ -43,7 +43,7 @@ ARSP_Player::ARSP_Player()
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Player"));
 	
-	_level = 1;
+	_level = 4;
 
 	static ConstructorHelpers::FClassFinder<URSP_InvenUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_InvenUI.BP_RSP_InvenUI_C'"));
 	if (invenClass.Succeeded()) {
@@ -93,12 +93,12 @@ void ARSP_Player::Attack_Hit()
 		ARSP_Enemy* victim = Cast<ARSP_Enemy>(hitResult.GetActor());
 		if (victim) {
 			FDamageEvent damageEvent = FDamageEvent();
-			FVector hitPoint = hitResult.ImpactPoint;
-			//EFFECT_M->PlayEffect("BigFire", hitPoint);
+			FVector hitPoint = hitResult.ImpactPoint;			
+			//Attack이펙트 추가
 			victim->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
-			if (victim->IsDead()) {
-				TakeExp(victim);
-			}
+			//if (victim->IsDead()) {
+			//	TakeExp(victim);
+			//}
 		}
 	}
 
@@ -144,7 +144,9 @@ void ARSP_Player::BeginPlay()
 
 	_hpBarWidget->SetWidget(nullptr);
 
+	//enemyDeadEvent.AddUObject(_statComponent, &URSP_StatComponent::ExecuteReward);
 	_statComponent->levelChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetLevelText);
+	_statComponent->expChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetEXPBarValue);
 	_statComponent->hpChanged.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetHpBarValue);
 	_statComponent->printName.AddUObject(_playerHpBarWidget, &URSP_PlayerHpBar::SetOwnerName);
 	_statComponent->levelChanged.Broadcast(_level);

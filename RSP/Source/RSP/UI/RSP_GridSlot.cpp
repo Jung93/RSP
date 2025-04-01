@@ -105,7 +105,7 @@ FReply URSP_GridSlot::NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry
 
 void URSP_GridSlot::HandleDoubleClick()
 {
-	if (itemInfo.itemId == 0) {
+	if (itemInfo.itemStat <= 0) {
 		return;
 	}
 	auto defaultScale = FVector2D(1.0f, 1.0f);

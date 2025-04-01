@@ -6,9 +6,11 @@
 #include "Components/ActorComponent.h"
 #include "RSP_StatComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEXPChanged, float);
 DECLARE_MULTICAST_DELEGATE_OneParam(FHpChanged, float);
 DECLARE_MULTICAST_DELEGATE_OneParam(FLevelChanged, int32);
 DECLARE_MULTICAST_DELEGATE_OneParam(FPrintName, FString);
+
 
 USTRUCT() 
 struct FRSP_StatData : public FTableRowBase {
@@ -60,8 +62,12 @@ public:
 	void AddCurHp(int32 amount);
 	void AddExp(int32 value);
 	void AddGold(int32 value);
+
+	void ExecuteReward(int32 level);
+
 	void InitialSetting();
 
+	FEXPChanged expChanged;
 	FLevelChanged levelChanged;
 	FHpChanged hpChanged;
 	FPrintName printName;
