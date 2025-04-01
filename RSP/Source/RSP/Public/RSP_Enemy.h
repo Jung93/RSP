@@ -24,6 +24,7 @@ public:
 	int32 GetExp() { return _statComponent->GetDropExp(); }
 	int32 GetGold() { return _statComponent->GetDropGold(); }
 
+	void DropItem();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

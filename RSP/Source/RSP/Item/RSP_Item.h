@@ -67,6 +67,8 @@ public:
 	virtual void ActivateItemEffect(AActor* actor);
 	FRSP_ItemInfo GetInfo() { return _info; }
 	void SetInfo(FRSP_ItemInfo info);
+
+	class USphereComponent* GetCollider() { return _itemCollider; }
 protected:
 	
 	void SetInfomation(FString name);

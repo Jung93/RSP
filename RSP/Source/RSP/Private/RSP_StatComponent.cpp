@@ -64,6 +64,7 @@ void URSP_StatComponent::AddCurHp(float amount)
 			//	//아이템 스폰
 			//	enemyDeadEvent.BroadCast()
 			//}
+			enemy->DropItem();
 			if (gameInstance->enemyDeadEvent.IsBound()) {
 				gameInstance->enemyDeadEvent.Broadcast(enemy->GetLevel());
 			}
@@ -102,6 +103,7 @@ void URSP_StatComponent::AddCurHp(int32 amount)
 			//	//아이템 스폰
 			//	enemyDeadEvent.BroadCast()
 			//}
+			enemy->DropItem();
 			if (gameInstance->enemyDeadEvent.IsBound()) {
 				gameInstance->enemyDeadEvent.Broadcast(enemy->GetLevel());
 			}
@@ -165,7 +167,7 @@ void URSP_StatComponent::AddGold(int32 value)
 	if (player) {
 		_curGold += value;
 		UE_LOG(LogTemp, Error, TEXT("Gold : %d"), _curGold);
-		player->AdjustGoldEvent(_curGold);
+		player->AdjustGoldEvent(value);
 	}
 }
 

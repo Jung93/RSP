@@ -5,6 +5,7 @@
 #include "RSP_Player.h"
 #include "RSP_Companion.h"
 #include "RSP_StatComponent.h"
+#include "Item/RSP_Item.h"
 
 #include "InputActionValue.h"
 
@@ -78,6 +79,14 @@ void ARSP_Enemy::Attack_Hit()
 		false,
 		3.0f
 	);
+}
+
+void ARSP_Enemy::DropItem()
+{
+	auto vector = GetActorLocation() + FVector(0, 0, -88.0f);
+	auto rotator = GetActorRotation();
+
+	_dropItem = GetWorld()->SpawnActor<ARSP_Item>(ItemClass, vector, rotator);
 }
 
 void ARSP_Enemy::BeginPlay()
