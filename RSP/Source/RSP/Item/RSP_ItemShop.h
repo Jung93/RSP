@@ -35,10 +35,10 @@ public:
 	void OpenShopUI(class AActor* actor);
 	UFUNCTION()
 	void CloseShopUI();
-
+	void SetItemTexture(int32 index, struct FRSP_ItemInfo info);
 protected:
 	UFUNCTION()
-	void MoveItem_StoreToInven(); //버튼전용
+	void MoveItem_StoreToInven(); 
 	UFUNCTION()
 	void MoveItem_InvenToStore(); 
 protected:

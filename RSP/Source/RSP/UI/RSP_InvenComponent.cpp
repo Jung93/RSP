@@ -2,7 +2,8 @@
 
 
 #include "UI/RSP_InvenComponent.h"
-
+#include "Item/RSP_ItemShop.h"
+#include "Kismet/GameplayStatics.h"
 URSP_InvenComponent::URSP_InvenComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -69,6 +70,22 @@ void URSP_InvenComponent::AddItem(ARSP_Item* item)
 	}
 }
 
+void URSP_InvenComponent::AddItem_Store(ARSP_Item* item, AActor* actor)
+{
+	auto target = _invenItems.FindByPredicate([](ARSP_Item* here) {
+		return here == nullptr;
+	});
+	if (target == nullptr) {
+		return;
+	}
+	int32 index = GetEmptyIndex();
+	_invenItems[index] = item;
+
+	if (setitemTextureEvent.IsBound()) {
+		setitemTextureEvent.Broadcast(index, item->GetInfo(),actor);
+	}
+}
+
 ARSP_Item* URSP_InvenComponent::DropItem(ARSP_Item* item , int32 index)
 {
 	_invenItems[index] = nullptr;
@@ -77,8 +94,43 @@ ARSP_Item* URSP_InvenComponent::DropItem(ARSP_Item* item , int32 index)
 }
 
 void URSP_InvenComponent::UseInventoryItem(int32 index)
+{	
+	ARSP_ItemShop* ItemShop = Cast<ARSP_ItemShop>(
+		UGameplayStatics::GetActorOfClass(GetWorld(), ARSP_ItemShop::StaticClass())
+	);
+
+	_invenItems[index] = nullptr;
+
+	if (ItemShop != nullptr)
+	{
+		UpdateInven(ItemShop);
+	}
+	
+}
+
+void URSP_InvenComponent::SellThisItem(int32 index)
 {
 	_invenItems[index] = nullptr;
 }
+
+void URSP_InvenComponent::UpdateInven(AActor* actor)
+{
+	for (int32 i = 0; i < _invenItems.Num(); i++) {
+		if (_invenItems[i] != nullptr) {
+			if (setitemTextureEvent.IsBound()) {				
+				setitemTextureEvent.Broadcast(i, _invenItems[i]->GetInfo(),actor);
+			}
+			
+		}	
+		else {
+			if (setitemTextureEvent.IsBound()) {
+				setitemTextureEvent.Broadcast(i, FRSP_ItemInfo(), actor);
+			}
+		}
+
+	}
+}
+
+
 
 

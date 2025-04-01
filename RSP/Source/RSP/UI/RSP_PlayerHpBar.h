@@ -14,6 +14,8 @@ class RSP_API URSP_PlayerHpBar : public URSP_HpBar
 {
 	GENERATED_BODY()
 public:
+	void SetEXPBarValue(float ratio);
 protected:
-
+	UPROPERTY(Editanywhere, BlueprintReadWrite, meta = (BindWidget))
+	class UProgressBar* RSP_EXPbar;
 };

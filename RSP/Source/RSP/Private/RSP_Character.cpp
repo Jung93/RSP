@@ -5,7 +5,7 @@
 #include "Animation/RSP_AnimInstance.h"
 #include "RSP_StatComponent.h"
 #include "RSP_PlayerController.h"
-
+#include "RSP_GameInstance.h"
 #include "UI/RSP_HpBar.h"
 #include "Components/WidgetComponent.h"
 
@@ -53,6 +53,11 @@ void ARSP_Character::BeginPlay()
 		_statComponent->levelChanged.AddUObject(hpBar, &URSP_HpBar::SetLevelText);
 		_statComponent->hpChanged.AddUObject(hpBar, &URSP_HpBar::SetHpBarValue);
 		_statComponent->printName.AddUObject(hpBar, &URSP_HpBar::SetOwnerName);
+		auto gameInstance = Cast<URSP_GameInstance>(GetGameInstance());
+		if (gameInstance) {
+
+			gameInstance->enemyDeadEvent.AddUObject(_statComponent, &URSP_StatComponent::ExecuteReward);
+		}
 
 		_statComponent->printName.Broadcast(_name);
 		_statComponent->levelChanged.Broadcast(_level);

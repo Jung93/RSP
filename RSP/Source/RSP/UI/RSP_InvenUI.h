@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Item/RSP_ItemShop.h"
+#include "RSP_PlayerController.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
@@ -24,12 +26,15 @@ class RSP_API URSP_InvenUI : public UUserWidget
 public:
 	virtual bool Initialize() override; 
 	virtual void NativeConstruct() override;
-	
+
+	void UpdateStoreInven_inven(int32 index, struct FRSP_ItemInfo info, AActor* actor);
+
 	void SetItemTexture(int32 index , struct FRSP_ItemInfo info);
 	void SetDropTexture(int32 index);
 	void UseInventoryItem(int32 index);
 	UFUNCTION()
 	int32 GetSlotSize() { return _invenSlots.Num(); }
+	void SetSlotSize(int32 num) { _invenSlots.SetNum(num); }
 
 	class UTexture2D* GetGridSlotTexture(int32 index) { return _invenSlots[index]->GetTexture(); }
 	FRSP_ItemInfo GetGridSlotItemInfo(int32 index) {return _invenSlots[index]->GetItemInfo();}

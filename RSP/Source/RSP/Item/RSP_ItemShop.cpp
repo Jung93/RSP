@@ -14,6 +14,7 @@
 
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Blueprint/WidgetTree.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFrameWork/PlayerController.h"
 // Sets default values
@@ -78,9 +79,10 @@ void ARSP_ItemShop::BeginPlay()
 	_storeWidget->RSP_BuyButton->OnClicked.AddDynamic(this, &ThisClass::MoveItem_StoreToInven);
 	_storeWidget->RSP_SellButton->OnClicked.AddDynamic(this, &ThisClass::MoveItem_InvenToStore);
 
-	_storeComponent->itemAddEvent.AddUObject(_storeWidget, &URSP_StoreUI::SetItemTexture);
-
+	_storeComponent->setitemTextureEvent.AddUObject(_storeWidget, &URSP_StoreUI::UpdateStoreInven);
+	
 	_storeWidget->SetVisibility(ESlateVisibility::Collapsed);
+
 
 }
 
@@ -126,7 +128,6 @@ void ARSP_ItemShop::ColliderEndOverlapped(UPrimitiveComponent* OverlappedCompone
 
 void ARSP_ItemShop::OpenShopUI(AActor* actor)
 {
-	_storeWidget->UpdateShopItems_Sell(actor);
 	_storeWidget->SetVisibility(ESlateVisibility::Visible);
 	bCanInteraction = false;
 
@@ -135,18 +136,17 @@ void ARSP_ItemShop::OpenShopUI(AActor* actor)
 		auto controller = Cast<ARSP_PlayerController>(player->GetController());
 		controller->ShowUI(_storeWidget);
 		auto curGold = player->GetCurGold();
-		//복사해줘야할것 1.돈 2.위젯정보 3.인벤컴포넌트
+
 		_storeWidget->SetGold(curGold);
 
 		TArray<ARSP_Item*> playerInven = player->GetItemArray_Inven();
 		_storeComponent->SetItemArray_Inven(playerInven);
-		
+		_storeComponent->UpdateInven(this);
 	}
 }
 
 void ARSP_ItemShop::CloseShopUI()
 {
-	_storeWidget->UpdateInvenItems();
 	_storeWidget->SetVisibility(ESlateVisibility::Collapsed);
 	bCanInteraction = true;
 	ARSP_PlayerController* playerController = Cast<ARSP_PlayerController>(GetWorld()->GetFirstPlayerController());
@@ -154,13 +154,20 @@ void ARSP_ItemShop::CloseShopUI()
 	if (playerController) {
 		playerController->HideUI();
 		auto player = Cast<ARSP_Player>(playerController->GetPawn());
-		auto curGold = _storeWidget->GetCurGold();
+		auto curGold = _storeWidget->GetGold();
 		player->SetCurGold(curGold);
 	
 		TArray<ARSP_Item*> storeInven = _storeComponent->GetItemArray_Inven();
 		player->SetItemArray_Inven(storeInven);
+		_storeComponent->UpdateInven(this);
 	}
 }
+
+void ARSP_ItemShop::SetItemTexture(int32 index, FRSP_ItemInfo info)
+{
+	_storeWidget->SetItemTexture(index, info);
+}
+
 
 void ARSP_ItemShop::MoveItem_StoreToInven()
 {	
@@ -171,29 +178,54 @@ void ARSP_ItemShop::MoveItem_StoreToInven()
 	}
 	_storeWidget->AddGold(-totalItemPrice);
 
-	auto slots = _storeWidget->GetStoreSlots();
+	auto storeSlots = _storeWidget->GetStoreSlots();	
+	auto invenSlots = _storeWidget->GetInvenSlots();
 
-	for (auto& slot : slots) {
+	for (auto& slot : storeSlots) {
 		if (slot->bIsChosen) {
 			FRSP_ItemInfo itemInfo = slot->GetItemInfo();
 			int32 slotIndex = slot->curIndex;
-			//1.인벤토리에 옮기기
+			
 			ARSP_Item* spawnedItem = GetWorld()->SpawnActor<ARSP_Item>(FVector::ZeroVector, FRotator::ZeroRotator);			
 			spawnedItem->SetInfo(itemInfo);
-			_storeComponent->AddItem(spawnedItem);
-			
-			
-			//2.상점인벤토리 처리하기
-			UTextBlock* text = Cast<UTextBlock>(slot->GetParent()->GetChildAt(1));			
-			text->SetText(FText::FromString("Sold Out"));
+			int32 itemIndex = _storeComponent->GetEmptyIndex();
+			_storeComponent->AddItem_Store(spawnedItem,this);
+						
+			_storeWidget->SetThisItemToopTip(slot, "Sold Out");
 			slot->HighLightAction();
 			_storeWidget->SetItemTexture_Buy(slotIndex, FRSP_ItemInfo());
+			_storeWidget->SetSoldOutTexture(slotIndex);
+
 		}
 	}
+	
 }
 
 void ARSP_ItemShop::MoveItem_InvenToStore()
 {
+	auto totalItemPrice = _storeWidget->GetTotalItemPrice_Sell();
+	_storeWidget->AddGold(totalItemPrice);
+
+	auto invenSlots = _storeWidget->GetInvenSlots();
+
+	for (auto& slot : invenSlots) {
+		if (slot->bIsChosen) {
+			auto index = slot->curIndex;
+			
+			_storeComponent->SellThisItem(index);
+			_storeWidget->SetItemTexture(index, FRSP_ItemInfo());
+			_storeWidget->SetThisItemToopTip(slot, "Sold Out");
+			slot->HighLightAction();
+			_storeWidget->totalItemPriceEvent_Sell.Broadcast(FMath::FloorToInt(-totalItemPrice * 0.5f));
+			if (FMath::Abs(_storeWidget->GetTotalItemPrice_Sell()) >= 1 && FMath::Abs(_storeWidget->GetTotalItemPrice_Sell()) < 2) {
+				_storeWidget->SetTotalItemPrice_Sell(0);
+				auto str = FString::Printf(TEXT("%d"), 0);
+				_storeWidget->RSP_ItemPriceText_Sell->SetText(FText::FromString(str));
+			}
+
+		}
+	}
+
 }
 
 

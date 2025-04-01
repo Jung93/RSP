@@ -3,7 +3,6 @@
 
 #include "UI/RSP_InvenUI.h"
 
-
 bool URSP_InvenUI::Initialize()
 {	
 	auto result = Super::Initialize();
@@ -41,6 +40,22 @@ void URSP_InvenUI::NativeConstruct()
 	RSP_ExitButtonImage->SetBrushFromTexture(_exitTexture);
 }
 
+void URSP_InvenUI::UpdateStoreInven_inven(int32 index, FRSP_ItemInfo info, AActor* actor)
+{
+	auto store = Cast<ARSP_ItemShop>(actor);
+	auto playerController = Cast<ARSP_PlayerController>(GetWorld()->GetFirstPlayerController());
+	auto player = Cast<ARSP_Player>(playerController->GetPawn());
+
+	store->SetItemTexture(index, info);
+	player->SetItemTexture(index, info);
+
+	UTextBlock* text = Cast<UTextBlock>(_invenSlots[index]->GetParent()->GetChildAt(1));
+	if (text) {
+		auto thisItemToolTip = _invenSlots[index]->GetItemInfo().itemToolTip;
+		text->SetText(FText::FromString(thisItemToolTip));
+	}
+}
+
 void URSP_InvenUI::SetItemTexture(int32 index, FRSP_ItemInfo info)
 {
 	_invenSlots[index]->SetToolTipText(FText::FromString(info.itemToolTip));
@@ -48,7 +63,7 @@ void URSP_InvenUI::SetItemTexture(int32 index, FRSP_ItemInfo info)
 	switch (info.itemId)
 	{
 	case 0:
-		_invenSlots[index]->SetTexture(_exitTexture);
+		_invenSlots[index]->SetTexture(_defaultTexture);
 		break;
 	case 1:
 		_invenSlots[index]->SetTexture(_hpPotionTexture_High);
@@ -60,6 +75,7 @@ void URSP_InvenUI::SetItemTexture(int32 index, FRSP_ItemInfo info)
 		break;
 	}
 }
+
 
 void URSP_InvenUI::SetDropTexture(int32 index)
 {

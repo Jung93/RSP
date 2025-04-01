@@ -4,6 +4,7 @@
 #include "RSP_StatComponent.h"
 #include "RSP_Character.h"
 #include "RSP_Player.h"
+#include "RSP_Enemy.h"
 #include "RSP_GameInstance.h"
 // Sets default values for this component's properties
 URSP_StatComponent::URSP_StatComponent()
@@ -32,7 +33,7 @@ void URSP_StatComponent::BeginPlay()
 	_levelUpExp = statInfo.levelUpExp;
 	_dropExp = statInfo.dropExp;
 	_curExp = 0;
-	_curGold = 500;
+	_curGold = 0;
 
 	
 }
@@ -49,10 +50,24 @@ void URSP_StatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 void URSP_StatComponent::AddCurHp(float amount)
 {
 	float before = _curHp;
+	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());
 
 	_curHp += amount;
 	if (_curHp <= 0) {
 		//PlayDeadMotion.Broadcast(); 사망애니메이션 만들때 사용
+		auto enemy = Cast<ARSP_Enemy>(GetOwner());
+		if (enemy) {
+			//int32 luck = enemy->Getluck();
+			//int32 randomNum = FMath::RandRange(1, 10); 
+			//
+			//if (randomNum <= luck) {
+			//	//아이템 스폰
+			//	enemyDeadEvent.BroadCast()
+			//}
+			if (gameInstance->enemyDeadEvent.IsBound()) {
+				gameInstance->enemyDeadEvent.Broadcast(enemy->GetLevel());
+			}
+		}
 		_curHp = 0;
 	}
 	if (_curHp > _maxHp) {
@@ -73,10 +88,24 @@ void URSP_StatComponent::AddCurHp(float amount)
 void URSP_StatComponent::AddCurHp(int32 amount)
 {
 	int32 before = _curHp;
+	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());
 
 	_curHp += amount;
 	if (_curHp <= 0) {
 		//PlayDeadMotion.Broadcast(); 사망애니메이션 만들때 사용
+		auto enemy = Cast<ARSP_Enemy>(GetOwner());
+		if (enemy) {
+			//int32 luck = enemy->Getluck();
+			//int32 randomNum = FMath::RandRange(1, 10); 
+			//
+			//if (randomNum <= luck) {
+			//	//아이템 스폰
+			//	enemyDeadEvent.BroadCast()
+			//}
+			if (gameInstance->enemyDeadEvent.IsBound()) {
+				gameInstance->enemyDeadEvent.Broadcast(enemy->GetLevel());
+			}
+		}
 		_curHp = 0;
 	}
 	if (_curHp > _maxHp) {
@@ -96,8 +125,17 @@ void URSP_StatComponent::AddCurHp(int32 amount)
 void URSP_StatComponent::AddExp(int32 value)
 {
 	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());	
+	auto character = Cast<ARSP_Character>(GetOwner());
+	auto player = Cast<ARSP_Player>(character);
+
 	_curExp += value;
-	UE_LOG(LogTemp, Error, TEXT("LEVEL : %d  ,  Cur EXP :  %d" ), _level, _curExp);
+	if (player) {
+		float ratio = _curExp / StaticCast<float>(_levelUpExp);
+		if (expChanged.IsBound()) {
+			expChanged.Broadcast(ratio);
+		}
+	}
+	//UE_LOG(LogTemp, Error, TEXT("LEVEL : %d  ,  Cur EXP :  %d" ), _level, _curExp);
 	if (_curExp >= _levelUpExp && _level < gameInstance->GetStatTableSize()) {
 		auto exp = _curExp - _levelUpExp;
 		_level++;
@@ -105,8 +143,9 @@ void URSP_StatComponent::AddExp(int32 value)
 		UE_LOG(LogTemp, Error, TEXT("LEVEL changed : %d"), _level);
 		if (levelChanged.IsBound()) {
 			levelChanged.Broadcast(_level);
+			expChanged.Broadcast(0);
 		}
-		auto character = Cast<ARSP_Character>(GetOwner());
+		
 		auto statInfo = gameInstance->GetStat_Level(_level);
 		_maxHp = statInfo.maxHp;
 		_curHp = statInfo.maxHp;
@@ -116,7 +155,7 @@ void URSP_StatComponent::AddExp(int32 value)
 		_dropExp = statInfo.dropExp;
 		_curExp = exp;
 	}
-	UE_LOG(LogTemp, Error, TEXT("LEVEL : %d  ,  Cur EXP :  %d  , Level UP EXP : %d"), _level, _curExp, _levelUpExp);
+	//UE_LOG(LogTemp, Error, TEXT("LEVEL : %d  ,  Cur EXP :  %d  , Level UP EXP : %d"), _level, _curExp, _levelUpExp);
 
 }
 
@@ -128,6 +167,25 @@ void URSP_StatComponent::AddGold(int32 value)
 		UE_LOG(LogTemp, Error, TEXT("Gold : %d"), _curGold);
 		player->AdjustGoldEvent(_curGold);
 	}
+}
+
+void URSP_StatComponent::ExecuteReward(int32 level)
+{
+	auto pawn = GetOwner();
+	auto player = Cast<ARSP_Player>(GetOwner());
+	if (player == nullptr) {
+		return;
+	}
+	else {
+		auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());
+		auto statInfo = gameInstance->GetStat_Level(level);
+		auto reward_exp = statInfo.dropExp;
+		auto reward_gold = statInfo.dropGold;
+
+		AddGold(reward_gold);
+		AddExp(reward_exp);
+	}
+	
 }
 
 void URSP_StatComponent::InitialSetting()

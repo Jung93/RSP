@@ -24,7 +24,7 @@ struct FRSP_ItemInfo : public FTableRowBase {
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString itemToolTip = "";
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 itemStat = -1;
+	int32 itemStat = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 itemMaxCount = 9;	
 };

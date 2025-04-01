@@ -2,4 +2,9 @@
 
 
 #include "UI/RSP_PlayerHpBar.h"
+#include "Components/ProgressBar.h"
 
+void URSP_PlayerHpBar::SetEXPBarValue(float ratio)
+{
+	RSP_EXPbar->SetPercent(ratio);
+}
