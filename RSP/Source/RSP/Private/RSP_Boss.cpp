@@ -4,14 +4,28 @@
 #include "RSP_Boss.h"
 #include "RSP_Character.h"
 
+#include "UI/RSP_AggroTableUI.h"
+
+
+
 ARSP_Boss::ARSP_Boss()
 {
+
+	static ConstructorHelpers::FClassFinder<URSP_AggroTableUI> aggroClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_AggroTableUI.BP_RSP_AggroTableUI_C'"));
+	if (aggroClass.Succeeded()) {
+		aggroUIClass = aggroClass.Class;
+	}
+
 }
 
 void ARSP_Boss::BeginPlay()
 {
 	Super::BeginPlay();
 
+	_aggroUI = CreateWidget<URSP_AggroTableUI>(GetWorld(), aggroUIClass);
+
+	_aggroUI->AddToViewport();
+	_aggroUI->aggroEvent.AddUObject(_aggroUI, &URSP_AggroTableUI::SetAggroTableInfo);
 }
 
 void ARSP_Boss::Tick(float DeltaTime)
@@ -36,6 +50,8 @@ float ARSP_Boss::TakeDamage(float Damage, FDamageEvent const& DamageEvent, ACont
 		return 0.0f;
 
 	SetAggroTable(attacker, Damage);
+
+	_aggroUI->aggroEvent.Broadcast(_aggroTable);
 
 	return Damage;
 }
