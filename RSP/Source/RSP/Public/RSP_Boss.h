@@ -52,4 +52,11 @@ public:
 
 private:
 	TArray<FAggroTable> _aggroTable;
+
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UUserWidget> aggroUIClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Aggro", meta = (AllowprivateAccess = "true"))
+	class URSP_AggroTableUI* _aggroUI;
+
 };

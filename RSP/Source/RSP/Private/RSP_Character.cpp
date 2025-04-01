@@ -126,6 +126,11 @@ float ARSP_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, 
 
 bool ARSP_Character::IsDead()
 {
+	if (_statComponent->IsDead())
+	{
+		SetActorEnableCollision(false);
+		return _statComponent->IsDead();
+	}
 	return _statComponent->IsDead();
 }
 
