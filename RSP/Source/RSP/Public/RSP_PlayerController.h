@@ -22,7 +22,9 @@ public:
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	class UInputMappingContext* _inputMappingContext;
-private:
-	
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	class UInputMappingContext* _UIMappingContext;
+
 
 };

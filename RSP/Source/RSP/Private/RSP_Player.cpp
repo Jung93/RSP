@@ -96,9 +96,9 @@ void ARSP_Player::Attack_Hit()
 			FVector hitPoint = hitResult.ImpactPoint;			
 			//Attack이펙트 추가
 			victim->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
-			//if (victim->IsDead()) {
-			//	TakeExp(victim);
-			//}
+			if (victim->IsDead()) {
+				TakeExp(victim);
+			}
 		}
 	}
 
@@ -165,8 +165,8 @@ void ARSP_Player::PostInitializeComponents()
 
 void ARSP_Player::TakeExp(ARSP_Enemy* enemy)
 {
-	auto exp = enemy->GetExp();
-	auto gold = enemy->GetGold();
+	auto exp = FMath::FloorToInt(enemy->GetExp() * 0.5f);
+	auto gold = FMath::FloorToInt(enemy->GetGold() * 0.5f);
 	_statComponent->AddExp(exp);
 	_statComponent->AddGold(gold);
 }
@@ -261,15 +261,15 @@ void ARSP_Player::Inven_Open(const FInputActionValue& value)
 				controller->HideUI();
 			}
 			_invenWidget->SetVisibility(ESlateVisibility::Collapsed);
+			_isInvenOpen = false;
 		}
 		else {
 			if (controller) {				
 				controller->ShowUI(_invenWidget);
 			}
 			_invenWidget->SetVisibility(ESlateVisibility::Visible);
+			_isInvenOpen = true;
 		}
-		_isInvenOpen = !_isInvenOpen;
-
 	}
 }
 
