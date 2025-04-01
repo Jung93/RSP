@@ -11,11 +11,11 @@ void URSP_AggroTableUI::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	auto children = VerticalBox->GetAllChildren();
+	auto children = AggroBox->GetAllChildren();
 
 	for (auto child : children)
 	{
-		auto textBlock = Cast<UTextBlock>(child);
+		auto textBlock = Cast<UTextBlock>(Cast<UVerticalBox>(child)->GetChildAt(0));
 
 		if(textBlock->IsValidLowLevel())
 			_textArray.Add(textBlock);

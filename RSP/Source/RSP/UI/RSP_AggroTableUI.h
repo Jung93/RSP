@@ -27,7 +27,7 @@ public:
 
 private:
 	UPROPERTY(Editanywhere,  meta = (BindWidget))
-	class UVerticalBox* VerticalBox;
+	class UVerticalBox* AggroBox;
 
 	UPROPERTY(Editanywhere,  meta = (BindWidget))
 	TArray<class UTextBlock*> _textArray;
