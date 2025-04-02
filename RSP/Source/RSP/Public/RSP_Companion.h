@@ -24,5 +24,4 @@ public:
 	void Attack();
 
 	void TakeExp(class ARSP_Enemy* enemy);
-
 };

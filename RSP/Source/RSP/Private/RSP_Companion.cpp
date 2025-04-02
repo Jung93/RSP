@@ -79,7 +79,7 @@ void ARSP_Companion::Attack_Hit()
 			FVector hitPoint = hitResult.ImpactPoint;
 			//EFFECT_M->PlayEffect("BigFire", hitPoint);
 			victim->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
-
+			
 		}
 	}
 

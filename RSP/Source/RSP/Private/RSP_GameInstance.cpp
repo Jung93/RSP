@@ -3,6 +3,7 @@
 
 #include "RSP_GameInstance.h"
 #include "Item/RSP_Item.h"
+#include "EngineUtils.h"
 #include "Engine/DataTable.h"
 URSP_GameInstance::URSP_GameInstance()
 {
@@ -40,4 +41,22 @@ int32 URSP_GameInstance::GetStatTableSize()
 {
 	int32 size = (_statTable->GetRowNames()).Num();
 	return size;
+}
+
+int32 URSP_GameInstance::GetClassCount(UWorld* world, TSubclassOf<class ARSP_Character> CharacterClass)
+{
+	if (CharacterClass == nullptr || world == nullptr) {
+		return 0;
+	}
+
+	int32 count = 0;
+
+	for (TActorIterator<AActor> Iter(world); Iter; ++Iter)
+	{
+		if (Iter->IsA(CharacterClass) && !Iter->IsHidden())
+		{
+			count++;
+		}
+	}
+	return count;
 }

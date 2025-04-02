@@ -25,6 +25,7 @@ public:
 
 	FEnemyDeadEvent enemyDeadEvent;
 
+	int32 GetClassCount(UWorld* world, TSubclassOf<class ARSP_Character> CharacterClass);
 private:
 	UPROPERTY()
 	class UDataTable* _statTable;

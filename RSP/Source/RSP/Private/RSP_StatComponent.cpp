@@ -4,6 +4,7 @@
 #include "RSP_StatComponent.h"
 #include "RSP_Character.h"
 #include "RSP_Player.h"
+#include "RSP_Companion.h"
 #include "RSP_Enemy.h"
 #include "RSP_GameInstance.h"
 // Sets default values for this component's properties
@@ -54,16 +55,9 @@ void URSP_StatComponent::AddCurHp(float amount)
 
 	_curHp += amount;
 	if (_curHp <= 0) {
-		//PlayDeadMotion.Broadcast(); 사망애니메이션 만들때 사용
 		auto enemy = Cast<ARSP_Enemy>(GetOwner());
 		if (enemy) {
-			//int32 luck = enemy->Getluck();
-			//int32 randomNum = FMath::RandRange(1, 10); 
-			//
-			//if (randomNum <= luck) {
-			//	//아이템 스폰
-			//	enemyDeadEvent.BroadCast()
-			//}
+		
 			enemy->DropItem();
 			if (gameInstance->enemyDeadEvent.IsBound()) {
 				gameInstance->enemyDeadEvent.Broadcast(enemy->GetLevel());
@@ -93,16 +87,9 @@ void URSP_StatComponent::AddCurHp(int32 amount)
 
 	_curHp += amount;
 	if (_curHp <= 0) {
-		//PlayDeadMotion.Broadcast(); 사망애니메이션 만들때 사용
 		auto enemy = Cast<ARSP_Enemy>(GetOwner());
 		if (enemy) {
-			//int32 luck = enemy->Getluck();
-			//int32 randomNum = FMath::RandRange(1, 10); 
-			//
-			//if (randomNum <= luck) {
-			//	//아이템 스폰
-			//	enemyDeadEvent.BroadCast()
-			//}
+		
 			enemy->DropItem();
 			if (gameInstance->enemyDeadEvent.IsBound()) {
 				gameInstance->enemyDeadEvent.Broadcast(enemy->GetLevel());
@@ -137,7 +124,6 @@ void URSP_StatComponent::AddExp(int32 value)
 			expChanged.Broadcast(ratio);
 		}
 	}
-	//UE_LOG(LogTemp, Error, TEXT("LEVEL : %d  ,  Cur EXP :  %d" ), _level, _curExp);
 	if (_curExp >= _levelUpExp && _level < gameInstance->GetStatTableSize()) {
 		auto exp = _curExp - _levelUpExp;
 		_level++;
@@ -157,7 +143,6 @@ void URSP_StatComponent::AddExp(int32 value)
 		_dropExp = statInfo.dropExp;
 		_curExp = exp;
 	}
-	//UE_LOG(LogTemp, Error, TEXT("LEVEL : %d  ,  Cur EXP :  %d  , Level UP EXP : %d"), _level, _curExp, _levelUpExp);
 
 }
 
@@ -175,15 +160,20 @@ void URSP_StatComponent::ExecuteReward(int32 level)
 {
 	auto pawn = GetOwner();
 	auto player = Cast<ARSP_Player>(GetOwner());
-	if (player == nullptr) {
+	auto companoin = Cast<ARSP_Companion>(GetOwner());
+
+	if (player == nullptr && companoin == nullptr) {
 		return;
 	}
 	else {
 		auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());
 		auto statInfo = gameInstance->GetStat_Level(level);
-		auto reward_exp = statInfo.dropExp;
-		auto reward_gold = statInfo.dropGold;
 
+		int32 companoinCount = gameInstance->GetClassCount(GetWorld(), ARSP_Companion::StaticClass()) + 1;//플레이어와 동료의 합
+		
+		auto reward_exp = StaticCast<int32>((statInfo.dropExp / StaticCast<float>(companoinCount)));
+		auto reward_gold = StaticCast<int32>((statInfo.dropGold / StaticCast<float>(companoinCount)));
+		
 		AddGold(reward_gold);
 		AddExp(reward_exp);
 	}
