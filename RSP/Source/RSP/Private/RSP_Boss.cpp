@@ -61,7 +61,7 @@ float ARSP_Boss::TakeDamage(float Damage, FDamageEvent const& DamageEvent, ACont
 	for (int32 i = 0; i < _aggroTable.Num(); i++)
 	{
 		float ratio = _aggroTable[i].totalDamage / _damagedHp;
-		_aggroUI->aggroProgressBarEvent.Broadcast(i, ratio);
+		_aggroUI->aggroProgressBarEvent.Broadcast(i, ratio, _aggroTable[i].totalDamage);
 
 	}
 
