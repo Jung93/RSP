@@ -26,6 +26,9 @@ void ARSP_Boss::BeginPlay()
 
 	_aggroUI->AddToViewport();
 	_aggroUI->aggroEvent.AddUObject(_aggroUI, &URSP_AggroTableUI::SetAggroTableInfo);
+	_aggroUI->aggroProgressBarEvent.AddUObject(_aggroUI, &URSP_AggroTableUI::SetAggroProgressBar);
+
+	_damagedHp = 0;
 }
 
 void ARSP_Boss::Tick(float DeltaTime)
@@ -50,8 +53,18 @@ float ARSP_Boss::TakeDamage(float Damage, FDamageEvent const& DamageEvent, ACont
 		return 0.0f;
 
 	SetAggroTable(attacker, Damage);
+	_damagedHp += Damage;
 
 	_aggroUI->aggroEvent.Broadcast(_aggroTable);
+	
+
+	for (int32 i = 0; i < _aggroTable.Num(); i++)
+	{
+		float ratio = _aggroTable[i].totalDamage / _damagedHp;
+		_aggroUI->aggroProgressBarEvent.Broadcast(i, ratio);
+
+	}
+
 
 	return Damage;
 }

@@ -4,6 +4,8 @@
 #include "UI/RSP_AggroTableUI.h"
 #include "Components/VerticalBox.h"
 #include "Components/TextBlock.h"
+#include "Components/SizeBox.h"
+#include "Components/ProgressBar.h"
 
 #include "RSP_Boss.h"
 
@@ -16,9 +18,14 @@ void URSP_AggroTableUI::NativeConstruct()
 	for (auto child : children)
 	{
 		auto textBlock = Cast<UTextBlock>(Cast<UVerticalBox>(child)->GetChildAt(0));
+		auto progressBar = Cast<UProgressBar>(Cast<USizeBox>(Cast<UVerticalBox>(child)->GetChildAt(1))->GetChildAt(0));
 
 		if(textBlock->IsValidLowLevel())
 			_textArray.Add(textBlock);
+
+		if (progressBar->IsValidLowLevel())
+			_progressBarArray.Add(progressBar);
+
 	}
 
 
@@ -37,5 +44,14 @@ void URSP_AggroTableUI::SetAggroTableInfo(TArray<FAggroTable>& aggroInfo)
 	}
 
 }
+
+void URSP_AggroTableUI::SetAggroProgressBar(int32 index, float ratio)
+{
+
+	_progressBarArray[index]->SetPercent(ratio);
+
+
+}
+
 
 

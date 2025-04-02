@@ -53,6 +53,8 @@ public:
 private:
 	TArray<FAggroTable> _aggroTable;
 
+	int32 _damagedHp;
+
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UUserWidget> aggroUIClass;
 
