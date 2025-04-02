@@ -19,6 +19,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/Button.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetComponent.h"
 
@@ -101,6 +102,7 @@ void ARSP_Player::Attack_Hit()
 			}
 		}
 	}
+	
 
 	DrawDebugCapsule(
 		GetWorld(),
@@ -247,6 +249,8 @@ void ARSP_Player::Attack(const FInputActionValue& value)
 
 		_animInstance->PlayAnimMontage();
 		_animInstance->JumpToSection(_curAttackSection);
+
+		CreateHitPoint();
 	}
 
 }

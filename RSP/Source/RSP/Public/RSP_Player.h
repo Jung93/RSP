@@ -47,6 +47,9 @@ public:
 	UFUNCTION()
 	void Inven_Close();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "HitPoint")
+	void CreateHitPoint();
+
 
 public:
 	//for UI 
