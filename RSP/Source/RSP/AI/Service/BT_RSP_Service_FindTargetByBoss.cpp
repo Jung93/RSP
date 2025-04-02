@@ -39,7 +39,7 @@ void UBT_RSP_Service_FindTargetByBoss::TickNode(UBehaviorTreeComponent& OwnerCom
 		qParams
 	);
 
-	DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Green, false, 0.3f);
+	//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Green, false, 0.3f);
 
 	if (!result)
 	{
@@ -59,13 +59,13 @@ void UBT_RSP_Service_FindTargetByBoss::TickNode(UBehaviorTreeComponent& OwnerCom
 				if (player->IsValidLowLevel())
 				{
 					OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Player")), player);
-					DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
+					//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
 					return;
 				}
 				else if (companion->IsValidLowLevel())
 				{
 					OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Companion")), companion);
-					DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
+					//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
 					return;
 				}
 				else
@@ -93,7 +93,7 @@ void UBT_RSP_Service_FindTargetByBoss::TickNode(UBehaviorTreeComponent& OwnerCom
 					curPawn->GetAggroTable().RemoveAt(0);
 				}
 
-				DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
+				//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
 				return;
 			}
 			else if (targetCompanion->IsValidLowLevel())
@@ -107,7 +107,7 @@ void UBT_RSP_Service_FindTargetByBoss::TickNode(UBehaviorTreeComponent& OwnerCom
 					curPawn->GetAggroTable().RemoveAt(0);
 				}
 
-				DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
+				//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
 				return;
 			}
 		}

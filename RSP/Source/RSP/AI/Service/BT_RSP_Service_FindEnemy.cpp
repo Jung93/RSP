@@ -41,7 +41,7 @@ void UBT_RSP_Service_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 		qParams
 	);
 
-	DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Green, false, 0.3f);
+	//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Green, false, 0.3f);
 
 	if (!result)
 	{
@@ -57,7 +57,7 @@ void UBT_RSP_Service_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 			if (enemy->IsValidLowLevel())
 			{
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Enemy")), enemy);
-				DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
+				//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
 				return;
 			}
 		}

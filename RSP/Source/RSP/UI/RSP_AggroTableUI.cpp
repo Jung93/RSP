@@ -4,6 +4,9 @@
 #include "UI/RSP_AggroTableUI.h"
 #include "Components/VerticalBox.h"
 #include "Components/TextBlock.h"
+#include "Components/SizeBox.h"
+#include "Components/ProgressBar.h"
+#include "Components/CanvasPanel.h"
 
 #include "RSP_Boss.h"
 
@@ -16,12 +19,25 @@ void URSP_AggroTableUI::NativeConstruct()
 	for (auto child : children)
 	{
 		auto textBlock = Cast<UTextBlock>(Cast<UVerticalBox>(child)->GetChildAt(0));
+		auto progressCanvas = Cast<UCanvasPanel>(Cast<USizeBox>(Cast<UVerticalBox>(child)->GetChildAt(1))->GetChildAt(0));
+
+		auto progressBar = Cast<UProgressBar>(progressCanvas->GetChildAt(0));
+		auto progressPercent = Cast<UTextBlock>(progressCanvas->GetChildAt(1));
+		auto damageBlock = Cast<UTextBlock>(progressCanvas->GetChildAt(2));
 
 		if(textBlock->IsValidLowLevel())
 			_textArray.Add(textBlock);
+
+		if (progressBar->IsValidLowLevel())
+			_progressBarArray.Add(progressBar);
+
+		if (progressPercent->IsValidLowLevel())
+			_progressPercentArray.Add(progressPercent);
+
+		if (damageBlock->IsValidLowLevel())
+			_damageArray.Add(damageBlock);
+
 	}
-
-
 
 }
 
@@ -37,5 +53,22 @@ void URSP_AggroTableUI::SetAggroTableInfo(TArray<FAggroTable>& aggroInfo)
 	}
 
 }
+
+void URSP_AggroTableUI::SetAggroProgressBar(int32 index, float ratio, float damage)
+{
+
+	_progressBarArray[index]->SetPercent(ratio);
+
+	if(index != 0)
+		_progressBarArray[index]->SetFillColorAndOpacity(FLinearColor(0.5f, 0.5f, 0.5f, 1.0f));
+
+	FString str = FString::Printf(TEXT("%.1f%%"), ratio * 100.0f);
+	FString damageStr = FString::Printf(TEXT("%d"), (int32)damage);
+
+	_progressPercentArray[index]->SetText(FText::FromString(str));
+	_damageArray[index]->SetText(FText::FromString(damageStr));
+
+}
+
 
 

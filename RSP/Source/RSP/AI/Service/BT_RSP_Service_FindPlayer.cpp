@@ -37,7 +37,7 @@ void UBT_RSP_Service_FindPlayer::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 		qParams
 	);
 
-	DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Green, false, 0.3f);
+	//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Green, false, 0.3f);
 
 	if (!result)
 	{
@@ -53,7 +53,7 @@ void UBT_RSP_Service_FindPlayer::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 			if (player->IsValidLowLevel())
 			{
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Player")), player);
-				DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
+				//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
 				return;
 			}
 		}

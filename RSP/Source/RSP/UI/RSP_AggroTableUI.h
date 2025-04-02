@@ -11,6 +11,7 @@
 
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FAggroEvent, TArray<FAggroTable>&);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FAggroProgressBarEvent, int32, float, float);
 
 UCLASS()
 class RSP_API URSP_AggroTableUI : public UUserWidget
@@ -22,8 +23,10 @@ public:
 
 	
 	void SetAggroTableInfo(TArray<FAggroTable>& aggroInfo);
+	void SetAggroProgressBar(int32 index, float ratio, float damage);
 
 	FAggroEvent aggroEvent;
+	FAggroProgressBarEvent aggroProgressBarEvent;
 
 private:
 	UPROPERTY(Editanywhere,  meta = (BindWidget))
@@ -31,4 +34,13 @@ private:
 
 	UPROPERTY(Editanywhere,  meta = (BindWidget))
 	TArray<class UTextBlock*> _textArray;
+
+	UPROPERTY(Editanywhere, meta = (BindWidget))
+	TArray<class UProgressBar*> _progressBarArray;
+
+	UPROPERTY(Editanywhere, meta = (BindWidget))
+	TArray<class UTextBlock*> _progressPercentArray;
+
+	UPROPERTY(Editanywhere, meta = (BindWidget))
+	TArray<class UTextBlock*> _damageArray;
 };
