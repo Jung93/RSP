@@ -77,10 +77,14 @@ void UBT_RSP_Service_FindTargetByBoss::TickNode(UBehaviorTreeComponent& OwnerCom
 
 			}
 
-			curPawn->SortAggroTable();
+			//curPawn->SortAggroTable();
 
-			auto targetPlayer = Cast<ARSP_Player>(curPawn->GetAggroTable()[0].character);
-			auto targetCompanion = Cast<ARSP_Companion>(curPawn->GetAggroTable()[0].character);
+			//auto targetPlayer = Cast<ARSP_Player>(curPawn->GetAggroTable()[0].character);
+			//auto targetCompanion = Cast<ARSP_Companion>(curPawn->GetAggroTable()[0].character);
+
+
+			auto targetPlayer = Cast<ARSP_Player>(curPawn->GetHighestDamager().character);
+			auto targetCompanion = Cast<ARSP_Companion>(curPawn->GetHighestDamager().character);
 
 			if (targetPlayer->IsValidLowLevel())
 			{
@@ -90,7 +94,7 @@ void UBT_RSP_Service_FindTargetByBoss::TickNode(UBehaviorTreeComponent& OwnerCom
 				if (targetPlayer->IsDead())
 				{
 					OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Player")), nullptr);
-					curPawn->GetAggroTable().RemoveAt(0);
+					//curPawn->GetAggroTable().RemoveAt(0);
 				}
 
 				//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);
@@ -104,7 +108,7 @@ void UBT_RSP_Service_FindTargetByBoss::TickNode(UBehaviorTreeComponent& OwnerCom
 				if (targetCompanion->IsDead())
 				{
 					OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Companion")), nullptr);
-					curPawn->GetAggroTable().RemoveAt(0);
+					//curPawn->GetAggroTable().RemoveAt(0);
 				}
 
 				//DrawDebugSphere(GetWorld(), pos, sphereRaidus, 30, FColor::Red, false, 0.3f);

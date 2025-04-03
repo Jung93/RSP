@@ -50,6 +50,10 @@ void URSP_AggroTableUI::SetAggroTableInfo(TArray<FAggroTable>& aggroInfo)
 	{
 		FString name = aggroInfo[i].character->GetName();
 		_textArray[i]->SetText(FText::FromString(name));
+
+		if(aggroInfo[i].character->IsDead())
+			_textArray[i]->SetColorAndOpacity(FLinearColor(0.2f, 0.2f, 0.2f, 1.0f));
+
 	}
 
 }
@@ -59,14 +63,31 @@ void URSP_AggroTableUI::SetAggroProgressBar(int32 index, float ratio, float dama
 
 	_progressBarArray[index]->SetPercent(ratio);
 
-	if(index != 0)
-		_progressBarArray[index]->SetFillColorAndOpacity(FLinearColor(0.5f, 0.5f, 0.5f, 1.0f));
+	//if(index != 0)
+	//	_progressBarArray[index]->SetFillColorAndOpacity(FLinearColor(0.5f, 0.5f, 0.5f, 1.0f));
 
 	FString str = FString::Printf(TEXT("%.1f%%"), ratio * 100.0f);
 	FString damageStr = FString::Printf(TEXT("%d"), (int32)damage);
 
 	_progressPercentArray[index]->SetText(FText::FromString(str));
 	_damageArray[index]->SetText(FText::FromString(damageStr));
+
+}
+
+void URSP_AggroTableUI::SetProgressBarColor(int32 index)
+{
+
+	for (int i = 0; i < _progressBarArray.Num(); i++)
+	{
+		if (i == index)
+		{
+			_progressBarArray[i]->SetFillColorAndOpacity(FLinearColor(0.25f, 0.0f, 0.0f, 1.0f));
+		}
+		else
+		{
+			_progressBarArray[i]->SetFillColorAndOpacity(FLinearColor(0.5f, 0.5f, 0.5f, 1.0f));
+		}
+	}
 
 }
 

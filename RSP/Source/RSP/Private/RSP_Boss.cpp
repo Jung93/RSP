@@ -27,6 +27,7 @@ void ARSP_Boss::BeginPlay()
 	_aggroUI->AddToViewport();
 	_aggroUI->aggroEvent.AddUObject(_aggroUI, &URSP_AggroTableUI::SetAggroTableInfo);
 	_aggroUI->aggroProgressBarEvent.AddUObject(_aggroUI, &URSP_AggroTableUI::SetAggroProgressBar);
+	_aggroUI->aggroColorEvent.AddUObject(_aggroUI, &URSP_AggroTableUI::SetProgressBarColor);
 
 	_damagedHp = 0;
 }
@@ -64,7 +65,7 @@ float ARSP_Boss::TakeDamage(float Damage, FDamageEvent const& DamageEvent, ACont
 		_aggroUI->aggroProgressBarEvent.Broadcast(i, ratio, _aggroTable[i].totalDamage);
 
 	}
-
+	ChangeAggroColor();
 
 	return Damage;
 }
@@ -117,4 +118,41 @@ void ARSP_Boss::SortAggroTable()
 				return true;
 			return false;
 		});
+}
+
+FAggroTable& ARSP_Boss::GetHighestDamager()
+{
+	FAggroTable* info = &_aggroTable[0];
+	for (int i = 1; i < _aggroTable.Num(); i++)
+	{
+		if (_aggroTable[i].totalDamage > info->totalDamage)
+		{
+			if (_aggroTable[i].character->IsDead())
+				continue;
+
+			info = &_aggroTable[i];
+		}
+	}
+
+	return *info;
+
+}
+
+void ARSP_Boss::ChangeAggroColor()
+{
+	FAggroTable info = _aggroTable[0];
+	int32 index = 0;
+	for (int i = 1; i < _aggroTable.Num(); i++)
+	{
+		if (_aggroTable[i] > info)
+		{
+			if (_aggroTable[i].character->IsDead())
+				continue;
+
+			info = _aggroTable[i];
+			index = i;
+		}
+	}
+
+	_aggroUI->aggroColorEvent.Broadcast(index);
 }

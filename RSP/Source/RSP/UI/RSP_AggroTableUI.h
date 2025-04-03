@@ -11,6 +11,7 @@
 
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FAggroEvent, TArray<FAggroTable>&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FAggroColorEvent, int32);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FAggroProgressBarEvent, int32, float, float);
 
 UCLASS()
@@ -24,9 +25,11 @@ public:
 	
 	void SetAggroTableInfo(TArray<FAggroTable>& aggroInfo);
 	void SetAggroProgressBar(int32 index, float ratio, float damage);
+	void SetProgressBarColor(int32 index);
 
 	FAggroEvent aggroEvent;
 	FAggroProgressBarEvent aggroProgressBarEvent;
+	FAggroColorEvent aggroColorEvent;
 
 private:
 	UPROPERTY(Editanywhere,  meta = (BindWidget))

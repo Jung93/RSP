@@ -50,6 +50,9 @@ public:
 
 	TArray<FAggroTable>& GetAggroTable() { return _aggroTable; }
 
+	FAggroTable& GetHighestDamager();
+	void ChangeAggroColor();
+
 private:
 	TArray<FAggroTable> _aggroTable;
 
