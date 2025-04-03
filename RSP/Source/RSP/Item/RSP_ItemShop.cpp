@@ -212,11 +212,10 @@ void ARSP_ItemShop::MoveItem_InvenToStore()
 		if (slot->bIsChosen) {
 			auto index = slot->curIndex;
 			
-			_storeComponent->SellThisItem(index);
-			_storeWidget->SetItemTexture(index, FRSP_ItemInfo());
-			_storeWidget->SetThisItemToopTip(slot, "Sold Out");
 			slot->HighLightAction();
-			_storeWidget->totalItemPriceEvent_Sell.Broadcast(FMath::FloorToInt(-totalItemPrice * 0.5f));
+			_storeComponent->SellThisItem(index);
+			_storeWidget->SetItemTexture(index, FRSP_ItemInfo());		
+			_storeWidget->SetThisItemToopTip(slot, "");
 			if (FMath::Abs(_storeWidget->GetTotalItemPrice_Sell()) >= 1 && FMath::Abs(_storeWidget->GetTotalItemPrice_Sell()) < 2) {
 				_storeWidget->SetTotalItemPrice_Sell(0);
 				auto str = FString::Printf(TEXT("%d"), 0);
