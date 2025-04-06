@@ -3,7 +3,7 @@
 
 #include "RSP_Boss.h"
 #include "RSP_Character.h"
-
+#include "AI/RSP_AIController.h"
 #include "UI/RSP_AggroTableUI.h"
 
 
@@ -15,7 +15,11 @@ ARSP_Boss::ARSP_Boss()
 	if (aggroClass.Succeeded()) {
 		aggroUIClass = aggroClass.Class;
 	}
-
+	static ConstructorHelpers::FClassFinder<ARSP_AIController> controllerClass(TEXT("/Script/Engine.Blueprint'/Game/Blueprint/AI/BP_RSP_BossController.BP_RSP_BossController_C'"));
+	if (controllerClass.Succeeded()) {
+		ControllerClass = controllerClass.Class;
+	}
+	AIControllerClass = ControllerClass;
 }
 
 void ARSP_Boss::BeginPlay()
@@ -28,6 +32,12 @@ void ARSP_Boss::BeginPlay()
 	_aggroUI->aggroEvent.AddUObject(_aggroUI, &URSP_AggroTableUI::SetAggroTableInfo);
 	_aggroUI->aggroProgressBarEvent.AddUObject(_aggroUI, &URSP_AggroTableUI::SetAggroProgressBar);
 	_aggroUI->aggroColorEvent.AddUObject(_aggroUI, &URSP_AggroTableUI::SetProgressBarColor);
+	
+	AController* thisAIController = GetWorld()->SpawnActor<ARSP_AIController>(AIControllerClass, GetActorLocation(), GetActorRotation());
+	if (thisAIController)
+	{
+		thisAIController->Possess(this);
+	}
 
 	_damagedHp = 0;
 }

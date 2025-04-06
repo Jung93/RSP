@@ -6,6 +6,7 @@
 #include "RSP_Companion.h"
 #include "RSP_StatComponent.h"
 #include "Item/RSP_Item.h"
+#include "AI/RSP_AIController.h"
 
 #include "InputActionValue.h"
 
@@ -17,6 +18,11 @@
 ARSP_Enemy::ARSP_Enemy()
 {
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Enemy"));
+	static ConstructorHelpers::FClassFinder<ARSP_AIController> controllerClass(TEXT("/Script/Engine.Blueprint'/Game/Blueprint/AI/BP_RSP_AIController.BP_RSP_AIController_C'"));
+	if (controllerClass.Succeeded()) {
+		ControllerClass = controllerClass.Class;
+	}
+	AIControllerClass = ControllerClass;
 }
 
 void ARSP_Enemy::Attack_Hit()
@@ -96,6 +102,12 @@ void ARSP_Enemy::BeginPlay()
 	_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Enemy::Attack_Hit);
 	//_animInstance->_deadEvent.AddUObject(this, &ARSP_Enemy::DeadEvent);
+
+	AController* thisAIController = GetWorld()->SpawnActor<ARSP_AIController>(AIControllerClass, GetActorLocation(), GetActorRotation());
+	if (thisAIController)
+	{
+		thisAIController->Possess(this);
+	}
 }
 
 void ARSP_Enemy::Attack()

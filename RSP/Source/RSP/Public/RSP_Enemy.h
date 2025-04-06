@@ -42,4 +42,7 @@ protected:
 	TSubclassOf<class ARSP_Item> ItemClass;
 	UPROPERTY(VisibleAnywhere,Category = "Drop Item")
 	class ARSP_Item* _dropItem;
+
+	UPROPERTY(EditAnywhere, Category = "AI Controller")
+	TSubclassOf<class ARSP_AIController> ControllerClass;
 };

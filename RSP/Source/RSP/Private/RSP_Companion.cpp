@@ -4,6 +4,7 @@
 #include "RSP_Companion.h"
 #include "RSP_Enemy.h"
 #include "RSP_StatComponent.h"
+#include "AI/RSP_AIController.h"
 
 #include "UI/RSP_HpBar.h"
 #include "Components/WidgetComponent.h"
@@ -16,9 +17,12 @@
 
 ARSP_Companion::ARSP_Companion()
 {
-
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Player"));
-
+	static ConstructorHelpers::FClassFinder<ARSP_AIController> controllerClass(TEXT("/Script/Engine.Blueprint'/Game/Blueprint/AI/BP_RSP_CompanionController.BP_RSP_CompanionController_C'"));
+	if (controllerClass.Succeeded()) {
+		ControllerClass = controllerClass.Class;
+	}
+	AIControllerClass = ControllerClass;
 	_level = 1;
 }
 
@@ -34,6 +38,11 @@ void ARSP_Companion::BeginPlay()
 		_statComponent->printName.AddUObject(hpBar, &URSP_HpBar::SetOwnerName);
 
 		_statComponent->printName.Broadcast(GetName());
+	}
+	AController* thisAIController = GetWorld()->SpawnActor<ARSP_AIController>(AIControllerClass, GetActorLocation(), GetActorRotation());
+	if (thisAIController)
+	{
+		thisAIController->Possess(this);
 	}
 }
 

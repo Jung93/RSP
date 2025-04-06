@@ -53,7 +53,7 @@ public:
 	FAggroTable& GetHighestDamager();
 	void ChangeAggroColor();
 
-private:
+protected:
 	TArray<FAggroTable> _aggroTable;
 
 	int32 _damagedHp;
@@ -63,5 +63,4 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Aggro", meta = (AllowprivateAccess = "true"))
 	class URSP_AggroTableUI* _aggroUI;
-
 };
