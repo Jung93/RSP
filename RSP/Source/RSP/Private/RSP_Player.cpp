@@ -102,16 +102,16 @@ void ARSP_Player::Attack_Hit()
 		}
 	}
 
-	DrawDebugCapsule(
-		GetWorld(),
-		Center,
-		_attackRange * 0.5f,
-		attackRadius,
-		quat,
-		drawColor,
-		false,
-		3.0f
-	);
+	//DrawDebugCapsule(
+	//	GetWorld(),
+	//	Center,
+	//	_attackRange * 0.5f,
+	//	attackRadius,
+	//	quat,
+	//	drawColor,
+	//	false,
+	//	3.0f
+	//);
 }
 
 void ARSP_Player::AdjustGoldEvent(int32 value)

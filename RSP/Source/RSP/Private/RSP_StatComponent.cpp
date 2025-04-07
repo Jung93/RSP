@@ -186,6 +186,7 @@ void URSP_StatComponent::SetLevel(int32 level)
 	auto character = Cast<ARSP_Character>(GetOwner());
 
 	auto statInfo = gameInstance->GetStat_Level(level);
+	_level = level;
 	_maxHp = statInfo.maxHp;
 	_curHp = statInfo.maxHp;
 	_atk = statInfo.atk;
