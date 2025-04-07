@@ -180,6 +180,21 @@ void URSP_StatComponent::ExecuteReward(int32 level)
 	
 }
 
+void URSP_StatComponent::SetLevel(int32 level)
+{
+	auto gameInstance = Cast<URSP_GameInstance>(GetWorld()->GetGameInstance());
+	auto character = Cast<ARSP_Character>(GetOwner());
+
+	auto statInfo = gameInstance->GetStat_Level(level);
+	_maxHp = statInfo.maxHp;
+	_curHp = statInfo.maxHp;
+	_atk = statInfo.atk;
+	_dropGold = statInfo.dropGold;
+	_levelUpExp = statInfo.levelUpExp;
+	_dropExp = statInfo.dropExp;
+	levelChanged.Broadcast(level);
+}
+
 void URSP_StatComponent::InitialSetting()
 {
 	auto player = Cast<ARSP_Player>(GetOwner());

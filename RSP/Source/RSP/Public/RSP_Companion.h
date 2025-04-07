@@ -24,4 +24,8 @@ public:
 	void Attack();
 
 	void TakeExp(class ARSP_Enemy* enemy);
+
+protected:
+	UPROPERTY(EditAnywhere, Category = "AI Controller")
+	TSubclassOf<class ARSP_AIController> ControllerClass;
 };

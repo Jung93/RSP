@@ -50,7 +50,8 @@ public:
 	float Vertical() { return _vertical; }
 	float Horizontal() { return _horizontal; }
 
-	const int16& GetLevel() { return _level; }
+	const int16& GetLevel() { return _level; }	
+	void SetLevel(int32 level);
 	FString GetMyName() { return _name; }
 
 

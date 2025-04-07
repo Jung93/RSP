@@ -134,3 +134,8 @@ bool ARSP_Character::IsDead()
 	return _statComponent->IsDead();
 }
 
+void ARSP_Character::SetLevel(int32 level)
+{
+	_statComponent->SetLevel(level);
+}
+

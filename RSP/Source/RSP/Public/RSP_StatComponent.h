@@ -64,7 +64,7 @@ public:
 	void AddGold(int32 value);
 
 	void ExecuteReward(int32 level);
-
+	void SetLevel(int32 level);
 	void InitialSetting();
 
 	FEXPChanged expChanged;
