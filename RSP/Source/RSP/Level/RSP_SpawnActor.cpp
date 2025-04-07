@@ -45,6 +45,7 @@ void ARSP_SpawnActor::SpawnCharacter()
 
 		_spawnedActor = GetWorld()->SpawnActor<ARSP_Character>(CharacterClass, vector, rotator);
 		_spawnedActor->SetLevel(_level);
+
 	}
 }
 
