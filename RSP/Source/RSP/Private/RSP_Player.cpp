@@ -43,7 +43,7 @@ ARSP_Player::ARSP_Player()
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Player"));
 	
-	_level = 4;
+	_level = 1;
 
 	static ConstructorHelpers::FClassFinder<URSP_InvenUI> invenClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprint/UI/BP_RSP_InvenUI.BP_RSP_InvenUI_C'"));
 	if (invenClass.Succeeded()) {
