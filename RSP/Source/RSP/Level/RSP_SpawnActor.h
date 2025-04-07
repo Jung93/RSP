@@ -29,6 +29,8 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, Category = "Character Class")
 	TSubclassOf<class ARSP_Character> CharacterClass;
+	UPROPERTY(EditAnywhere, Category = "Character Class")
+	TSubclassOf<class ARSP_Item> ItemClass;
 	UPROPERTY(VisibleAnywhere, Category = "Character Class")
 	class ARSP_Character* _spawnedActor;
 	UPROPERTY(EditAnywhere, Category = "Character Class")
