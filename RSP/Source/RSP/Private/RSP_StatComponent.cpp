@@ -132,6 +132,7 @@ void URSP_StatComponent::AddExp(int32 value)
 		if (levelChanged.IsBound()) {
 			levelChanged.Broadcast(_level);
 			expChanged.Broadcast(0);
+			hpChanged.Broadcast(1);
 		}
 		
 		auto statInfo = gameInstance->GetStat_Level(_level);
