@@ -71,7 +71,7 @@ void URSP_StatComponent::AddCurHp(float amount)
 	auto actor = GetOwner();
 
 	UE_LOG(LogTemp, Warning, TEXT("Name : %s , HP : %d"), *actor->GetName(), _curHp);
-	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Purple, FString::Printf(TEXT("Name : %s , HP : %d"), *actor->GetName(), _curHp));
+	//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Purple, FString::Printf(TEXT("Name : %s , HP : %d"), *actor->GetName(), _curHp));
 
 	float ratio = _curHp / (float)_maxHp;
 	if (hpChanged.IsBound()) {

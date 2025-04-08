@@ -109,10 +109,10 @@ void URSP_InvenUI::SendHealValue(int32 index)
 {
 	auto healvalue = _invenSlots[index]->GetItemInfo().itemStat;
 	healValue.Broadcast(healvalue);
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		5.0f,
-		FColor::Black,
-		FString::Printf(TEXT("%d"), healvalue)
-	);
+	//GEngine->AddOnScreenDebugMessage(
+	//	-1,
+	//	5.0f,
+	//	FColor::Black,
+	//	FString::Printf(TEXT("%d"), healvalue)
+	//);
 }
