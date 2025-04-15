@@ -50,6 +50,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "HitPoint")
 	void CreateHitPoint();
 
+	UFUNCTION()
+	void Possess_test(const struct FInputActionValue& value);
 
 public:
 	//for UI 
@@ -79,7 +81,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
 	class UInputAction* _invenOpenAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
-	class UInputAction* _interactionAction;
+	class UInputAction* _interactionAction;	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* _possessionAction;
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* _camera;

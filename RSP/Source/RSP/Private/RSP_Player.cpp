@@ -22,6 +22,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "Animation/RSP_AnimInstance.h"
 
@@ -189,6 +190,7 @@ void ARSP_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		enhancedInputComponent->BindAction(_jumpAction, ETriggerEvent::Triggered, this, &ARSP_Player::JumpA);
 		enhancedInputComponent->BindAction(_invenOpenAction, ETriggerEvent::Started, this, &ARSP_Player::Inven_Open);
 		enhancedInputComponent->BindAction(_interactionAction, ETriggerEvent::Started, this, &ARSP_Player::Interaction_Item);
+		enhancedInputComponent->BindAction(_possessionAction, ETriggerEvent::Started, this, &ARSP_Player::Possess_test);
 	}
 }
 
@@ -349,6 +351,20 @@ void ARSP_Player::Inven_Close()
 		_invenWidget->SetVisibility(ESlateVisibility::Collapsed);
 		_isInvenOpen = false;
 	}
+}
+
+void ARSP_Player::Possess_test(const FInputActionValue& value)
+{
+	bool isPressed = value.Get<bool>();
+	auto controller = Cast<ARSP_PlayerController>(GetController());
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ARSP_ItemShop::StaticClass(), FoundActors);
+	AActor* itemShop = FoundActors[0];
+	if (controller != nullptr && isPressed) {
+
+		controller->SetViewTargetWithBlend(itemShop,1.0f,VTBlend_Cubic);
+	}
+
 }
 
 
