@@ -10,6 +10,8 @@
 #include "Components/WidgetComponent.h"
 
 #include "Kismet/KismetMathLibrary.h"
+
+#include "GAS/RSP_AbilitySystemComponent.h"
 // Sets default values
 ARSP_Character::ARSP_Character()
 {
@@ -62,6 +64,7 @@ void ARSP_Character::BeginPlay()
 		_statComponent->printName.Broadcast(_name);
 		_statComponent->levelChanged.Broadcast(_level);
 	}
+
 }
 
 // Called every frame
@@ -136,14 +139,23 @@ bool ARSP_Character::IsDead()
 
 UAbilitySystemComponent* ARSP_Character::GetAbilitySystemComponent() const
 {
-	return nullptr;
+	return AbilitySystemComponent;
 }
 
 void ARSP_Character::InitAbilitySystem()
 {
 }
 
-void ARSP_Character::AddCharacterAbilities()
+void ARSP_Character::GiveDefaultAbilities()
 {
+	check(AbilitySystemComponent);
+	if (!HasAuthority()) {
+		return;
+	}
+	for (TSubclassOf<UGameplayAbility> abilityClass : DefaultAbilities) {
+
+		FGameplayAbilitySpec abilitySpec = FGameplayAbilitySpec(abilityClass, 1);
+		AbilitySystemComponent->GiveAbility(abilitySpec);
+	}
 }
 

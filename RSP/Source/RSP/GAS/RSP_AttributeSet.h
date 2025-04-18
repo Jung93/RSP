@@ -10,7 +10,7 @@
 	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName)	\
 	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName)				\
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName)				\
-	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)				
 
 UCLASS()
 class RSP_API URSP_AttributeSet : public UAttributeSet
@@ -18,6 +18,9 @@ class RSP_API URSP_AttributeSet : public UAttributeSet
 	GENERATED_BODY()
 public:
 	URSP_AttributeSet();
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+
 public:
 	ATTRIBUTE_ACCESSORS(ThisClass, Health);
 	ATTRIBUTE_ACCESSORS(ThisClass, MaxHealth);

@@ -15,7 +15,9 @@ class RSP_API ARSP_Player : public ARSP_Character
 	GENERATED_BODY()
 public:
 	ARSP_Player();
+	virtual void PossessedBy(AController* NewController)override;
 	
+	virtual void OnRep_PlayerState() override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -100,4 +102,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "PlayerHpBar", meta = (AllowPrivateAccess = "true"))
 	class URSP_PlayerHpBar* _playerHpBarWidget;
+
+	void InitAbilitySystemComponent();
 };

@@ -26,7 +26,8 @@
 
 #include "Animation/RSP_AnimInstance.h"
 
-
+#include "GAS/RSP_AbilitySystemComponent.h"
+#include "GAS/RSP_PlayerState.h"
 ARSP_Player::ARSP_Player()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -60,6 +61,30 @@ ARSP_Player::ARSP_Player()
 	}
 
 
+}
+
+void ARSP_Player::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	InitAbilitySystemComponent();
+	GiveDefaultAbilities();
+
+}
+
+void ARSP_Player::InitAbilitySystemComponent()
+{
+	ARSP_PlayerState* playerState = GetPlayerState<ARSP_PlayerState>();
+	check(playerState);
+
+	AbilitySystemComponent = CastChecked<URSP_AbilitySystemComponent>(playerState->GetAbilitySystemComponent());
+
+	AbilitySystemComponent->InitAbilityActorInfo(playerState, this);
+}
+
+void ARSP_Player::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	InitAbilitySystemComponent();
 }
 
 void ARSP_Player::Attack_Hit()

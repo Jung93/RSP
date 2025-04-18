@@ -14,9 +14,13 @@
 
 #include "Animation/RSP_AnimInstance.h"
 
+#include "GAS/RSP_AbilitySystemComponent.h"
+
 ARSP_Enemy::ARSP_Enemy()
 {
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Enemy"));
+	AbilitySystemComponent = CreateDefaultSubobject<URSP_AbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 }
 
 void ARSP_Enemy::Attack_Hit()
@@ -96,6 +100,8 @@ void ARSP_Enemy::BeginPlay()
 	_animInstance->OnMontageEnded.AddDynamic(this, &ARSP_Character::AttackEnd);
 	_animInstance->_attackEvent.AddUObject(this, &ARSP_Enemy::Attack_Hit);
 	//_animInstance->_deadEvent.AddUObject(this, &ARSP_Enemy::DeadEvent);
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	GiveDefaultAbilities();
 }
 
 void ARSP_Enemy::Attack()
