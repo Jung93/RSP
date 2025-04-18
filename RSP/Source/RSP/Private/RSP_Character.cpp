@@ -134,3 +134,16 @@ bool ARSP_Character::IsDead()
 	return _statComponent->IsDead();
 }
 
+UAbilitySystemComponent* ARSP_Character::GetAbilitySystemComponent() const
+{
+	return nullptr;
+}
+
+void ARSP_Character::InitAbilitySystem()
+{
+}
+
+void ARSP_Character::AddCharacterAbilities()
+{
+}
+

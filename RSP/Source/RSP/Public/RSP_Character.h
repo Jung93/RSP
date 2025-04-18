@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
 #include "RSP_Character.generated.h"
 
 
 
 UCLASS(Abstract)
-class RSP_API ARSP_Character : public ACharacter
+class RSP_API ARSP_Character : public ACharacter , public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -53,6 +54,9 @@ public:
 	const int16& GetLevel() { return _level; }
 	FString GetMyName() { return _name; }
 
+	//gas
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual void InitAbilitySystem();
 
 protected:
 	UPROPERTY()
@@ -85,4 +89,17 @@ protected:
 	class UWidgetComponent* _hpBarWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "Name", meta = (AllowPrivateAccess = "true"))
 	FString _name;
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
+	TObjectPtr<class URSP_AbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
+	TObjectPtr<class URSP_AttributeSet> AttributeSet;
+public:
+	void AddCharacterAbilities();
+
+	UPROPERTY(EditAnywhere, Category = Abilities)
+	TArray<TSubclassOf<class UGameplayAbility>> StartupAbilities;
+
 };
