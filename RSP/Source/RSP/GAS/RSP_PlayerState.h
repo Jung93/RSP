@@ -17,7 +17,11 @@ class RSP_API ARSP_PlayerState : public APlayerState , public IAbilitySystemInte
 public:
 	ARSP_PlayerState();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	class URSP_AttributeSet* GetAttributeSet() const;
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
 	TObjectPtr<class URSP_AbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY()
+	class URSP_AttributeSet* AttributeSet;
 };

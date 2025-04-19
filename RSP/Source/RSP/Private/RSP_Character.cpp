@@ -11,6 +11,7 @@
 
 #include "Kismet/KismetMathLibrary.h"
 
+#include "GAS/RSP_AttributeSet.h"
 #include "GAS/RSP_AbilitySystemComponent.h"
 // Sets default values
 ARSP_Character::ARSP_Character()
@@ -113,7 +114,13 @@ void ARSP_Character::AddHp(float amount)
 float ARSP_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	auto damage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+	float hp = AttributeSet->GetHealth();
+	float maxHp  = AttributeSet->GetMaxHealth();
+		
 	_statComponent->AddCurHp(-damage);
+	float curHp = _statComponent->GetCurHp();
+
+	AttributeSet->SetHealth(curHp);
 
 	auto attackerController = Cast<ARSP_PlayerController>(EventInstigator);
 	if (attackerController)
@@ -148,7 +155,9 @@ void ARSP_Character::InitAbilitySystem()
 
 void ARSP_Character::GiveDefaultAbilities()
 {
-	check(AbilitySystemComponent);
+	if (!AbilitySystemComponent) {
+		return;
+	}
 	if (!HasAuthority()) {
 		return;
 	}

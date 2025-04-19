@@ -20,6 +20,12 @@ void ARSP_PlayerController::BeginPlay()
 	if (subSystem) {
 		subSystem->AddMappingContext(_inputMappingContext, 0);
 	}
+#if WITH_EDITOR
+    if (IsLocalController())
+    {
+        ConsoleCommand(TEXT("ShowDebug AbilitySystem"), true);
+    }
+#endif
 }
 
 void ARSP_PlayerController::ShowUI(UUserWidget* userWidget)

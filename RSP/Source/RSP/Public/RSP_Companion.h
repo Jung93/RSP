@@ -22,6 +22,7 @@ public:
 
 	virtual void Attack_Hit() override;
 	void Attack();
-
 	void TakeExp(class ARSP_Enemy* enemy);
+
+	virtual void InitAbilitySystem()override;
 };

@@ -76,9 +76,9 @@ void ARSP_Player::InitAbilitySystemComponent()
 	ARSP_PlayerState* playerState = GetPlayerState<ARSP_PlayerState>();
 	check(playerState);
 
-	AbilitySystemComponent = CastChecked<URSP_AbilitySystemComponent>(playerState->GetAbilitySystemComponent());
-
+	AbilitySystemComponent = Cast<URSP_AbilitySystemComponent>(playerState->GetAbilitySystemComponent());	
 	AbilitySystemComponent->InitAbilityActorInfo(playerState, this);
+	AttributeSet = playerState->GetAttributeSet();
 }
 
 void ARSP_Player::OnRep_PlayerState()
@@ -182,6 +182,8 @@ void ARSP_Player::BeginPlay()
 	_playerHpBarWidget->AddToViewport();
 
 	_statComponent->InitialSetting();
+
+
 	
 }
 
@@ -193,10 +195,10 @@ void ARSP_Player::PostInitializeComponents()
 
 void ARSP_Player::TakeExp(ARSP_Enemy* enemy)
 {
-	auto exp = FMath::FloorToInt(enemy->GetExp() * 0.5f);
-	auto gold = FMath::FloorToInt(enemy->GetGold() * 0.5f);
-	_statComponent->AddExp(exp);
-	_statComponent->AddGold(gold);
+	//auto exp = FMath::FloorToInt(enemy->GetExp() * 0.5f);
+	//auto gold = FMath::FloorToInt(enemy->GetGold() * 0.5f);
+	//_statComponent->AddExp(exp);
+	//_statComponent->AddGold(gold);
 }
 
 void ARSP_Player::Tick(float DeltaTime)

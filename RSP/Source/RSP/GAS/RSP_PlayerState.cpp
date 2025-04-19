@@ -2,6 +2,7 @@
 
 
 #include "GAS/RSP_PlayerState.h"
+#include "GAS/RSP_AttributeSet.h"
 #include "GAS/RSP_AbilitySystemComponent.h"
 ARSP_PlayerState::ARSP_PlayerState()
 {
@@ -9,9 +10,16 @@ ARSP_PlayerState::ARSP_PlayerState()
 
     AbilitySystemComponent = CreateDefaultSubobject<URSP_AbilitySystemComponent>("AbilitySystemComponent");
     AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+    
+    AttributeSet = CreateDefaultSubobject<URSP_AttributeSet>("PlayerAttributeSet");
 
 }
 UAbilitySystemComponent* ARSP_PlayerState::GetAbilitySystemComponent() const
 {
     return AbilitySystemComponent;
+}
+
+URSP_AttributeSet* ARSP_PlayerState::GetAttributeSet() const
+{
+    return AttributeSet;
 }

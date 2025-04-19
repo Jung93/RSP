@@ -16,7 +16,7 @@ class RSP_API ARSP_Enemy : public ARSP_Character
 	GENERATED_BODY()
 public:
 	ARSP_Enemy();
-
+	virtual void InitAbilitySystem()override;
 	virtual void Attack_Hit() override;
 
 	virtual void Attack();

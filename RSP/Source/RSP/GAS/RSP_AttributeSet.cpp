@@ -3,6 +3,7 @@
 
 #include "GAS/RSP_AttributeSet.h"
 #include "GameplayEffectExecutionCalculation.h"
+#include "GameplayEffectExtension.h"
 #include "GameplayEffectTypes.h"
 URSP_AttributeSet::URSP_AttributeSet()
 {
@@ -20,10 +21,7 @@ void URSP_AttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 
 void URSP_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
-	Super::PostGameplayEffectExecute(Data);
-
-	if (Data.EvaluatedData.Attribute == GetHealthAttribute()) {
-		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
-	}
+    
 }
+
 

@@ -12,7 +12,7 @@
 #include "Animation/RSP_AnimInstance.h"
 #include "Engine/DamageEvents.h"
 
-
+#include "GAS/RSP_AbilitySystemComponent.h"
 
 ARSP_Companion::ARSP_Companion()
 {
@@ -20,6 +20,11 @@ ARSP_Companion::ARSP_Companion()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("RSP_Player"));
 
 	_level = 1;
+	AbilitySystemComponent = CreateDefaultSubobject<URSP_AbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+
+	AttributeSet = CreateDefaultSubobject<URSP_AttributeSet>("AttributeSet");
+
 }
 
 void ARSP_Companion::BeginPlay()
@@ -35,6 +40,9 @@ void ARSP_Companion::BeginPlay()
 
 		_statComponent->printName.Broadcast(GetName());
 	}
+
+	InitAbilitySystem();
+	GiveDefaultAbilities();
 }
 
 void ARSP_Companion::Tick(float DeltaTime)
@@ -114,4 +122,11 @@ void ARSP_Companion::TakeExp(ARSP_Enemy* enemy)
 	auto gold = enemy->GetGold();
 	_statComponent->AddExp(exp);
 	_statComponent->AddGold(gold);
+}
+
+void ARSP_Companion::InitAbilitySystem()
+{
+	Super::InitAbilitySystem();
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	AbilitySystemComponent->SetIsReplicated(true);
 }
