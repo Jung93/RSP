@@ -103,5 +103,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "PlayerHpBar", meta = (AllowPrivateAccess = "true"))
 	class URSP_PlayerHpBar* _playerHpBarWidget;
 
+public:
+	void ActivateAbility(const FGameplayTag tag);
 	void InitAbilitySystemComponent();
 };

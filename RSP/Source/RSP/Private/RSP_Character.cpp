@@ -114,13 +114,13 @@ void ARSP_Character::AddHp(float amount)
 float ARSP_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	auto damage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-	float hp = AttributeSet->GetHealth();
-	float maxHp  = AttributeSet->GetMaxHealth();
+	//float hp = AttributeSet->GetHealth();
+	//float maxHp  = AttributeSet->GetMaxHealth();
 		
 	_statComponent->AddCurHp(-damage);
 	float curHp = _statComponent->GetCurHp();
 
-	AttributeSet->SetHealth(curHp);
+	AttributeSet->SetHealth(curHp); //테스트용 하드코딩
 
 	auto attackerController = Cast<ARSP_PlayerController>(EventInstigator);
 	if (attackerController)
@@ -166,5 +166,14 @@ void ARSP_Character::GiveDefaultAbilities()
 		FGameplayAbilitySpec abilitySpec = FGameplayAbilitySpec(abilityClass, 1);
 		AbilitySystemComponent->GiveAbility(abilitySpec);
 	}
+}
+
+void ARSP_Character::AddAbilites()
+{
+	URSP_AbilitySystemComponent* ASC = Cast<URSP_AbilitySystemComponent>(AbilitySystemComponent);
+	if (!ASC) {
+		return;
+	}
+	ASC->AddCharacterAbilities(DefaultAbilities);
 }
 

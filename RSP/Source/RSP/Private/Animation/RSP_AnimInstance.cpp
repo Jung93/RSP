@@ -38,7 +38,7 @@ void URSP_AnimInstance::PlayAnimMontage()
 		return;
 
 	if (!Montage_IsPlaying(_animMontage))
-		Montage_Play(_animMontage);
+		Montage_Play(_animMontage,1.0f);
 }
 
 void URSP_AnimInstance::AnimNotify_Attack_Hit()

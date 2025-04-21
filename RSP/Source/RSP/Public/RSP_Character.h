@@ -98,7 +98,7 @@ protected:
 	TObjectPtr<class URSP_AttributeSet> AttributeSet;
 public:
 	void GiveDefaultAbilities();
-
+	void AddAbilites();
 	UPROPERTY(EditAnywhere, Category = Abilities)
 	TArray<TSubclassOf<class UGameplayAbility>> DefaultAbilities;
 

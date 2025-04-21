@@ -6,4 +6,5 @@
 namespace RSP_GamePlayTags {
 	UE_DEFINE_GAMEPLAY_TAG(InputMode_Nomal, "InputMode.Nomal");
 	UE_DEFINE_GAMEPLAY_TAG(InputMode_UI, "InputMode.UI");
+	UE_DEFINE_GAMEPLAY_TAG(Action_Attack_Nomal, "Action.Attack.Nomal");
 }

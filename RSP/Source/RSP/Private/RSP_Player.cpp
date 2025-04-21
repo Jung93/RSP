@@ -28,6 +28,7 @@
 
 #include "GAS/RSP_AbilitySystemComponent.h"
 #include "GAS/RSP_PlayerState.h"
+#include "GAS/RSP_GamePlayTags.h"
 ARSP_Player::ARSP_Player()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -67,8 +68,13 @@ void ARSP_Player::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	InitAbilitySystemComponent();
-	GiveDefaultAbilities();
+	AddAbilites();
 
+}
+
+void ARSP_Player::ActivateAbility(const FGameplayTag tag)
+{
+	AbilitySystemComponent->ActivateAbility(tag);
 }
 
 void ARSP_Player::InitAbilitySystemComponent()
@@ -265,23 +271,23 @@ void ARSP_Player::JumpA(const FInputActionValue& value)
 
 void ARSP_Player::Attack(const FInputActionValue& value)
 {
-	if (_isAttack || _interaction ||_isInvenOpen)
-		return;
-
-	bool isPress = value.Get<bool>();
-
-	if (isPress)
-	{
-		_isAttack = true;
-
-		_curAttackSection = (_curAttackSection) % 3 + 1;
-
-		_animInstance->PlayAnimMontage();
-		_animInstance->JumpToSection(_curAttackSection);
-
-		CreateHitPoint();
-	}
-
+	//if (_isAttack || _interaction ||_isInvenOpen)
+	//	return;
+	//
+	//bool isPress = value.Get<bool>();
+	//
+	//if (isPress)
+	//{
+	//	_isAttack = true;
+	//
+	//	_curAttackSection = (_curAttackSection) % 3 + 1;
+	//
+	//	_animInstance->PlayAnimMontage();
+	//	_animInstance->JumpToSection(_curAttackSection);
+	//
+	//	CreateHitPoint();
+	//}
+	ActivateAbility(RSP_GamePlayTags::Action_Attack_Nomal);
 }
 
 void ARSP_Player::Inven_Open(const FInputActionValue& value)
