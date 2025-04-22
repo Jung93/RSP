@@ -78,14 +78,14 @@ ACASGameMode::~ACASGameMode() {}
 // End Class ACASGameMode
 
 // Begin Registration
-struct Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_CAS_Source_CAS_CASGameMode_h_Statics
+struct Z_CompiledInDeferFile_FID_GitHub_RSP_CAS_Source_CAS_CASGameMode_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
 		{ Z_Construct_UClass_ACASGameMode, ACASGameMode::StaticClass, TEXT("ACASGameMode"), &Z_Registration_Info_UClass_ACASGameMode, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ACASGameMode), 4001448549U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_CAS_Source_CAS_CASGameMode_h_518185333(TEXT("/Script/CAS"),
-	Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_CAS_Source_CAS_CASGameMode_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_CAS_Source_CAS_CASGameMode_h_Statics::ClassInfo),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_GitHub_RSP_CAS_Source_CAS_CASGameMode_h_518185333(TEXT("/Script/CAS"),
+	Z_CompiledInDeferFile_FID_GitHub_RSP_CAS_Source_CAS_CASGameMode_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_GitHub_RSP_CAS_Source_CAS_CASGameMode_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);
 // End Registration

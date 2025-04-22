@@ -77,14 +77,14 @@ ACAS_Character::~ACAS_Character() {}
 // End Class ACAS_Character
 
 // Begin Registration
-struct Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_CAS_Source_CAS_Character_CAS_Character_h_Statics
+struct Z_CompiledInDeferFile_FID_GitHub_RSP_CAS_Source_CAS_Character_CAS_Character_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
 		{ Z_Construct_UClass_ACAS_Character, ACAS_Character::StaticClass, TEXT("ACAS_Character"), &Z_Registration_Info_UClass_ACAS_Character, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ACAS_Character), 926749683U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_CAS_Source_CAS_Character_CAS_Character_h_3242601119(TEXT("/Script/CAS"),
-	Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_CAS_Source_CAS_Character_CAS_Character_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_user_Unreal_RSP_RSP_CAS_Source_CAS_Character_CAS_Character_h_Statics::ClassInfo),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_GitHub_RSP_CAS_Source_CAS_Character_CAS_Character_h_3242601119(TEXT("/Script/CAS"),
+	Z_CompiledInDeferFile_FID_GitHub_RSP_CAS_Source_CAS_Character_CAS_Character_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_GitHub_RSP_CAS_Source_CAS_Character_CAS_Character_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);
 // End Registration
