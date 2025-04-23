@@ -2,12 +2,16 @@
 
 
 #include "CAS_Character.h"
+#include "Components/CapsuleComponent.h"
+
 
 // Sets default values
 ACAS_Character::ACAS_Character()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
 }
 
