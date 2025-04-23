@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "CAS",
+			"Path": "..\\Source\\CAS.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "CASEditor",
+			"Path": "..\\Source\\CASEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
