@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\CAS.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{F31BBDD1-B3E8-3BCC-9652-680E16935819}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\CAS.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\CASEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\.editorconfig" />
+    <None Include="..\..\.gitignore" />
+    <None Include="..\..\.vsconfig" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\CAS">
+      <UniqueIdentifier>{B1B95CB1-FCE1-3090-85D5-01318038AFD3}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\CAS\CAS.Build.cs">
+      <Filter>Source\CAS</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\CAS\CAS.cpp">
+      <Filter>Source\CAS</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\CAS.h">
+      <Filter>Source\CAS</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\CASCharacter.cpp">
+      <Filter>Source\CAS</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\CASCharacter.h">
+      <Filter>Source\CAS</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\CASGameMode.cpp">
+      <Filter>Source\CAS</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\CASGameMode.h">
+      <Filter>Source\CAS</Filter>
+    </ClInclude>
+    <Filter Include="Source\CAS\Character">
+      <UniqueIdentifier>{F5D1F2A4-9B9A-374F-AC60-9579DDC50EF3}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\CAS\Character\CAS_Character.cpp">
+      <Filter>Source\CAS\Character</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Character\CAS_Character.h">
+      <Filter>Source\CAS\Character</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\Character\CAS_EnemyCapt.cpp">
+      <Filter>Source\CAS\Character</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Character\CAS_EnemyCapt.h">
+      <Filter>Source\CAS\Character</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\Character\CAS_EnemyNoCapt.cpp">
+      <Filter>Source\CAS\Character</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Character\CAS_EnemyNoCapt.h">
+      <Filter>Source\CAS\Character</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\Character\CAS_PlayerState.cpp">
+      <Filter>Source\CAS\Character</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Character\CAS_PlayerState.h">
+      <Filter>Source\CAS\Character</Filter>
+    </ClInclude>
+    <Filter Include="Source\CAS\Character\EnemyCapt">
+      <UniqueIdentifier>{B4592301-4DF2-3AC0-890A-75EB3B1C9A43}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\CAS\Character\EnemyCapt\CAS_TestCapture.cpp">
+      <Filter>Source\CAS\Character\EnemyCapt</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Character\EnemyCapt\CAS_TestCapture.h">
+      <Filter>Source\CAS\Character\EnemyCapt</Filter>
+    </ClInclude>
+    <Filter Include="Source\CAS\Controller">
+      <UniqueIdentifier>{20789920-F698-36B2-B142-1AA5233D175D}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\CAS\Controller\CAS_EnemyController.cpp">
+      <Filter>Source\CAS\Controller</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Controller\CAS_EnemyController.h">
+      <Filter>Source\CAS\Controller</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\Controller\CAS_PlayerController.cpp">
+      <Filter>Source\CAS\Controller</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Controller\CAS_PlayerController.h">
+      <Filter>Source\CAS\Controller</Filter>
+    </ClInclude>
+    <Filter Include="Source\CAS\GAS">
+      <UniqueIdentifier>{7FD9E9EB-4D9A-3741-844D-705A15E9D3FB}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\CAS\GAS\CAS_AbilitySystemComponent.cpp">
+      <Filter>Source\CAS\GAS</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\GAS\CAS_AbilitySystemComponent.h">
+      <Filter>Source\CAS\GAS</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\GAS\CAS_AbilityTask.cpp">
+      <Filter>Source\CAS\GAS</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\GAS\CAS_AbilityTask.h">
+      <Filter>Source\CAS\GAS</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\GAS\CAS_AttributeSet.cpp">
+      <Filter>Source\CAS\GAS</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\GAS\CAS_AttributeSet.h">
+      <Filter>Source\CAS\GAS</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\GAS\CAS_GameplayAbility.cpp">
+      <Filter>Source\CAS\GAS</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\GAS\CAS_GameplayAbility.h">
+      <Filter>Source\CAS\GAS</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\GAS\CAS_GamePlayTag.cpp">
+      <Filter>Source\CAS\GAS</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\GAS\CAS_GamePlayTag.h">
+      <Filter>Source\CAS\GAS</Filter>
+    </ClInclude>
+    <Filter Include="Source\CAS\Global">
+      <UniqueIdentifier>{BDC61C42-3ACA-3302-9596-F38B186F70F3}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\CAS\Global\CAS_GameInstance.cpp">
+      <Filter>Source\CAS\Global</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Global\CAS_GameInstance.h">
+      <Filter>Source\CAS\Global</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\Global\CAS_GameModeBase.cpp">
+      <Filter>Source\CAS\Global</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Global\CAS_GameModeBase.h">
+      <Filter>Source\CAS\Global</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
