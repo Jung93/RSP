@@ -3,7 +3,7 @@
 
 #include "GAS/CAS_GamePlayTag.h"
 
-namespace RSP_GamePlayTags {
+namespace CAS_GamePlayTags {
 	//UE_DEFINE_GAMEPLAY_TAG();
 	//UE_DEFINE_GAMEPLAY_TAG();
 	//UE_DEFINE_GAMEPLAY_TAG();
