@@ -10,5 +10,10 @@
 void ACAS_PlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
+#if WITH_EDITOR
+    if (IsLocalController())
+    {
+        ConsoleCommand(TEXT("ShowDebug AbilitySystem"), true);
+    }
+#endif
 }

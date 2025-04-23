@@ -5,6 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+
+#include "AbilitySystemInterface.h"
+
+
 #include "CASCharacter.generated.h"
 
 class USpringArmComponent;
@@ -16,7 +20,7 @@ struct FInputActionValue;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class ACASCharacter : public ACharacter
+class ACASCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -69,5 +73,22 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
+	TObjectPtr<class UCAS_AbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
+	TObjectPtr<class UCAS_AttributeSet> AttributeSet;
+
+	UPROPERTY(EditAnywhere, Category = Abilities)
+	TArray<TSubclassOf<class UGameplayAbility>> DefaultAbilities;
+	
+	void GiveDefaultAbilities();
+	void AddAbilites();
+
+
+	void ActivateAbility(const FGameplayTag tag);
+	void InitAbilitySystemComponent();
 };
 

@@ -60,6 +60,22 @@ void ACASCharacter::BeginPlay()
 	Super::BeginPlay();
 }
 
+void ACASCharacter::GiveDefaultAbilities()
+{
+}
+
+void ACASCharacter::AddAbilites()
+{
+}
+
+void ACASCharacter::ActivateAbility(const FGameplayTag tag)
+{
+}
+
+void ACASCharacter::InitAbilitySystemComponent()
+{
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
