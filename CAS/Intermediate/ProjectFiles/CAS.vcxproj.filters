@@ -63,5 +63,32 @@
     <ClInclude Include="..\..\Source\CAS\Character\CAS_Character.h">
       <Filter>Source\CAS\Character</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\Character\CAS_EnemyCapt.cpp">
+      <Filter>Source\CAS\Character</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Character\CAS_EnemyCapt.h">
+      <Filter>Source\CAS\Character</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\Character\CAS_EnemyNoCapt.cpp">
+      <Filter>Source\CAS\Character</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Character\CAS_EnemyNoCapt.h">
+      <Filter>Source\CAS\Character</Filter>
+    </ClInclude>
+    <Filter Include="Source\CAS\Global">
+      <UniqueIdentifier>{BDC61C42-3ACA-3302-9596-F38B186F70F3}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\CAS\Global\CAS_GameInstance.cpp">
+      <Filter>Source\CAS\Global</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Global\CAS_GameInstance.h">
+      <Filter>Source\CAS\Global</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\CAS\Global\CAS_GameModeBase.cpp">
+      <Filter>Source\CAS\Global</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\CAS\Global\CAS_GameModeBase.h">
+      <Filter>Source\CAS\Global</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
