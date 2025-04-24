@@ -11,6 +11,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 
+#include "GAS/CAS_AbilitySystemComponent.h"
+#include "Character/CAS_PlayerState.h"
+#include "GAS/CAS_GamePlayTag.h"
+
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 //////////////////////////////////////////////////////////////////////////
@@ -62,18 +66,59 @@ void ACASCharacter::BeginPlay()
 
 void ACASCharacter::GiveDefaultAbilities()
 {
+	if (!AbilitySystemComponent) {
+		return;
+	}
+	if (!HasAuthority()) {
+		return;
+	}
+	for (TSubclassOf<UGameplayAbility> abilityClass : DefaultAbilities) {
+
+		FGameplayAbilitySpec abilitySpec = FGameplayAbilitySpec(abilityClass, 1);
+		AbilitySystemComponent->GiveAbility(abilitySpec);
+	}
 }
 
 void ACASCharacter::AddAbilites()
 {
+	UCAS_AbilitySystemComponent* ASC = Cast<UCAS_AbilitySystemComponent>(AbilitySystemComponent);
+	if (!ASC) {
+		return;
+	}
+	ASC->AddCharacterAbilities(DefaultAbilities);
 }
 
-void ACASCharacter::ActivateAbility(const FGameplayTag tag)
+UAbilitySystemComponent* ACASCharacter::GetAbilitySystemComponent() const
 {
+	return AbilitySystemComponent;
 }
+
+//void ACASCharacter::ActivateAbility(const FGameplayTag& tag)
+//{
+//	AbilitySystemComponent->ActivateAbility(tag);
+//}
 
 void ACASCharacter::InitAbilitySystemComponent()
 {
+	ACAS_PlayerState* playerState = GetPlayerState<ACAS_PlayerState>();
+	if (!playerState) { return; }
+
+	AbilitySystemComponent = Cast<UCAS_AbilitySystemComponent>(playerState->GetAbilitySystemComponent());
+	AbilitySystemComponent->InitAbilityActorInfo(playerState, this);
+	AttributeSet = playerState->GetAttributeSet();
+}
+
+void ACASCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	InitAbilitySystemComponent();
+	AddAbilites();
+}
+
+void ACASCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	InitAbilitySystemComponent();
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -87,8 +87,11 @@ public:
 	void GiveDefaultAbilities();
 	void AddAbilites();
 
-
-	void ActivateAbility(const FGameplayTag tag);
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	//void ActivateAbility(const FGameplayTag& tag);
 	void InitAbilitySystemComponent();
+
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState()override;
 };
 
