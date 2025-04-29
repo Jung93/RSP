@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Character/CAS_Character.h"
 #include "AbilitySystemInterface.h"
 #include "CAS_Player.generated.h"
 
@@ -14,7 +15,7 @@ class UInputAction;
 struct FInputActionValue;
 
 UCLASS()
-class CAS_API ACAS_Player : public ACharacter, public IAbilitySystemInterface
+class CAS_API ACAS_Player : public ACAS_Character, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -28,6 +29,10 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	void TESTFUNC(const FInputActionValue& Value);
+
+protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom;
@@ -51,6 +56,9 @@ protected:
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* LeftClickAction;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -86,5 +94,5 @@ public:
 	void InitAbilitySystemComponent();
 
 	virtual void PossessedBy(AController* NewController) override;
-	virtual void OnRep_PlayerState()override;
+	virtual UCAS_AttributeSet* GetAttributeSet() const override;
 };

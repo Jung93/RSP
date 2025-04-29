@@ -3,8 +3,9 @@
 
 #include "GAS/CAS_GamePlayTag.h"
 
-namespace CAS_GamePlayTags {
+namespace CAS_GamePlayTag {
 	//UE_DEFINE_GAMEPLAY_TAG();
 	//UE_DEFINE_GAMEPLAY_TAG();
 	//UE_DEFINE_GAMEPLAY_TAG();
+	UE_DEFINE_GAMEPLAY_TAG(Ability_Attack_TEST, "Ability.Attack.TEST")
 }

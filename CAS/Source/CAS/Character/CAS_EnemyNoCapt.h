@@ -27,4 +27,5 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual UCAS_AttributeSet* GetAttributeSet() const override { return AttributeSet };
 };
