@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-
+#include "GAS/CAS_AttributeSet.h"
+#include "GAS/CAS_GamePlayTag.h"
 #include "AbilitySystemInterface.h"
-
+#include "GAS/CAS_AbilitySystemComponent.h"
 #include "CAS_Character.generated.h"
 
 class USpringArmComponent;
@@ -15,7 +16,7 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 
-UCLASS()
+UCLASS(Abstract)
 class CAS_API ACAS_Character : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
@@ -27,50 +28,19 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void PossessedBy(AController* NewController) override;
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-
-	/** Called for movement input */
-	void Move(const FInputActionValue& Value);
-
-	/** Called for looking input */
-	void Look(const FInputActionValue& Value);
-
 public:
-	/** Returns CameraBoom subobject **/
-	USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
-	UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UCAS_AttributeSet* GetAttributeSet() const	{PURE_VIRTUAL(ACAS_Player::GetAttributeSet, return nullptr;);}
 
-private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	USpringArmComponent* CameraBoom;
+	virtual void GiveDefaultAbilities();
+	virtual void AddAbilites();
+	virtual void InitAbilitySystemComponent();
 
-	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FollowCamera;
-
-	/** MappingContext */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputMappingContext* DefaultMappingContext;
-
-	/** Jump Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* JumpAction;
-
-	/** Move Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* MoveAction;
-
-	/** Look Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* LookAction;
-public:
+protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
 	TObjectPtr<class UCAS_AbilitySystemComponent> AbilitySystemComponent;
 
@@ -80,15 +50,5 @@ public:
 	UPROPERTY(EditAnywhere, Category = Abilities)
 	TArray<TSubclassOf<class UGameplayAbility>> DefaultAbilities;
 
-	void GiveDefaultAbilities();
-	void AddAbilites();
-
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	//void ActivateAbility(const FGameplayTag& tag);
-	void InitAbilitySystemComponent();
-
-	virtual void PossessedBy(AController* NewController) override;
-	virtual void OnRep_PlayerState()override;
-	virtual UCAS_AttributeSet* GetAttributeSet() const =0;
 };
 
