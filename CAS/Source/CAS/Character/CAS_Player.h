@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "AbilitySystemInterface.h"
+#include "Character/CAS_Character.h"
 #include "CAS_Player.generated.h"
 
 class USpringArmComponent;
@@ -14,7 +14,7 @@ class UInputAction;
 struct FInputActionValue;
 
 UCLASS()
-class CAS_API ACAS_Player : public ACharacter, public IAbilitySystemInterface
+class CAS_API ACAS_Player : public ACAS_Character
 {
 	GENERATED_BODY()
 
@@ -28,6 +28,10 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	void TESTFUNC(const FInputActionValue& Value);
+
+protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom;
@@ -51,6 +55,9 @@ protected:
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* LeftClickAction;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -66,25 +73,10 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-
-public:
-	//for GAS
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
-	TObjectPtr<class UCAS_AbilitySystemComponent> AbilitySystemComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
-	TObjectPtr<class UCAS_AttributeSet> AttributeSet;
-
-	UPROPERTY(EditAnywhere, Category = Abilities)
-	TArray<TSubclassOf<class UGameplayAbility>> DefaultAbilities;
-
-	void GiveDefaultAbilities();
-	void AddAbilites();
-
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+public:	
 	//void ActivateAbility(const FGameplayTag& tag);
-	void InitAbilitySystemComponent();
+	virtual void InitAbilitySystemComponent() override;
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	virtual void PossessedBy(AController* NewController) override;
-	virtual void OnRep_PlayerState()override;
+	virtual class UCAS_AttributeSet* GetAttributeSet() const override;
 };

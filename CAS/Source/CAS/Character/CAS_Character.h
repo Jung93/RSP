@@ -4,10 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GAS/CAS_AttributeSet.h"
+#include "GAS/CAS_GamePlayTag.h"
+#include "AbilitySystemInterface.h"
+#include "GAS/CAS_AbilitySystemComponent.h"
 #include "CAS_Character.generated.h"
 
-UCLASS()
-class CAS_API ACAS_Character : public ACharacter
+class USpringArmComponent;
+class UCameraComponent;
+class UInputMappingContext;
+class UInputAction;
+struct FInputActionValue;
+
+UCLASS(Abstract)
+class CAS_API ACAS_Character : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -18,12 +28,27 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
+	virtual void PossessedBy(AController* NewController) override;
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+public:
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UCAS_AttributeSet* GetAttributeSet() const	{PURE_VIRTUAL(ACAS_Player::GetAttributeSet, return nullptr;);}
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void GiveDefaultAbilities();
+	virtual void AddAbilites();
+	virtual void InitAbilitySystemComponent();
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
+	TObjectPtr<class UCAS_AbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
+	TObjectPtr<class UCAS_AttributeSet> AttributeSet;
+
+	UPROPERTY(EditAnywhere, Category = Abilities)
+	TArray<TSubclassOf<class UGameplayAbility>> DefaultAbilities;
 
 };
+

@@ -4,6 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "Character/CAS_Player.h"
+#include "Character/CAS_Character.h"
+#include "CAS_GamePlayTag.h"
+#include "CAS_AttributeSet.h"
 #include "CAS_GameplayAbility.generated.h"
 
 /**

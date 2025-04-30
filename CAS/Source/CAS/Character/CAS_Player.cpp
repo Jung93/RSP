@@ -12,9 +12,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 
-#include "GAS/CAS_AbilitySystemComponent.h"
 #include "Character/CAS_PlayerState.h"
-#include "GAS/CAS_GamePlayTag.h"
+
+
 // Sets default values
 ACAS_Player::ACAS_Player()
 {
@@ -81,6 +81,12 @@ void ACAS_Player::Look(const FInputActionValue& Value)
 	}
 }
 
+void ACAS_Player::TESTFUNC(const FInputActionValue& Value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Clicked"));
+	//Todo
+}
+
 // Called when the game starts or when spawned
 void ACAS_Player::BeginPlay()
 {
@@ -119,37 +125,11 @@ void ACAS_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACAS_Player::Look);
+
+		EnhancedInputComponent->BindAction(LeftClickAction, ETriggerEvent::Started, this, &ACAS_Player::TESTFUNC);
+
 	}
 	
-}
-
-void ACAS_Player::GiveDefaultAbilities()
-{
-	if (!AbilitySystemComponent) {
-		return;
-	}
-	if (!HasAuthority()) {
-		return;
-	}
-	for (TSubclassOf<UGameplayAbility> abilityClass : DefaultAbilities) {
-
-		FGameplayAbilitySpec abilitySpec = FGameplayAbilitySpec(abilityClass, 1);
-		AbilitySystemComponent->GiveAbility(abilitySpec);
-	}
-}
-
-void ACAS_Player::AddAbilites()
-{
-	UCAS_AbilitySystemComponent* ASC = Cast<UCAS_AbilitySystemComponent>(AbilitySystemComponent);
-	if (!ASC) {
-		return;
-	}
-	ASC->AddCharacterAbilities(DefaultAbilities);
-}
-
-UAbilitySystemComponent* ACAS_Player::GetAbilitySystemComponent() const
-{
-	return AbilitySystemComponent;
 }
 
 void ACAS_Player::InitAbilitySystemComponent()
@@ -162,16 +142,19 @@ void ACAS_Player::InitAbilitySystemComponent()
 	AttributeSet = playerState->GetAttributeSet();
 }
 
-void ACAS_Player::PossessedBy(AController* NewController)
+UAbilitySystemComponent* ACAS_Player::GetAbilitySystemComponent() const
 {
-	Super::PossessedBy(NewController);
-	InitAbilitySystemComponent();
-	AddAbilites();
+	ACAS_PlayerState* playerState = GetPlayerState<ACAS_PlayerState>();
+	auto AbilitySystemComp = playerState->GetAbilitySystemComponent();
+
+	return AbilitySystemComp;
 }
 
-void ACAS_Player::OnRep_PlayerState()
+UCAS_AttributeSet* ACAS_Player::GetAttributeSet() const
 {
-	Super::OnRep_PlayerState();
-	InitAbilitySystemComponent();
+	ACAS_PlayerState* playerState = GetPlayerState<ACAS_PlayerState>();
+	auto Attribute = playerState->GetAttributeSet();
+
+	return Attribute;
 }
 
