@@ -48,6 +48,12 @@ class ACASCharacter : public ACharacter, public IAbilitySystemInterface
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	/** Look Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* TestCaptureAction;
+
+
+
 public:
 	ACASCharacter();
 	
@@ -60,6 +66,7 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 			
+	void TestCapture(const FInputActionValue& Value);
 
 protected:
 	// APawn interface
@@ -67,6 +74,7 @@ protected:
 	
 	// To add mapping context
 	virtual void BeginPlay();
+	virtual void Tick(float DeltaTime);
 
 public:
 	/** Returns CameraBoom subobject **/
@@ -93,5 +101,14 @@ public:
 
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState()override;
+
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Hat")
+	TSubclassOf<class ACAS_Hat> _hatBP;
+
+	UPROPERTY()
+	class ACAS_Hat* _hatSpawn = nullptr;
+
 };
 

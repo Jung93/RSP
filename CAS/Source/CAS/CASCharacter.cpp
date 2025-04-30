@@ -15,6 +15,8 @@
 #include "Character/CAS_PlayerState.h"
 #include "GAS/CAS_GamePlayTag.h"
 
+#include "CAS/Character/CAS_Hat.h"
+
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 //////////////////////////////////////////////////////////////////////////
@@ -62,6 +64,29 @@ void ACASCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	if (_hatBP->IsValidLowLevel())
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+
+		FVector Location = GetActorLocation() + FVector(0, 0, 50.0f);
+		FRotator Rotation = FRotator::ZeroRotator;
+
+		_hatSpawn = GetWorld()->SpawnActor<ACAS_Hat>(_hatBP, Location, FRotator::ZeroRotator, SpawnParams);
+
+		if (_hatSpawn)
+		{
+			_hatSpawn->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("head")); // 소켓 이름 "head" 예시
+		}
+	}
+}
+
+void ACASCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+
 }
 
 void ACASCharacter::GiveDefaultAbilities()
@@ -147,6 +172,7 @@ void ACASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACASCharacter::Look);
+		EnhancedInputComponent->BindAction(TestCaptureAction, ETriggerEvent::Triggered, this, &ACASCharacter::TestCapture);
 	}
 	else
 	{
@@ -188,4 +214,21 @@ void ACASCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void ACASCharacter::TestCapture(const FInputActionValue& Value)
+{
+
+	bool isPress = Value.Get<bool>();
+	auto enemy = _hatSpawn->GetEnemyCapt();
+
+	if (isPress && enemy == nullptr)
+	{
+
+		FVector forwardVec = GetActorForwardVector();
+
+		_hatSpawn->ThrowHat(forwardVec);
+
+	}
+
 }

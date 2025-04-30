@@ -22,10 +22,19 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	virtual void PostInitializeComponents() override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION()
+	void OnMyCharacterOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromWeep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	ACAS_EnemyCapt* GetEnemyCapt() { return _testCaptureTarget; }
+
+	UFUNCTION()
+	void ThrowHat(const FVector& direction);
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
@@ -33,4 +42,17 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	class USphereComponent* _collider;
+
+	UPROPERTY(VisibleAnywhere, Category = "TestCaptureTarget")
+	class ACAS_EnemyCapt* _testCaptureTarget;
+
+
+	FVector StartLocation;
+	FVector TargetLocation;
+	FVector MoveDirection;
+
+	bool _isThrowing = false;
+	bool _isReturning = false;
+	float _capturingTime = 0.0f;
+	float _totalMoveTime = 2.0f;
 };
